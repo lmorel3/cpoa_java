@@ -4,9 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/laurent/Documents/IUT/S3/CPOA/cpoa_java/src/view/DayPane.java</file>
+            <file>file:/Users/laurent/Documents/IUT/S3/CPOA/cpoa_java/src/view/Move.java</file>
+            <file>file:/Users/laurent/Documents/IUT/S3/CPOA/cpoa_java/src/view/Slot.java</file>
             <file>file:/Users/laurent/Documents/IUT/S3/CPOA/cpoa_java/src/view/NewJFrame.java</file>
             <file>file:/Users/laurent/Documents/IUT/S3/CPOA/cpoa_java/src/view/GestionPlanning.java</file>
-            <file>file:/Users/laurent/Documents/IUT/S3/CPOA/cpoa_java/src/view/ContentView.java</file>
+            <file>file:/Users/laurent/Documents/IUT/S3/CPOA/cpoa_java/src/view/SlotsContainer.java</file>
+            <file>file:/Users/laurent/Documents/IUT/S3/CPOA/cpoa_java/src/view/MenuItem.java</file>
             <file>file:/Users/laurent/Documents/IUT/S3/CPOA/cpoa_java/src/view/MainView.java</file>
         </group>
     </open-files>

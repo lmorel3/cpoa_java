@@ -16,28 +16,30 @@ public class DayPane extends JTabbedPane {
     
     public DayPane(){
         
-        contentView = new ArrayList();
+        slotsContainer = new ArrayList();  
         
+        initComponents();
+        
+    }
+    
+    private void initComponents(){
+       
         /* Test with random values */
         for (int i = 0; i < 5; i++) {
-            contentView.add(new ContentView());
+            slotsContainer.add(new SlotsContainer());
         }
         
         ///////
         
         setTabPlacement(javax.swing.JTabbedPane.LEFT);
         
-        addTab("8h", (ContentView) contentView.get(0));
-        addTab("11h", (ContentView) contentView.get(1));
-        addTab("14h", (ContentView) contentView.get(2));
-        addTab("18h", (ContentView) contentView.get(3));
-        addTab("21h", (ContentView) contentView.get(4));
-        
-        ContentView test = (ContentView) contentView.get(1);
-        test.setState(ContentView.NUM_TRAIN1, 1);
-        
+        addTab("8h", (SlotsContainer) slotsContainer.get(0));
+        addTab("11h", (SlotsContainer) slotsContainer.get(1));
+        addTab("14h", (SlotsContainer) slotsContainer.get(2));
+        addTab("18h", (SlotsContainer) slotsContainer.get(3));
+        addTab("21h", (SlotsContainer) slotsContainer.get(4));
     }
     
-    private ArrayList contentView;
+    private final ArrayList slotsContainer;
     
 }
