@@ -14,8 +14,34 @@ import java.sql.Date;
 public class Booking {
     
     private int booking_id;
-    private Date checkin_date;
-    private Date checkout_date;
+    private Date checkinDate;
+    private Date checkoutDate;
+    private Hotel hotel;
+
+    public Booking(int booking_id, Date checkin_date, Date checkout_date, Hotel hotel) {
+        this.booking_id = booking_id;
+        this.checkinDate = checkin_date;
+        this.checkoutDate = checkout_date;
+        this.hotel = hotel;
+    }   
+
+    /**
+     * Get the value of hotel
+     *
+     * @return the value of hotel
+     */
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    /**
+     * Set the value of hotel
+     *
+     * @param hotel new value of hotel
+     */
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
+    }
 
     /**
      * Get the value of checkout_date
@@ -23,7 +49,7 @@ public class Booking {
      * @return the value of checkout_date
      */
     public Date getCheckoutDate() {
-        return checkout_date;
+        return checkoutDate;
     }
 
     /**
@@ -32,7 +58,7 @@ public class Booking {
      * @param checkout_date new value of checkout_date
      */
     public void setCheckoutDate(Date checkout_date) {
-        this.checkout_date = checkout_date;
+        this.checkoutDate = checkout_date;
     }
 
 
@@ -42,7 +68,7 @@ public class Booking {
      * @return the value of checkin_date
      */
     public Date getCheckinDate() {
-        return checkin_date;
+        return checkinDate;
     }
 
     /**
@@ -51,7 +77,7 @@ public class Booking {
      * @param checkin_date new value of checkin_date
      */
     public void setCheckinDate(Date checkin_date) {
-        this.checkin_date = checkin_date;
+        this.checkinDate = checkin_date;
     }
 
     /**
