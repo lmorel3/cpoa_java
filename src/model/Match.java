@@ -24,21 +24,45 @@ public class Match {
     private Match previousMatchs;
     private Umpire[] umpires;
     private BallBoy[] ballboys;
+    private Player winner;
 
-    public Match(int matchId, Date date, String kind, String phase, Court court, Match previousMatchs, Player[] players, Umpire[] umpires, BallBoy[] ballboys, int[] result) {
+   
+
+
+    public Match(int matchId, Date date, String kind, String phase, Court court, Match previousMatchs, Player[] players, Umpire[] umpires, BallBoy[] ballboys) {
         this.matchId = matchId;
-        this.result = result;
         this.date = date;
         this.kind = kind;
         this.phase = phase;
         this.court = court;
         this.players = players;
         this.previousMatchs = previousMatchs;
-        this.umpires = umpires;
-        this.ballboys = ballboys;
     }
     
+    public void concludeMatch(int[] result, Player winner) {
+        
+        this.result = result;
+        this.winner = winner;
+        
+    }
     
+     /**
+     * Get the value of winner
+     *
+     * @return the value of winner
+     */
+    public Player getWinner() {
+        return winner;
+    }
+
+    /**
+     * Set the value of winner
+     *
+     * @param winner new value of winner
+     */
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
     
 
     /**
