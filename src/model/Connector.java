@@ -6,9 +6,16 @@
 
 package model;
 
+import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.io.FileInputStream;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -49,6 +56,33 @@ public class Connector {
         
         return instance;
         
+    }
+    
+    public ResultSet query(String statement, Object[] params) {
+        int cpt = 1;
+        try {
+        PreparedStatement stmt = getConnection().prepareStatement(statement);
+          for(Object param: params) {
+            
+            if(param instanceof Date) {
+                
+            } else if(param instanceof Integer) {
+                stmt.setInt(cpt, (Integer)param);
+            } else if(param instanceof Float) {
+                
+            } else if(param instanceof Boolean) {
+                
+            } else { // String ou autre
+                stmt.setString(cpt, (String)param);
+            }
+            cpt += 1;
+        }
+        ResultSet result = stmt.executeQuery();
+        return result;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
     
 }
