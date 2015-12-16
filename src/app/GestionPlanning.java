@@ -6,6 +6,7 @@
 package app;
 
 import javax.swing.SwingUtilities;
+import view.ChooseModeDialog;
 import view.MainView;
 
 /**
@@ -22,11 +23,9 @@ public class GestionPlanning {
             @Override
             public void run() {
                 
-                MainView frame = new MainView();
+                ChooseModeDialog frame = new ChooseModeDialog();
                 frame.setVisible(true);
-                
-                System.out.println("Frame visible");
-                
+                               
             }
         });
     }

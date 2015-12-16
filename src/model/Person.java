@@ -9,7 +9,7 @@ package model;
  *
  * @author laurent
  */
-public class Person {
+public abstract class Person {
     
     private int personId;
     private String lastname;
