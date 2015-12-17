@@ -6,7 +6,6 @@
 
 package model;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Date;
@@ -24,7 +23,8 @@ import java.util.Properties;
  */
 public class Connector {
     
-    public static Connection instance;
+    public static Connector instance;
+    private Connection database;
    
     private Connector() {
         Properties properties = new Properties();
@@ -38,19 +38,19 @@ public class Connector {
             
             Class.forName(driver);
 
-            instance = DriverManager.getConnection(url, user, password);
+            database = DriverManager.getConnection(url, user, password);
             System.out.println("Connexion effective !");         
 
        } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage());
        }      
     }
     
-    public static Connection getConnection() {
+    public static Connector getConnection() {
         
         if(instance == null) {
             
-            new Connector();
+            instance = new Connector();
             
         }
         
@@ -61,7 +61,7 @@ public class Connector {
     public ResultSet query(String statement, Object[] params) {
         int cpt = 1;
         try {
-        PreparedStatement stmt = getConnection().prepareStatement(statement);
+        PreparedStatement stmt = database.prepareStatement(statement);
           for(Object param: params) {
             
             if(param instanceof Date) {

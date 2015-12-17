@@ -6,14 +6,9 @@
 package view;
 
 import app.MenuActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 
 /**
  *
@@ -25,11 +20,7 @@ public final class MainView extends JFrame {
         
         initComponents();
         
-        daysTab = new ArrayList();
-        
-        tabbedPaneTop = new javax.swing.JTabbedPane();
         generateTopTabs();
-        setContentPane(tabbedPaneTop);
         
         System.out.println("ContentPane : overPanel");
         
@@ -74,6 +65,11 @@ public final class MainView extends JFrame {
     
     private void generateTopTabs(){
         
+        daysTab = new ArrayList();
+        
+        tabbedPaneTop = new javax.swing.JTabbedPane();
+        setContentPane(tabbedPaneTop);
+        
         for (int i = 1; i <= NB_DAYS; i++) {
             daysTab.add(new DayPane());
             tabbedPaneTop.add("Jour " + i, (DayPane) daysTab.get(i-1));
@@ -81,7 +77,7 @@ public final class MainView extends JFrame {
 
     }
     
-    private final javax.swing.JTabbedPane tabbedPaneTop;
+    private javax.swing.JTabbedPane tabbedPaneTop;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menu;
     
@@ -92,7 +88,7 @@ public final class MainView extends JFrame {
     private JMenuItem menuFinal;
 
     
-    private final ArrayList daysTab;
+    private ArrayList daysTab;
     private final int NB_DAYS = 9;
     
 }

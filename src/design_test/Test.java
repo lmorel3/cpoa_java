@@ -1,6 +1,7 @@
 package design_test;
 
 import java.util.ArrayList;
+import model.Connector;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,14 +24,7 @@ public class Test {
         params.add((int)10);
         params.add((Integer)10);
         
-        for(Object param : params) {
-            
-            System.out.println(param.getClass().toString());
-            if(param instanceof Integer) {
-                System.out.println("Is Integer");
-            }
-            
-        }
+        Connector.getConnection();
          
         
     }
