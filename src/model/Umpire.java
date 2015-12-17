@@ -5,27 +5,62 @@
  */
 package model;
 
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  *
  * @author laurent
  */
 public class Umpire extends Person {
     
-    int level;
+    String level;
     
-    public Umpire(int personId, String forename, String lastname, String country, int level) {
+    public Umpire() {}
+    
+    public Umpire(HashMap<String, Object> datas) {
+        
+        this.hydrate(datas);
+        
+    }
+    
+    public Umpire(int personId, String forename, String lastname, String country, String level) {
         super(personId, forename, lastname, country);
         this.level = level;
     }
 
-    public int getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(String level) {
         this.level = level;
     }
     
-    
- 
+    public void hydrate(HashMap<String, Object> datas) {        
+        
+        try {
+            
+            int umpireId = (int)((BigDecimal)datas.get("PERSON_ID")).intValue();
+            String foreName = (String)datas.get("FORENAME");
+            String lastName = (String)datas.get("LASTNAME");
+            String country = (String)datas.get("NATIONALITY");
+            String level = (String)datas.get("PERSON_LEVEL");
+            
+            this.setPersonId(umpireId);
+            this.setForename(foreName);
+            this.setLastname(lastName);
+            this.setCountry(country);
+            this.setLevel(level);
+            
+        }
+        catch (Exception e) {
+            
+            System.err.println(e.getMessage());
+            
+        }
+        
+    }
 }

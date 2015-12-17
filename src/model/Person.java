@@ -15,6 +15,8 @@ public abstract class Person {
     private String lastname;
     private String forename;
     private String country;
+    
+    public Person() {}
 
     public Person(int personId, String lastname, String forename, String country) {
         this.personId = personId;
