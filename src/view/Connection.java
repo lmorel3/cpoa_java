@@ -5,13 +5,15 @@
  */
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
 /**
  *
  * @author laurent
  */
-public class Connection extends JFrame {
+public class Connection extends JFrame implements ActionListener {
 
     public Connection() {
         initializeComponents();
@@ -29,11 +31,7 @@ public class Connection extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnValidate.setText("Connexion");
-        btnValidate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //jButton1ActionPerformed(evt);
-            }
-        });
+        btnValidate.addActionListener(this);
 
         labelInfos.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         labelInfos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -56,7 +54,8 @@ public class Connection extends JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(inputLogin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(inputLogin, javax.swing.GroupLayout.Alignment.TRAILING, 148, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
                                     .addComponent(btnValidate, javax.swing.GroupLayout.Alignment.TRAILING)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -90,6 +89,8 @@ public class Connection extends JFrame {
 
         pack();
         
+        setLocationRelativeTo(null);
+        
     }
 
     private javax.swing.JButton btnValidate;
@@ -98,5 +99,17 @@ public class Connection extends JFrame {
     private javax.swing.JLabel labelLogin;
     private javax.swing.JLabel labelPassword;
     private javax.swing.JPasswordField inputPassword;
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        String loginStr = inputLogin.getText();
+        char[] passwordVal = inputPassword.getPassword();
+        
+        String passwordStr = new String(passwordVal);
+        
+        System.out.println("Username : " + loginStr + " - Password : " + passwordStr);
+        
+    }
     
 }
