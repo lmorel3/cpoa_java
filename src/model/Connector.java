@@ -24,11 +24,7 @@ import java.util.Properties;
 public class Connector {
     
     public static Connector instance;
-<<<<<<< HEAD
     private Connection dataBase;
-=======
-    private Connection database;
->>>>>>> 12c62f53cf41f4e9030403ed3f28713bc6c32170
    
     private Connector() {
         Properties properties = new Properties();
@@ -42,12 +38,8 @@ public class Connector {
             
             Class.forName(driver);
 
-<<<<<<< HEAD
             this.dataBase = DriverManager.getConnection(url, user, password);      
-=======
-            database = DriverManager.getConnection(url, user, password);
-            System.out.println("Connexion effective !");         
->>>>>>> 12c62f53cf41f4e9030403ed3f28713bc6c32170
+
 
        } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -82,14 +74,10 @@ public class Connector {
        
         
         try {
-<<<<<<< HEAD
-=======
-        PreparedStatement stmt = database.prepareStatement(statement);
+
+        PreparedStatement stmt = dataBase.prepareStatement(statement);
           for(Object param: params) {
->>>>>>> 12c62f53cf41f4e9030403ed3f28713bc6c32170
-            
-        PreparedStatement stmt = this.dataBase.prepareStatement(statement);
-        for(Object param: params) {
+
 
             if(param instanceof Date) {
                 
