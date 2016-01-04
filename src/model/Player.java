@@ -5,6 +5,9 @@
  */
 package model;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+
 /**
  *
  * @author laurent
@@ -13,8 +16,9 @@ public class Player extends Person{
  
     private Player partner;
     
-    public Player(int personId, String lastname, String forename, String country) {
+    public Player(int personId, String lastname, String forename, String country, Player partner) {
         super(personId, lastname, forename, country);
+        this.partner = partner;
     }
     
     /**
@@ -33,6 +37,37 @@ public class Player extends Person{
      */
     public void setPartner(Player partner) {
         this.partner = partner;
+    }
+    
+    
+        public void hydrate(HashMap<String, Object> datas) {        
+        
+        try {
+            
+            
+           
+            
+            
+            int umpireId = (int)((BigDecimal)datas.get("PERSON_ID")).intValue();
+            String foreName = (String)datas.get("FORENAME");
+            String lastName = (String)datas.get("LASTNAME");
+            String country = (String)datas.get("NATIONALITY");
+            String level = (String)datas.get("PERSON_LEVEL");
+            Player partner = (Player)datas.get("PARTNER_ID");
+            
+            this.setPersonId(umpireId);
+            this.setForename(foreName);
+            this.setLastname(lastName);
+            this.setCountry(country);
+            this.setPartner(partner);
+            
+        }
+        catch (Exception e) {
+            
+            System.err.println(e.getMessage());
+            
+        }
+        
     }
     
     

@@ -23,6 +23,17 @@ public class UmpireCollection{
      */
     public static Boolean create(Umpire umpire) {
         
+        ArrayList<Object> params;
+        params = new ArrayList<>();
+        
+        params.add((String)umpire.getForename());
+        params.add((String)umpire.getLastname());
+        params.add((String)umpire.getCountry());
+        params.add("Umpire");
+        params.add((String)umpire.getLevel());
+        
+        
+        Connector.getConnection().query("Insert into person (forename, lastname, nationality, person_type, person_level) values (?, ?, ?, ?, ?)", params);
         
         
       return true;
@@ -59,6 +70,11 @@ public class UmpireCollection{
      * @return 
      */
     public static Boolean delete(int umpireId) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(umpireId);
+        
+        Connector.getConnection().query("Delete from table where person_id = ? and person_type = 'Umpire'", params);
         
         return true;
     }

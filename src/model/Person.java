@@ -5,6 +5,9 @@
  */
 package model;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+
 /**
  *
  * @author laurent
@@ -57,6 +60,6 @@ public abstract class Person {
         this.country = country;
     }
     
-    
+
     
 }

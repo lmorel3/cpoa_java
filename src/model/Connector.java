@@ -63,8 +63,6 @@ public class Connector {
         
         int count = statement.length() - statement.replace("?", "").length();
         
-         System.err.println(count+" "+params.size());
-        
         if (params.size() != count) {
             
             System.err.println("Le nombre d'argument n'est pas correct");
@@ -79,60 +77,60 @@ public class Connector {
           for(Object param: params) {
 
 
-            if(param instanceof Date) {
-                
-                stmt.setDate(cpt, (Date)param);
-                
-            } else if(param instanceof Integer) {
-                
-                stmt.setInt(cpt, (Integer)param);
-                
-            } else if(param instanceof Float) {
-                
-                stmt.setFloat(cpt, (Float)param);
-                
-            } else if(param instanceof Boolean) {
-                
-                stmt.setBoolean(cpt, (Boolean)param);
-                
-            } else { // String ou autre
-                
-                stmt.setString(cpt, (String)param);
-                
+                if(param instanceof Date) {
+
+                    stmt.setDate(cpt, (Date)param);
+
+                } else if(param instanceof Integer) {
+
+                    stmt.setInt(cpt, (Integer)param);
+
+                } else if(param instanceof Float) {
+
+                    stmt.setFloat(cpt, (Float)param);
+
+                } else if(param instanceof Boolean) {
+
+                    stmt.setBoolean(cpt, (Boolean)param);
+
+                } else { // String ou autre
+
+                    stmt.setString(cpt, (String)param);
+
+                }
+
+                cpt += 1;
+
             }
-            
-            cpt += 1;
-            
-        }
         
         
-        
-        ResultSet queryResponse = stmt.executeQuery();
-        
-        ResultSetMetaData queryResponseMetaData = queryResponse.getMetaData();
-        
-        ArrayList<HashMap<String,Object>> result;
-        HashMap<String, Object> resultLine;
-        result = new ArrayList<>();
-                
-        while (queryResponse.next()) {
-            
-            
-            resultLine = new HashMap<String, Object>();
-            for(int i = 1; i<= queryResponseMetaData.getColumnCount(); i++) {
-                resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), queryResponse.getObject(i));
+
+            ResultSet queryResponse = stmt.executeQuery();
+
+            ResultSetMetaData queryResponseMetaData = queryResponse.getMetaData();
+
+            ArrayList<HashMap<String,Object>> result;
+            HashMap<String, Object> resultLine;
+            result = new ArrayList<>();
+
+            while (queryResponse.next()) {
+
+
+                resultLine = new HashMap<String, Object>();
+                for(int i = 1; i<= queryResponseMetaData.getColumnCount(); i++) {
+                    resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), queryResponse.getObject(i));
+                }
+
+                result.add(resultLine);
+
             }
-            
-            result.add(resultLine);
-            
-        }
-        
-        queryResponse.close();
-        
-        stmt.close();
-        
-        
-        return result;
+
+            queryResponse.close();
+
+            stmt.close();
+
+
+            return result;
         
         
         } catch (Exception e){
