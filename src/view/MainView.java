@@ -6,6 +6,7 @@
 package view;
 
 import app.MenuActionListener;
+import app.Settings;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -70,7 +71,7 @@ public final class MainView extends JFrame {
         tabbedPaneTop = new javax.swing.JTabbedPane();
         setContentPane(tabbedPaneTop);
         
-        for (int i = 1; i <= NB_DAYS; i++) {
+        for (int i = 1; i <= Settings.NB_DAYS; i++) {
             daysTab.add(new DayPane());
             tabbedPaneTop.add("Jour " + i, (DayPane) daysTab.get(i-1));
         }
@@ -89,6 +90,5 @@ public final class MainView extends JFrame {
 
     
     private ArrayList daysTab;
-    private final int NB_DAYS = 9;
     
 }

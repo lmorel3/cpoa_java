@@ -14,5 +14,6 @@ public class Settings {
     
     public static final int MODE_PLAYER = 1;
     public static final int MODE_MANAGER = 0;
+    public static final int NB_DAYS = 9;
     
 }

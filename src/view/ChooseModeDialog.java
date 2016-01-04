@@ -5,13 +5,13 @@
  */
 package view;
 
-import app.Settings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import view.reservation.Reservation;
 
 /**
  *
@@ -64,7 +64,8 @@ public class ChooseModeDialog extends JFrame implements ActionListener {
         JButton source = (JButton) e.getSource();
                 
         if(source == btnPlayer){
-            System.out.println("Joueur");
+            Reservation reservation = new Reservation();
+            reservation.setVisible(true);
         }else{
             Connection connection = new Connection();
             connection.setVisible(true);                       
