@@ -43,16 +43,14 @@ public class Manager extends Person {
         this.password = password;
     }
     
-    public static Manager connectManager(String login, String password){
+    public static Manager getAccountOf(String login, String password){
         
         ArrayList<Object> params = new ArrayList<>();
         params.add(login);
         params.add(password);
         
         ArrayList<HashMap<String, Object>> result = Connector.getConnection().query("SELECT * FROM person WHERE login = ? AND person_password = ?", params);
-        
-        System.out.println(result);
-        
+                
         if(!result.isEmpty()){
             
             Manager manager = new Manager(result.get(0));

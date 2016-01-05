@@ -7,6 +7,7 @@ package app;
 
 import model.Manager;
 import view.Connection;
+import view.PlanningManager;
 
 /**
  *
@@ -16,22 +17,36 @@ public class AppController {
     
     private static Manager manager;
 
-    public static void connectManager(Connection connection) {
+    /**
+     * Try to connect the manager (via login and password)
+     * If it works, the main view is shown
+     */
+    public static void connectManager() {
         
-        String login = connection.getLogin();
-        String password = connection.getPassword();
+        String login = Connection.getLogin();
+        String password = Connection.getPassword();
        
-        manager = Manager.connectManager(login, password);
+        manager = Manager.getAccountOf(login, password);
         
         if(manager instanceof Manager){
             
             System.out.println("Utilisateur " + login + " connecté !");
+            System.out.println(manager.getLogin() + " <<");
+            
+            Connection.close();
+            
+            PlanningManager.display();
             
         }
         
 
     }
-    
+
+    public static void makeReservation() {
+
+        System.out.println("Reservation :D");
+        
+    }
     
     
 }

@@ -5,10 +5,12 @@
  */
 package view.reservation;
 
+import app.AppController;
 import app.Settings;
-import java.awt.List;
 import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 /**
@@ -16,21 +18,71 @@ import javax.swing.JTabbedPane;
  * @author laurent
  */
 public class Reservation extends JFrame {
-
+    
     public Reservation() {
         initComponents();
     }
     
+    public static void display(){
+        
+        frame = getFrame();
+        
+        frame.setVisible(true);
+        
+    }
+    
+    public static void close(){
+        
+        frame = getFrame();
+        
+        frame.setVisible(false);
+        frame = null;
+        
+    }
+    
+    private static Reservation getFrame(){
+        
+        if(Reservation.frame == null){
+            frame = new Reservation();
+        }
+        
+        return frame;
+        
+    }    
+    
     private void initComponents(){
         
-        overPane = new JTabbedPane();
+        overPane = new JPanel();
+        tabbedPane = new JTabbedPane();
         
         dailyReservations = new ArrayList<>();
         
         for (int i = 1; i <= Settings.NB_DAYS; i++) {
             dailyReservations.add(new DailyReservation());
-            overPane.add("Jour " + i, (DailyReservation) dailyReservations.get(i-1));
+            tabbedPane.add("Jour " + i, (DailyReservation) dailyReservations.get(i-1));
         }
+        
+        btnValid = new JButton();
+        btnExit = new JButton();
+
+        btnValid.setText("Valider");
+        btnValid.addActionListener((java.awt.event.ActionEvent evt) -> {
+            
+            AppController.makeReservation();
+            
+        });
+
+        btnExit.setText("Annuler");
+        btnExit.addActionListener((java.awt.event.ActionEvent evt) -> {
+            
+            Reservation.close();
+            
+        });
+        
+        overPane.add(tabbedPane);
+        
+        overPane.add(btnValid);
+        overPane.add(btnExit);
         
         setSize(711, 290);
         setResizable(false);
@@ -39,7 +91,11 @@ public class Reservation extends JFrame {
         
     }
     
-    JTabbedPane overPane;
-    ArrayList<DailyReservation> dailyReservations;
+    private JPanel overPane;
+    private ArrayList<DailyReservation> dailyReservations;
+    private JButton btnValid, btnExit;
+    
+    private static Reservation frame;
+    private JTabbedPane tabbedPane;
     
 }

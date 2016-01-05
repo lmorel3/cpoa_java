@@ -73,9 +73,9 @@ public class Connector {
         
         try {
 
-        PreparedStatement stmt = dataBase.prepareStatement(statement);
-          for(Object param: params) {
-
+            PreparedStatement stmt = dataBase.prepareStatement(statement);
+            
+            for(Object param: params) {
 
                 if(param instanceof Date) {
 
@@ -105,11 +105,8 @@ public class Connector {
         
             ResultSet queryResponse = stmt.executeQuery();
           
-          
             if(statement.toLowerCase().startsWith("select")) {
                 
-               
-
                 ResultSetMetaData queryResponseMetaData = queryResponse.getMetaData();
 
                 ArrayList<HashMap<String,Object>> result;
@@ -119,9 +116,9 @@ public class Connector {
                 while (queryResponse.next()) {
 
 
-                    resultLine = new HashMap<String, Object>();
+                    resultLine = new HashMap<>();
                     for(int i = 1; i<= queryResponseMetaData.getColumnCount(); i++) {
-                                       resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), queryResponse.getObject(i));
+                        resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), queryResponse.getObject(i));
                     }                     
 
                     result.add(resultLine);
@@ -139,7 +136,7 @@ public class Connector {
                 
             }
           
-            return new ArrayList<HashMap<String, Object>>();
+            return new ArrayList<>();
         
         } catch (Exception e){
             
