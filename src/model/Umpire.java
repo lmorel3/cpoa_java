@@ -6,8 +6,6 @@
 package model;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -47,7 +45,7 @@ public class Umpire extends Person {
             String foreName = (String)datas.get("FORENAME");
             String lastName = (String)datas.get("LASTNAME");
             String country = (String)datas.get("NATIONALITY");
-            String level = (String)datas.get("PERSON_LEVEL");
+            this.level = (String)datas.get("PERSON_LEVEL");
             
             this.setPersonId(umpireId);
             this.setForename(foreName);

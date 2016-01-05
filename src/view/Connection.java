@@ -5,6 +5,7 @@
  */
 package view;
 
+import app.AppController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
@@ -93,6 +94,17 @@ public class Connection extends JFrame implements ActionListener {
         
     }
 
+    public String getLogin(){
+        return inputLogin.getText();
+    }
+    
+    public String getPassword(){
+        
+        char[] passwordVal = inputPassword.getPassword();
+        return new String(passwordVal);
+        
+    }
+    
     private javax.swing.JButton btnValidate;
     private javax.swing.JTextField inputLogin;
     private javax.swing.JLabel labelInfos;
@@ -103,12 +115,7 @@ public class Connection extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        String loginStr = inputLogin.getText();
-        char[] passwordVal = inputPassword.getPassword();
-        
-        String passwordStr = new String(passwordVal);
-        
-        System.out.println("Username : " + loginStr + " - Password : " + passwordStr);
+        AppController.connectManager(this);
         
     }
     
