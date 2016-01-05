@@ -139,7 +139,7 @@ public class Connector {
                 
             }
           
-            return null;
+            return new ArrayList<HashMap<String, Object>>();
         
         } catch (Exception e){
             
