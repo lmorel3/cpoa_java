@@ -6,6 +6,9 @@
 
 package model;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+
 /**
  * 
  * @author Rouquette Loïc
@@ -77,6 +80,35 @@ public class Hotel {
     }
     
     
+    
+     public void hydrate(HashMap<String, Object> datas) {        
+        
+        try {
+            
+            int hotelId = (int)((BigDecimal)datas.get("HOTEL_ID")).intValue();
+            String name = (String)datas.get("NAME");
+            double latitude = (Float)((BigDecimal)datas.get("LATITUDE")).floatValue();
+            double longitude = (Float)((BigDecimal)datas.get("LONGITUTE")).floatValue();
+            int capacity = (int)((BigDecimal)datas.get("CAPACITY")).intValue();
+            String type = (String)datas.get("TYPE");
+            int stars = (int)((BigDecimal)datas.get("STARS")).intValue();
+            
+            this.hotelId = hotelId;
+            this.name = name;
+            this.setLocation(latitude, longitude);
+            this.capacity = capacity;
+            this.type = type;
+            this.stars = stars;
+            
+            
+        }
+        catch (Exception e) {
+            
+            System.err.println(e.getMessage());
+            
+        }
+        
+    }
     
     
     
