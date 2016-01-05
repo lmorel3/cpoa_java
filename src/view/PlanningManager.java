@@ -5,11 +5,13 @@
  */
 package view;
 
+import app.AppController;
 import app.MenuActionListener;
 import app.Settings;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -40,7 +42,7 @@ public final class PlanningManager extends JFrame {
         frame = getFrame();
         
         frame.setVisible(false);
-        frame = null;
+        frame.dispose(); // Destroy the frame
         
     }
         
@@ -60,13 +62,17 @@ public final class PlanningManager extends JFrame {
         setTitle("Gestion des plannings");
         setLocationRelativeTo(null);
         setResizable(false);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);   
         
         menuBar = new javax.swing.JMenuBar();
-        menu = new javax.swing.JMenu();
+        menuGenerate = new javax.swing.JMenu();
+        menuDisconnect = new javax.swing.JMenuItem();
+
+        menuGenerate.setText("Générer les matchs");
+        menuBar.add(menuGenerate);
         
-        menu.setText("Générer les matchs");
-        menuBar.add(menu);
+        menuDisconnect.setText("Se déconnecter");
+        menuBar.add(menuDisconnect);
         
         menuQualif = new JMenuItem("Qualifications");
         menuHuitieme = new JMenuItem("Huitièmes de finale");
@@ -80,15 +86,38 @@ public final class PlanningManager extends JFrame {
         menuDemi.addActionListener(new MenuActionListener());
         menuFinal.addActionListener(new MenuActionListener());
         
-        menu.add(menuQualif);
-        menu.add(menuHuitieme);
-        menu.add(menuQuart);
-        menu.add(menuDemi);
-        menu.add(menuFinal);
+        menuDisconnect.addActionListener((java.awt.event.ActionEvent evt) -> {
+            
+            validDisconnect();
+            
+        });
         
+        menuGenerate.add(menuQualif);
+        menuGenerate.add(menuHuitieme);
+        menuGenerate.add(menuQuart);
+        menuGenerate.add(menuDemi);
+        menuGenerate.add(menuFinal);
         
         setJMenuBar(menuBar);
         
+        addWindowListener(new java.awt.event.WindowAdapter() {
+           @Override
+           public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+               validDisconnect();
+           }
+       });
+        
+    }
+    
+    private void validDisconnect(){
+        if (JOptionPane.showConfirmDialog(frame, 
+                "Etes-vous sûr de vouloir vous déconnecter ? Toutes modification non sauvegardée sera perdue.", "Quitter l'application", 
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+        {
+            PlanningManager.close();
+            ChooseModeDialog.display();
+        }
     }
     
     private void generateTopTabs(){
@@ -105,9 +134,12 @@ public final class PlanningManager extends JFrame {
 
     }
     
+    
+    
     private javax.swing.JTabbedPane tabbedPaneTop;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenu menu;
+    private javax.swing.JMenu menuGenerate;
+    private javax.swing.JMenuItem menuDisconnect;
     
     private JMenuItem menuQualif;
     private JMenuItem menuHuitieme;

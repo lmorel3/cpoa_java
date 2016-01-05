@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import view.ChooseModeDialog;
 
 /**
  *
@@ -19,7 +20,7 @@ import javax.swing.JTabbedPane;
  */
 public class Reservation extends JFrame {
     
-    public Reservation() {
+    private Reservation() {
         initComponents();
     }
     
@@ -36,7 +37,7 @@ public class Reservation extends JFrame {
         frame = getFrame();
         
         frame.setVisible(false);
-        frame = null;
+        frame.dispose(); // Destroy the frame
         
     }
     
@@ -76,6 +77,7 @@ public class Reservation extends JFrame {
         btnExit.addActionListener((java.awt.event.ActionEvent evt) -> {
             
             Reservation.close();
+            ChooseModeDialog.display();
             
         });
         

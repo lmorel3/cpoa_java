@@ -21,6 +21,8 @@ public class ChooseModeDialog extends JFrame implements ActionListener {
     
     JButton btnPlayer;
     JButton btnManager;
+    
+    private static ChooseModeDialog frame;
      
     public ChooseModeDialog(){
         
@@ -29,6 +31,33 @@ public class ChooseModeDialog extends JFrame implements ActionListener {
         initializeComponents();
                 
     }
+        
+    public static void display(){
+        
+        frame = getFrame();
+        
+        frame.setVisible(true);
+        
+    }
+    
+    public static void close(){
+        
+        frame = getFrame();
+        
+        frame.setVisible(false);
+        frame.dispose(); // Destroy the frame
+        
+    }
+        
+    private static ChooseModeDialog getFrame(){
+        
+        if(ChooseModeDialog.frame == null){
+            frame = new ChooseModeDialog();
+        }
+        
+        return frame;
+        
+    }    
     
     private void initializeComponents(){
         
@@ -49,11 +78,10 @@ public class ChooseModeDialog extends JFrame implements ActionListener {
         overPanel.add(btnManager);
         
         setContentPane(overPanel);
-        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
         btnPlayer.addActionListener(this);
-        
         btnManager.addActionListener(this);
         
     }
@@ -64,8 +92,7 @@ public class ChooseModeDialog extends JFrame implements ActionListener {
         JButton source = (JButton) e.getSource();
                 
         if(source == btnPlayer){
-            Reservation reservation = new Reservation();
-            reservation.setVisible(true);
+            Reservation.display();
         }else{
             Connection.display();
         }
