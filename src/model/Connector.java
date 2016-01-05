@@ -73,8 +73,8 @@ public class Connector {
         
         try {
 
-        PreparedStatement stmt = dataBase.prepareStatement(statement);
-          for(Object param: params) {
+            PreparedStatement stmt = dataBase.prepareStatement(statement);
+            for(Object param: params) {
 
 
                 if(param instanceof Date) {

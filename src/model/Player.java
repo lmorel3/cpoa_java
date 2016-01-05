@@ -17,6 +17,10 @@ public class Player extends Person{
  
     private Player partner;
     
+    public Player() {
+        
+    }
+    
     public Player(int personId, String lastname, String forename, String country, Player partner) {
         super(personId, lastname, forename, country);
         this.partner = partner;
@@ -40,34 +44,51 @@ public class Player extends Person{
         this.partner = partner;
     }
     
-    
+    public Player(HashMap<String, Object> datas) {
+        
+        this.hydrate(datas);
+        
+    }
     
     public void hydrate(HashMap<String, Object> datas) {
         
-        ArrayList<HashMap<String, Object>> possiblePartner = Connector.getConnection().query("Select person.* \n" +
-            "from person p, partner pr \n" +
-            "where (p.person_id = pr.playera_id and pr.playerb_id = XX )\n" +
-            "OR ( p.person_id = pr.PLAYERB_ID and pr.playera_id = XX)", new ArrayList<Object>());
-        
-              
         
         try {
+        
+        ArrayList<Object> params = new ArrayList<Object>();
+        
+        params.add((int)((BigDecimal)datas.get("PERSON_ID")).intValue());
+        params.add((int)((BigDecimal)datas.get("PERSON_ID")).intValue());
+        
+        ArrayList<HashMap<String, Object>> possiblePartner = Connector.getConnection().query("Select * \n" +
+            "from person p, partner pr \n" +
+            "where (p.person_id = pr.playera_id and pr.playerb_id = ? )\n" +
+            "OR ( p.person_id = pr.PLAYERB_ID and pr.playera_id = ?)", params);
+        
+        Player partner = new Player();
             
-            if(!possiblePartner.isEmpty()) {
+            if(possiblePartner.isEmpty()) {
             
-            System.out.println("Le joueur"+datas.get("FORENAME")+"n'a pas de partnenaire");
-            
-            }  
+            System.err.println("Le joueur "+datas.get("FORENAME")+" n'a pas de partnenaire");
+           
+            } else {
+                
+                partner.setPersonId((int)((BigDecimal)possiblePartner.get(0).get("PERSON_ID")).intValue());
+                partner.setCountry((String)possiblePartner.get(0).get("NATIONALITY"));
+                partner.setForename((String)possiblePartner.get(0).get("FORENAME"));
+                partner.setLastname((String)possiblePartner.get(0).get("FORENAME"));
+                partner.setPartner(this);
+                
+            }
             
            
-            int umpireId = (int)((BigDecimal)datas.get("PERSON_ID")).intValue();
+            int playerId = (int)((BigDecimal)datas.get("PERSON_ID")).intValue();
             String foreName = (String)datas.get("FORENAME");
             String lastName = (String)datas.get("LASTNAME");
             String country = (String)datas.get("NATIONALITY");
             String level = (String)datas.get("PERSON_LEVEL");
-            Player partner = (Player)datas.get("PARTNER_ID");
             
-            this.setPersonId(umpireId);
+            this.setPersonId(playerId);
             this.setForename(foreName);
             this.setLastname(lastName);
             this.setCountry(country);

@@ -6,6 +6,9 @@
 
 package model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * 
  * @author Rouquette Loïc
@@ -13,6 +16,24 @@ package model;
 public class PlayerCollection {
     
     
-    
+    public static ArrayList<Player> read(int index) {
+        
+        ArrayList<Player> result = new ArrayList<>();
+        Player current;
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(index);
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person where person_type = 'Player' and person_id = ?", params);
+        for(HashMap<String, Object> row : cursor) {
+            
+            current = new Player(row);
+            result.add(current);
+            
+        }
 
+        return result;
+        
+    }    
+   
 }
