@@ -103,35 +103,43 @@ public class Connector {
 
             }
         
-        
-
             ResultSet queryResponse = stmt.executeQuery();
+          
+          
+            if(statement.toLowerCase().startsWith("select")) {
+                
+               
 
-            ResultSetMetaData queryResponseMetaData = queryResponse.getMetaData();
+                ResultSetMetaData queryResponseMetaData = queryResponse.getMetaData();
 
-            ArrayList<HashMap<String,Object>> result;
-            HashMap<String, Object> resultLine;
-            result = new ArrayList<>();
+                ArrayList<HashMap<String,Object>> result;
+                HashMap<String, Object> resultLine;
+                result = new ArrayList<>();
 
-            while (queryResponse.next()) {
+                while (queryResponse.next()) {
 
 
-                resultLine = new HashMap<String, Object>();
-                for(int i = 1; i<= queryResponseMetaData.getColumnCount(); i++) {
-                    resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), queryResponse.getObject(i));
+                    resultLine = new HashMap<String, Object>();
+                    for(int i = 1; i<= queryResponseMetaData.getColumnCount(); i++) {
+                                       resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), queryResponse.getObject(i));
+                    }                     
+
+                    result.add(resultLine);
+
                 }
 
-                result.add(resultLine);
+                queryResponse.close();
 
-            }
-
-            queryResponse.close();
-
-            stmt.close();
+                stmt.close();
 
 
-            return result;
+                return result;
         
+                
+                
+            }
+          
+            return null;
         
         } catch (Exception e){
             

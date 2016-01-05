@@ -26,6 +26,7 @@ public class UmpireCollection{
         ArrayList<Object> params;
         params = new ArrayList<>();
         
+        params.add(Person.getLastId());
         params.add((String)umpire.getForename());
         params.add((String)umpire.getLastname());
         params.add((String)umpire.getCountry());
@@ -33,7 +34,7 @@ public class UmpireCollection{
         params.add((String)umpire.getLevel());
         
         
-        Connector.getConnection().query("Insert into person (forename, lastname, nationality, person_type, person_level) values (?, ?, ?, ?, ?)", params);
+        Connector.getConnection().query("Insert into person (person_id, forename, lastname, nationality, person_type, person_level) values (?, ?, ?, ?, ?, ?)", params);
         
         
       return true;
@@ -81,11 +82,20 @@ public class UmpireCollection{
     
     /**
      * 
-     * @param umpireId
      * @param newUmpire
      * @return 
      */
-    public static Boolean update(int umpireId, Umpire newUmpire) {
+    public static Boolean update(Umpire newUmpire) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(newUmpire.getForename());
+        params.add(newUmpire.getLastname());
+        params.add(newUmpire.getCountry());
+        params.add(newUmpire.getLevel());
+        params.add(newUmpire.getPersonId());
+        
+        Connector.getConnection().query("Update person set forename = ?, lastname = ?, nationality = ?, person_level = ? where person_id = ?", params);
         
         return true;
     }

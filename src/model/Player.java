@@ -6,6 +6,7 @@
 package model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -40,14 +41,25 @@ public class Player extends Person{
     }
     
     
-        public void hydrate(HashMap<String, Object> datas) {        
+    
+    public void hydrate(HashMap<String, Object> datas) {
+        
+        ArrayList<HashMap<String, Object>> possiblePartner = Connector.getConnection().query("Select person.* \n" +
+            "from person p, partner pr \n" +
+            "where (p.person_id = pr.playera_id and pr.playerb_id = XX )\n" +
+            "OR ( p.person_id = pr.PLAYERB_ID and pr.playera_id = XX)", new ArrayList<Object>());
+        
+              
         
         try {
             
+            if(!possiblePartner.isEmpty()) {
+            
+            System.out.println("Le joueur"+datas.get("FORENAME")+"n'a pas de partnenaire");
+            
+            }  
             
            
-            
-            
             int umpireId = (int)((BigDecimal)datas.get("PERSON_ID")).intValue();
             String foreName = (String)datas.get("FORENAME");
             String lastName = (String)datas.get("LASTNAME");

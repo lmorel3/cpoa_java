@@ -53,7 +53,7 @@ public class Umpire extends Person {
             this.setForename(foreName);
             this.setLastname(lastName);
             this.setCountry(country);
-            this.setLevel(level);
+            this.level = level;
             
         }
         catch (Exception e) {

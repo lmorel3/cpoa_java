@@ -6,6 +6,7 @@
 package model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -60,6 +61,18 @@ public abstract class Person {
         this.country = country;
     }
     
+    public static int getLastId() {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        ArrayList<HashMap<String, Object>> result = Connector.getConnection().query("Select person_id from person where rownum = 1 order by person_id desc", params);
+        
+        return 1+(int)((BigDecimal)result.get(0).get("PERSON_ID")).intValue();
+        
+        
+        
+        
+    }
 
     
 }

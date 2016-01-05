@@ -1,12 +1,11 @@
 package design_test;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import model.Connector;
 import model.Umpire;
 import model.UmpireCollection;
 import model.Connector;
+import model.Person;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -21,19 +20,11 @@ public class Test {
     
     public static void main(String args[]) {
         
-        ArrayList<Object> params;
-        params = new ArrayList<>();
+        Umpire maurice = UmpireCollection.read(4).get(0);
         
-        params.add(4);
-        Connector co = Connector.getConnection();
+        maurice.setCountry("France");
         
-        ArrayList<HashMap<String,Object>> result = Connector.getConnection().query("Select * From person where person_id = ?", params);
-        
-        Umpire carver = new Umpire();
-        System.out.println(carver.getForename());
-        
-        System.out.println(UmpireCollection.read(4).get(0).getCountry());
-
+        UmpireCollection.update(maurice);
         
     }
     
