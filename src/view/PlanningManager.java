@@ -15,9 +15,9 @@ import javax.swing.JMenuItem;
  *
  * @author laurent
  */
-public final class MainView extends JFrame {
+public final class PlanningManager extends JFrame {
     
-    public MainView(){
+    private PlanningManager(){
         
         initComponents();
         
@@ -26,6 +26,33 @@ public final class MainView extends JFrame {
         System.out.println("ContentPane : overPanel");
         
     }
+    
+    public static void display(){
+        
+        frame = getFrame();
+        
+        frame.setVisible(true);
+        
+    }
+    
+    public static void close(){
+        
+        frame = getFrame();
+        
+        frame.setVisible(false);
+        frame = null;
+        
+    }
+        
+    private static PlanningManager getFrame(){
+        
+        if(PlanningManager.frame == null){
+            frame = new PlanningManager();
+        }
+        
+        return frame;
+        
+    }    
     
     private void initComponents(){
         
@@ -88,7 +115,7 @@ public final class MainView extends JFrame {
     private JMenuItem menuDemi;
     private JMenuItem menuFinal;
 
-    
     private ArrayList daysTab;
+    private static PlanningManager frame;
     
 }

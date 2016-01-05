@@ -46,20 +46,10 @@ public class DailyReservation extends JPanel {
             }
         });
         
-        tableContent.setRowHeight(32);
+        tableContent.setRowHeight(30);
         tableContent.setShowGrid(true);
         scrollPane.setViewportView(tableContent);
-        
-        btnValid = new JButton();
-        btnExit = new JButton();
 
-        btnValid.setText("Valider");
-
-        btnExit.setText("Annuler");
-        btnExit.addActionListener((java.awt.event.ActionEvent evt) -> {
-            
-            
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(this);
         setLayout(jPanel1Layout);
@@ -68,21 +58,13 @@ public class DailyReservation extends JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnExit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnValid)))
-                .addContainerGap())
+                ))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnValid)
-                    .addComponent(btnExit))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -91,7 +73,5 @@ public class DailyReservation extends JPanel {
     
     private JScrollPane scrollPane;
     private JTable tableContent;
-    private JButton btnValid, btnExit;
-    
     
 }

@@ -16,8 +16,37 @@ import javax.swing.JFrame;
  */
 public class Connection extends JFrame implements ActionListener {
 
+    private static Connection frame;
+    
     public Connection() {
         initializeComponents();
+    }
+    
+    public static void display(){
+        
+        frame = getFrame();
+        
+        frame.setVisible(true);
+        
+    }
+    
+    public static void close(){
+        
+        frame = getFrame();
+        
+        frame.setVisible(false);
+        frame = null;
+        
+    }
+    
+    private static Connection getFrame(){
+        
+        if(Connection.frame == null){
+            frame = new Connection();
+        }
+        
+        return frame;
+        
     }
     
     private void initializeComponents(){
@@ -94,11 +123,11 @@ public class Connection extends JFrame implements ActionListener {
         
     }
 
-    public String getLogin(){
+    public static String getLogin(){
         return inputLogin.getText();
     }
     
-    public String getPassword(){
+    public static String getPassword(){
         
         char[] passwordVal = inputPassword.getPassword();
         return new String(passwordVal);
@@ -106,16 +135,16 @@ public class Connection extends JFrame implements ActionListener {
     }
     
     private javax.swing.JButton btnValidate;
-    private javax.swing.JTextField inputLogin;
+    private static javax.swing.JTextField inputLogin;
     private javax.swing.JLabel labelInfos;
     private javax.swing.JLabel labelLogin;
     private javax.swing.JLabel labelPassword;
-    private javax.swing.JPasswordField inputPassword;
+    private static javax.swing.JPasswordField inputPassword;
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        AppController.connectManager(this);
+        AppController.connectManager();
         
     }
     

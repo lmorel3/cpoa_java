@@ -67,8 +67,7 @@ public class ChooseModeDialog extends JFrame implements ActionListener {
             Reservation reservation = new Reservation();
             reservation.setVisible(true);
         }else{
-            Connection connection = new Connection();
-            connection.setVisible(true);                       
+            Connection.display();
         }
         
         setVisible(false);
