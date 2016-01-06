@@ -5,6 +5,8 @@
  */
 package view;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -56,6 +58,29 @@ public class Slot extends JPanel {
         phase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         phase.setText("Qualification");
         add(phase, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 200, -1));
+        
+        informationsContainer.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                EditMatch.display();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
         
     }
     
