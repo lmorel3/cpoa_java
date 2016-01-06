@@ -121,7 +121,38 @@ public class Connector {
 
                     resultLine = new HashMap<String, Object>();
                     for(int i = 1; i<= queryResponseMetaData.getColumnCount(); i++) {
+                        
+                        queryResponse.getObject(i);
+                        
+                        
+                        if(queryResponse.wasNull()) {
+                            Object typeObject = queryResponse.getObject(i);
+                            if(typeObject instanceof Date) {
+
+                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), new Date(0,0,0));
+
+                        } else if(typeObject instanceof Integer) {
+
+                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), 0);
+
+                        } else if(typeObject instanceof Float) {
+
+                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), 0f);
+
+                        } else if(typeObject instanceof Boolean) {
+
+                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), false);
+
+                        } else { // String ou autre
+
+                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), "");
+
+                        }
+                            
+                            
+                        } else {
                                        resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), queryResponse.getObject(i));
+                        }
                     }                     
 
                     result.add(resultLine);

@@ -7,6 +7,7 @@
 package model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -20,7 +21,13 @@ public class Hotel {
     private int capacity;
     private String type;
     private int stars;
-    private Option options[];
+    private ArrayList<Option> options;
+    
+    public Hotel(HashMap<String, Object> datas) {
+        
+        this.hydrate(datas);
+        
+    }
 
     public int getHotelId() {
         return hotelId;
@@ -43,6 +50,7 @@ public class Hotel {
     }
 
     public void setLocation(double latitude, double longitude) {
+        this.location = new double[2];
         this.location[0] = latitude;
         this.location[1] = longitude;
     }
@@ -71,11 +79,11 @@ public class Hotel {
         this.stars = stars;
     }
 
-    public Option[] getOptions() {
+    public ArrayList<Option> getOptions() {
         return options;
     }
 
-    public void setOptions(Option[] options) {
+    public void setOptions(ArrayList<Option> options) {
         this.options = options;
     }
     
@@ -88,9 +96,10 @@ public class Hotel {
             int hotelId = (int)((BigDecimal)datas.get("HOTEL_ID")).intValue();
             String name = (String)datas.get("NAME");
             double latitude = (Float)((BigDecimal)datas.get("LATITUDE")).floatValue();
-            double longitude = (Float)((BigDecimal)datas.get("LONGITUTE")).floatValue();
+            double longitude = (Float)((BigDecimal)datas.get("LONGITUDE")).floatValue();
             int capacity = (int)((BigDecimal)datas.get("CAPACITY")).intValue();
             String type = (String)datas.get("TYPE");
+           
             int stars = (int)((BigDecimal)datas.get("STARS")).intValue();
             
             this.hotelId = hotelId;
@@ -100,11 +109,23 @@ public class Hotel {
             this.type = type;
             this.stars = stars;
             
+            ArrayList<Object> params = new ArrayList<>();
             
+            params.add(hotelId);
+            
+            ArrayList<HashMap<String, Object>> optionList = Connector.getConnection().query("Select OPTION_ID from Hotel_option where hotel_id = ?", params);
+            
+            ArrayList<Option> options = OptionCollection.read(optionList);
+            
+            this.options = options;
+            
+            
+            
+
         }
         catch (Exception e) {
-            
-            System.err.println(e.getMessage());
+            e.getStackTrace();
+            System.err.println("Erreur d'hydratation Hotel" + e.getMessage());
             
         }
         

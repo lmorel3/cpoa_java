@@ -21,13 +21,21 @@ public class HotelCollection {
         
         ArrayList<Hotel> result = new ArrayList<>();
         
+        params.add(index);
+        
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From hotel where hotel_id = ?", params);
         
+        Hotel current;
         
+        for(HashMap<String, Object> row : cursor) {
+            
+            current = new Hotel(row);
+            result.add(current);
+            
+            
+        }
         
-        
-        return result;
-        
+        return result;        
         
     }
     
