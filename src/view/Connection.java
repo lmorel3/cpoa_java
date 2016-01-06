@@ -38,8 +38,8 @@ public class Connection extends JFrame implements ActionListener {
         frame = null;
         
     }
-    
-    private static Connection getFrame(){
+        
+    public static Connection getFrame(){
         
         if(Connection.frame == null){
             frame = new Connection();

@@ -5,7 +5,9 @@
  */
 package app;
 
+import javax.swing.JOptionPane;
 import model.Manager;
+import view.ChooseModeDialog;
 import view.Connection;
 import view.PlanningManager;
 
@@ -37,6 +39,11 @@ public class AppController {
             
             PlanningManager.display();
             
+        }else{
+            JOptionPane.showMessageDialog(Connection.getFrame(),
+                "Les informations de connexion entrées sont incorrectes",
+                "Connexion impossible",
+                JOptionPane.ERROR_MESSAGE);
         }
         
 
