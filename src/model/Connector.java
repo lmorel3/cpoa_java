@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -77,9 +78,20 @@ public class Connector {
             for(Object param: params) {
 
 
-                if(param instanceof Date) {
+                if(param instanceof java.util.Date) {
 
-                    stmt.setDate(cpt, (Date)param);
+                    java.util.Date paramAsDate = (java.util.Date)param;
+                    
+                    Calendar c = Calendar.getInstance();
+                    
+                    c.setTime(paramAsDate);
+                    c.add(Calendar.YEAR, -1900);
+                    c.add(Calendar.MONTH, -1);
+                    
+                    paramAsDate = c.getTime();
+                    
+                    
+                    stmt.setDate(cpt, new java.sql.Date(paramAsDate.getTime()));
 
                 } else if(param instanceof Integer) {
 
@@ -129,7 +141,7 @@ public class Connector {
                             Object typeObject = queryResponse.getObject(i);
                             if(typeObject instanceof Date) {
 
-                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), new Date(0,0,0));
+                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), new java.util.Date(0,0,0));
 
                         } else if(typeObject instanceof Integer) {
 

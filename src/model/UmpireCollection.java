@@ -26,12 +26,14 @@ public class UmpireCollection{
         ArrayList<Object> params;
         params = new ArrayList<>();
         
-        params.add(Person.getLastId());
-        params.add((String)umpire.getForename());
-        params.add((String)umpire.getLastname());
-        params.add((String)umpire.getCountry());
+        umpire.setPersonId(Person.getLastId());
+        
+        params.add(umpire.getPersonId());
+        params.add(umpire.getForename());
+        params.add(umpire.getLastname());
+        params.add(umpire.getCountry());
         params.add("Umpire");
-        params.add((String)umpire.getLevel());
+        params.add(umpire.getLevel());
         
         
         Connector.getConnection().query("Insert into person (person_id, forename, lastname, nationality, person_type, person_level) values (?, ?, ?, ?, ?, ?)", params);

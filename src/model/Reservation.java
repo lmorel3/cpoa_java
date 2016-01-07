@@ -7,7 +7,8 @@
 package model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -30,6 +31,10 @@ public class Reservation {
         this.startDate = startDate;
         this.endDate = endDate;
         
+    }
+
+    Reservation(HashMap<String, Object> datas) {
+        this.hydrate(datas);
     }
 
     public int getReservationId() {
@@ -99,6 +104,15 @@ public class Reservation {
         
     }
     
+     public static int getLastId() {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        ArrayList<HashMap<String, Object>> result = Connector.getConnection().query("Select reservation_id from reservation where rownum = 1 order by reservation_id desc", params);
+        
+        return 1+(int)((BigDecimal)result.get(0).get("RESERVATION_ID")).intValue();
+        
+    }
     
 
 }
