@@ -4,3 +4,6 @@
 nbproject/private/private.xml
 properties.properties
 nbproject/project.properties
+src/design_test/Test.java
+*.properties
+nbproject/private/private.properties
