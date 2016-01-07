@@ -5,6 +5,7 @@
  */
 package view.planning;
 
+import app.Settings;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -32,6 +33,7 @@ public class EditMatch extends JFrame {
         
         frame.setVisible(false);
         frame.dispose(); // Destroy the frame
+        frame = null;
         
     }
     
@@ -46,6 +48,11 @@ public class EditMatch extends JFrame {
     } 
     
     private void initComponents() {
+        
+        int GLOBAL_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?420:480; 
+        int COMBOBOX_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?150:170; 
+        int LIST_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?190:230; 
+        int NATIONALITY_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?20:40; 
 
         overPane = new javax.swing.JPanel();
         rowTitle = new javax.swing.JPanel();
@@ -77,8 +84,8 @@ public class EditMatch extends JFrame {
         btnExit = new javax.swing.JButton();
         btnValid = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(410, 360));
-        setResizable(false);
+        setPreferredSize(new java.awt.Dimension(GLOBAL_WIDTH, 360));
+        setResizable(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
@@ -122,8 +129,7 @@ public class EditMatch extends JFrame {
         row1.add(labelPlayerA);
 
         comboPlayerA.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        comboPlayerA.setMinimumSize(new java.awt.Dimension(125, 27));
-        comboPlayerA.setPreferredSize(new java.awt.Dimension(150, 27));
+        comboPlayerA.setPreferredSize(new java.awt.Dimension(COMBOBOX_WIDTH, 27));
         comboPlayerA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -132,8 +138,8 @@ public class EditMatch extends JFrame {
         row1.add(comboPlayerA);
 
         nationalityPlayerA.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        nationalityPlayerA.setText("ES");
-        nationalityPlayerA.setPreferredSize(new java.awt.Dimension(20, 16));
+        nationalityPlayerA.setText("ES - FR");
+        nationalityPlayerA.setPreferredSize(new java.awt.Dimension(NATIONALITY_WIDTH, 16));
         row1.add(nationalityPlayerA);
 
         overPane.add(row1);
@@ -146,8 +152,7 @@ public class EditMatch extends JFrame {
         row2.add(labelPlayerB);
 
         comboPlayerB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        comboPlayerB.setMinimumSize(new java.awt.Dimension(125, 27));
-        comboPlayerB.setPreferredSize(new java.awt.Dimension(150, 27));
+        comboPlayerB.setPreferredSize(new java.awt.Dimension(COMBOBOX_WIDTH, 27));
         comboPlayerB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -156,8 +161,8 @@ public class EditMatch extends JFrame {
         row2.add(comboPlayerB);
 
         nationalityPlayerB.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        nationalityPlayerB.setText("CH");
-        nationalityPlayerB.setPreferredSize(new java.awt.Dimension(20, 16));
+        nationalityPlayerB.setText("CH - FR");
+        nationalityPlayerB.setPreferredSize(new java.awt.Dimension(NATIONALITY_WIDTH, 16));
         row2.add(nationalityPlayerB);
 
         overPane.add(row2);
@@ -170,8 +175,7 @@ public class EditMatch extends JFrame {
         row3.add(labelChairUmpire);
 
         comboChairUmpire.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        comboChairUmpire.setMinimumSize(new java.awt.Dimension(125, 27));
-        comboChairUmpire.setPreferredSize(new java.awt.Dimension(150, 27));
+        comboChairUmpire.setPreferredSize(new java.awt.Dimension(COMBOBOX_WIDTH, 27));
         comboChairUmpire.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -181,7 +185,7 @@ public class EditMatch extends JFrame {
 
         nationalityChairUmpire.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nationalityChairUmpire.setText("FR");
-        nationalityChairUmpire.setPreferredSize(new java.awt.Dimension(20, 16));
+        nationalityChairUmpire.setPreferredSize(new java.awt.Dimension(NATIONALITY_WIDTH, 16));
         row3.add(nationalityChairUmpire);
 
         overPane.add(row3);
@@ -195,7 +199,7 @@ public class EditMatch extends JFrame {
         labelNetUmpires.setPreferredSize(new java.awt.Dimension(150, 16));
         row7.add(labelNetUmpires);
 
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(190, 55));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 55));
 
         listNetUmpires.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -217,7 +221,7 @@ public class EditMatch extends JFrame {
         labelBallBoys.setPreferredSize(new java.awt.Dimension(150, 16));
         row4.add(labelBallBoys);
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(190, 55));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 55));
 
         listBallBoys.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -239,7 +243,7 @@ public class EditMatch extends JFrame {
 
         comboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Qualification", "Huitième de finale", "Quart de finale", "Demie finale", "Finale" }));
         comboType.setMinimumSize(new java.awt.Dimension(125, 27));
-        comboType.setPreferredSize(new java.awt.Dimension(190, 27));
+        comboType.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 27));
         comboType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
@@ -334,5 +338,8 @@ public class EditMatch extends JFrame {
     private javax.swing.JLabel title;
     
     private static EditMatch frame;
+    
+    static int matchType;
+
     
 }

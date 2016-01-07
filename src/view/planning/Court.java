@@ -7,6 +7,7 @@ import app.Settings;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -63,7 +64,8 @@ public class Court extends JPanel {
         informationsContainer.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                EditMatch.display();
+                
+                askForType();
             }
 
             @Override
@@ -82,6 +84,31 @@ public class Court extends JPanel {
             public void mouseExited(MouseEvent e) {
             }
         });
+        
+    }
+    
+        
+    private void askForType() {
+        
+        Object[] options = {"Simple",
+                    "Double"};
+
+        int question = JOptionPane.showOptionDialog(Planning.getFrame(), 
+                "Choisissez le type de match.", "Type de match", 
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        
+        if (question != 2){
+            
+            if(question == 0){ EditMatch.matchType = Settings.MATCH_TYPE_SIMPLE; }
+            else{ EditMatch.matchType = Settings.MATCH_TYPE_DOUBLE; }
+            
+            EditMatch.display();
+
+        }
         
     }
     

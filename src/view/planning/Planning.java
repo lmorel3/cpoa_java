@@ -46,7 +46,7 @@ public final class Planning extends JFrame {
         
     }
         
-    private static Planning getFrame(){
+    public static Planning getFrame(){
         
         if(Planning.frame == null){
             frame = new Planning();

@@ -27,6 +27,9 @@ public class Settings {
     public static final int COURT_STATUS_UNAVAILABLE = 1;
     public static final int COURT_STATUS_CLOSED = 2;
     
+    public static final int MATCH_TYPE_SIMPLE = 0;
+    public static final int MATCH_TYPE_DOUBLE = 1;
+    
     /**
      * Get the day number compared to the DATE_BEGINNING
      * @param date
