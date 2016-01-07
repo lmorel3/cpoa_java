@@ -5,7 +5,6 @@
  */
 package view.planning;
 
-import app.AppController;
 import app.MenuActionListener;
 import app.Settings;
 import java.util.ArrayList;
@@ -123,7 +122,7 @@ public final class Planning extends JFrame {
     
     private void generateTopTabs(){
         
-        daysTab = new ArrayList();
+        Planning.daysTab = new ArrayList();
         
         tabbedPaneTop = new javax.swing.JTabbedPane();
         setContentPane(tabbedPaneTop);
@@ -135,7 +134,18 @@ public final class Planning extends JFrame {
 
     }
     
+    public static ArrayList<DayPane> getDayPanes(){
+        return Planning.daysTab;
+    }
     
+    /**
+     * Get the DayPane of the day dayNumber (starting from 0)
+     * @param dayNumber (0 is day 1)
+     * @return the DayPane
+     */
+    public static DayPane getDayPane(int dayNumber){
+        return (DayPane) Planning.daysTab.get(dayNumber);
+    }
     
     private javax.swing.JTabbedPane tabbedPaneTop;
     private javax.swing.JMenuBar menuBar;
@@ -148,7 +158,7 @@ public final class Planning extends JFrame {
     private JMenuItem menuDemi;
     private JMenuItem menuFinal;
 
-    private ArrayList daysTab;
+    private static ArrayList daysTab;
     private static Planning frame;
     
 }

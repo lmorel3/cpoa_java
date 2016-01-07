@@ -23,6 +23,9 @@ public class Settings {
     public static final Date DATE_END = new Date(2015, 8, 9);
     
     public static final String EMPTY_COURT_DESC = "Aucun match<br>ou réservation<br>sur ce court</body>";
+    public static final int COURT_STATUS_FREE = 0;
+    public static final int COURT_STATUS_UNAVAILABLE = 1;
+    public static final int COURT_STATUS_CLOSED = 2;
     
     /**
      * Get the day number compared to the DATE_BEGINNING

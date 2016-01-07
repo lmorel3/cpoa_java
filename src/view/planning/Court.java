@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * A Court corresponds to a court, with a name, informations and a isFree (unavailable or available)
  */
 package view.planning;
 
@@ -45,6 +43,8 @@ public class Court extends JPanel {
 
         add(informationsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 140, 90));
 
+        status = Settings.COURT_STATUS_FREE;
+        
         image.setFont(new java.awt.Font("Arial", 1, 48)); // NOI18N
         image.setForeground(new java.awt.Color(91, 135, 125));
         image.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ressources/court_large.jpg"))); // NOI18N
@@ -98,6 +98,21 @@ public class Court extends JPanel {
         informations.setText("<html><body style=\"text-align:center\">" + newInformations + "</body></html>");
     }
     
+    public void setStatus(int newStatus){
+        status = newStatus;
+        switch(status){
+            case Settings.COURT_STATUS_FREE:
+                image.setForeground(new java.awt.Color(91, 135, 125));
+                break;
+            case Settings.COURT_STATUS_CLOSED:
+                image.setForeground(new java.awt.Color(145, 54, 54));
+                break;
+            case Settings.COURT_STATUS_UNAVAILABLE:
+                image.setForeground(new java.awt.Color(206, 117, 103));
+                break;
+        }
+    }
+    
     public String getTitle(){
         return title.getText();
     }
@@ -109,11 +124,17 @@ public class Court extends JPanel {
     public String getInformations(){
         return informations.getText();
     }
+    
+    public int getStatus(){
+        return status;
+    }
         
     private final JLabel informations;
     private final JPanel informationsContainer; 
     private final JLabel image;
     private final JLabel title;
     private final JLabel phase;
+    
+    private int status;
     
 }

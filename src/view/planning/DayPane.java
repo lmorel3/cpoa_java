@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The DayPane contains different CourtsContainer (one for each hours).
+ * It corresponds to a specific day.
  */
 package view.planning;
 
@@ -15,31 +14,44 @@ import javax.swing.JTabbedPane;
 public class DayPane extends JTabbedPane {
     
     public DayPane(){
-        
-        slotsContainer = new ArrayList();  
-        
+               
         initComponents();
         
     }
     
     private void initComponents(){
        
+        courtsContainer = new ArrayList();  
+
         /* Test with random values */
         for (int i = 0; i < 5; i++) {
-            slotsContainer.add(new CourtsContainer());
+            courtsContainer.add(new CourtsContainer());
         }
         
         ///////
         
         setTabPlacement(javax.swing.JTabbedPane.LEFT);
         
-        addTab("8h", (CourtsContainer) slotsContainer.get(0));
-        addTab("11h", (CourtsContainer) slotsContainer.get(1));
-        addTab("14h", (CourtsContainer) slotsContainer.get(2));
-        addTab("18h", (CourtsContainer) slotsContainer.get(3));
-        addTab("21h", (CourtsContainer) slotsContainer.get(4));
+        addTab("8h", (CourtsContainer) courtsContainer.get(0));
+        addTab("11h", (CourtsContainer) courtsContainer.get(1));
+        addTab("14h", (CourtsContainer) courtsContainer.get(2));
+        addTab("18h", (CourtsContainer) courtsContainer.get(3));
+        addTab("21h", (CourtsContainer) courtsContainer.get(4));
     }
     
-    private final ArrayList slotsContainer;
+    public ArrayList<Court> getDailyCourts(){
+        return courtsContainer;
+    }
+    
+    /**
+     * Get the CourtsContainer for a specific hour
+     * @param hourNumber 0 is "8h"
+     * @return the CourtsContainer
+     */
+    public CourtsContainer getCourtsContainer(int hourNumber){
+        return (CourtsContainer) courtsContainer.get(hourNumber);
+    }
+    
+    private ArrayList courtsContainer;
     
 }

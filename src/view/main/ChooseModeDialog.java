@@ -78,11 +78,18 @@ public class ChooseModeDialog extends JFrame implements ActionListener {
         overPanel.add(btnManager);
         
         setContentPane(overPanel);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         
         btnPlayer.addActionListener(this);
         btnManager.addActionListener(this);
+        
+        addWindowListener(new java.awt.event.WindowAdapter() {
+           @Override
+           public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+               System.exit(0);
+           }
+        });
         
     }
 

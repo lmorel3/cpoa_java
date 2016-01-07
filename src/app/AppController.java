@@ -5,10 +5,13 @@
  */
 package app;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Manager;
-import view.main.ChooseModeDialog;
 import view.main.Connection;
+import view.planning.Court;
+import view.planning.CourtsContainer;
+import view.planning.DayPane;
 import view.planning.Planning;
 
 /**
@@ -36,8 +39,8 @@ public class AppController {
             System.out.println(manager.getLogin() + " <<");
             
             Connection.close();
-            
             Planning.display();
+            AppController.refreshPlanning();
             
         }else{
             JOptionPane.showMessageDialog(Connection.getFrame(),
@@ -52,6 +55,21 @@ public class AppController {
     public static void makeReservation() {
 
         System.out.println("Reservation :D");
+        
+    }
+    
+    public static void refreshPlanning(){
+        
+        ArrayList<DayPane> dayPane = Planning.getDayPanes();
+        
+        DayPane day1 = dayPane.get(0);
+        CourtsContainer courtsDay1 = day1.getCourtsContainer(0);
+        Court court = courtsDay1.getCourt(0);
+        
+        court.setTitle("Essai :)");
+        court.setPhase("Qualification !");
+        court.setInformations("Laurent<br>vs<br>Loic");
+        court.setStatus(Settings.COURT_STATUS_UNAVAILABLE);
         
     }
         
