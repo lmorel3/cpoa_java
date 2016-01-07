@@ -8,13 +8,12 @@ package model;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -73,26 +72,48 @@ public class Connector {
        
         
         try {
-
-            PreparedStatement stmt = dataBase.prepareStatement(statement);
+            int j, remplacementIndex;
+            int treatedDate = 0;
             for(Object param: params) {
-
-
+                
                 if(param instanceof java.util.Date) {
 
-                    java.util.Date paramAsDate = (java.util.Date)param;
+                    j = 0;
+                    remplacementIndex = -1;
+                    while(j < cpt - treatedDate) {
+                        remplacementIndex = statement.indexOf("?", remplacementIndex+1);
+                        j += 1;
+                    }       
                     
-                    Calendar c = Calendar.getInstance();
+                    String firstPart = statement.substring(0, remplacementIndex);
+                    String secondPart = statement.substring(remplacementIndex+1, statement.length());
+                         
+                    Date date = (Date)param;
                     
-                    c.setTime(paramAsDate);
-                    c.add(Calendar.YEAR, -1900);
-                    c.add(Calendar.MONTH, -1);
+                    statement = firstPart
+                            + "to_date('"
+                            +date.getHours()+":"
+                            +date.getMinutes()+" "
+                            +(date.getDay()-2)+"-"
+                            +date.getMonth()+"-"
+                            +date.getYear()+"',"
+                            + "'HH24:MI DD-MM-YYYY')"
+                            + secondPart;
                     
-                    paramAsDate = c.getTime();
-                    
-                    
-                    stmt.setDate(cpt, new java.sql.Date(paramAsDate.getTime()));
+                    System.out.println(statement);
+                    treatedDate += 1;
+                
+                }
+                cpt += 1;
+            }
 
+            cpt = 0;
+            PreparedStatement stmt = dataBase.prepareStatement(statement);
+            
+            for(Object param: params) {
+
+                if(param instanceof Date) {
+                
                 } else if(param instanceof Integer) {
 
                     stmt.setInt(cpt, (Integer)param);
@@ -114,7 +135,7 @@ public class Connector {
                 cpt += 1;
 
             }
-        
+           
             ResultSet queryResponse = stmt.executeQuery();
           
           
@@ -141,7 +162,7 @@ public class Connector {
                             Object typeObject = queryResponse.getObject(i);
                             if(typeObject instanceof Date) {
 
-                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), new java.util.Date(0,0,0));
+                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), new Date(0,0,0));
 
                         } else if(typeObject instanceof Integer) {
 

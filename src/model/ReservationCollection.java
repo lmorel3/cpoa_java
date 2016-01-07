@@ -46,8 +46,8 @@ public class ReservationCollection {
         ArrayList<Object> params = new ArrayList<>();
         
         params.add(startDate);
-       
         params.add(endDate);
+
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From reservation where start_date >= ? and end_date <= ?", params);
         
