@@ -22,6 +22,8 @@ public class Settings {
     public static final Date DATE_BEGINNING = new Date(2015, 8, 1);
     public static final Date DATE_END = new Date(2015, 8, 9);
     
+    public static final String EMPTY_COURT_DESC = "Aucun match<br>ou réservation<br>sur ce court</body>";
+    
     /**
      * Get the day number compared to the DATE_BEGINNING
      * @param date

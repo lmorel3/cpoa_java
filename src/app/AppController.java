@@ -7,9 +7,9 @@ package app;
 
 import javax.swing.JOptionPane;
 import model.Manager;
-import view.ChooseModeDialog;
-import view.Connection;
-import view.PlanningManager;
+import view.main.ChooseModeDialog;
+import view.main.Connection;
+import view.planning.Planning;
 
 /**
  *
@@ -37,7 +37,7 @@ public class AppController {
             
             Connection.close();
             
-            PlanningManager.display();
+            Planning.display();
             
         }else{
             JOptionPane.showMessageDialog(Connection.getFrame(),

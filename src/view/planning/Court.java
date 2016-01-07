@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.planning;
 
+import app.Settings;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JLabel;
@@ -14,14 +15,14 @@ import javax.swing.JPanel;
  *
  * @author laurent
  */
-public class Slot extends JPanel {
+public class Court extends JPanel {
     
-    public Slot(){
+    public Court(){
         
         informationsContainer = new javax.swing.JPanel();
         informations = new javax.swing.JLabel();
         image = new javax.swing.JLabel();
-        name = new javax.swing.JLabel();
+        title = new javax.swing.JLabel();
         phase = new javax.swing.JLabel();
         
         initComponents();
@@ -39,7 +40,7 @@ public class Slot extends JPanel {
         informations.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
         informations.setForeground(new java.awt.Color(255, 255, 255));
         informations.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        informations.setText("<html><body style=\"text-align:center\">ROUQ/MORE<br>JEAN/MI-J<br>Arbitre : ABCD</body></html>");
+        informations.setText("<html><body style=\"text-align:center\">" + Settings.EMPTY_COURT_DESC + "</body></html>");
         informationsContainer.add(informations, java.awt.BorderLayout.CENTER);
 
         add(informationsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 140, 90));
@@ -51,9 +52,9 @@ public class Slot extends JPanel {
         image.setToolTipText("");
         add(image, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
-        name.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        name.setText("Court central");
-        add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, -1));
+        title.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        title.setText("Court central");
+        add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, -1));
 
         phase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         phase.setText("Qualification");
@@ -84,10 +85,35 @@ public class Slot extends JPanel {
         
     }
     
+    public void setTitle(String newTitle){
+        title.setText(newTitle);
+    }
+    
+    public void setPhase(String newPhase){
+        phase.setText(newPhase);
+    }
+    
+    public void setInformations(String newInformations){
+        // ToDo : replace String by Match and get informations about it
+        informations.setText("<html><body style=\"text-align:center\">" + newInformations + "</body></html>");
+    }
+    
+    public String getTitle(){
+        return title.getText();
+    }
+    
+    public String getPhase(){
+        return phase.getText();
+    }
+    
+    public String getInformations(){
+        return informations.getText();
+    }
+        
     private final JLabel informations;
     private final JPanel informationsContainer; 
     private final JLabel image;
-    private final JLabel name;
+    private final JLabel title;
     private final JLabel phase;
     
 }

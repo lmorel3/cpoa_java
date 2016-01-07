@@ -10,9 +10,10 @@ import app.Settings;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import view.ChooseModeDialog;
+import view.main.ChooseModeDialog;
 
 /**
  *
@@ -75,10 +76,7 @@ public class Reservation extends JFrame {
 
         btnExit.setText("Annuler");
         btnExit.addActionListener((java.awt.event.ActionEvent evt) -> {
-            
-            Reservation.close();
-            ChooseModeDialog.display();
-            
+            askForClosing();
         });
         
         overPane.add(tabbedPane);
@@ -88,11 +86,29 @@ public class Reservation extends JFrame {
         
         setSize(711, 290);
         setResizable(false);
-        setLocationRelativeTo(this);
+        setLocationRelativeTo(null);
         setContentPane(overPane);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
+        addWindowListener(new java.awt.event.WindowAdapter() {
+           @Override
+           public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+               askForClosing();
+           }
+        });
         
     }
-    
+    private void askForClosing() {
+        if (JOptionPane.showConfirmDialog(frame, 
+                "Etes-vous sûr de vouloir vous fermer ? Toute modification non validée sera perdue.", "Fermer", 
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
+        {
+            Reservation.close();
+            ChooseModeDialog.display();
+        }
+        
+    }    
     private JPanel overPane;
     private ArrayList<DailyReservation> dailyReservations;
     private JButton btnValid, btnExit;

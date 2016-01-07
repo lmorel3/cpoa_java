@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.planning;
 
 import java.util.ArrayList;
 import javax.swing.JPanel;
@@ -12,9 +12,9 @@ import javax.swing.JPanel;
  *
  * @author laurent
  */
-public class SlotsContainer extends JPanel {
+public class CourtsContainer extends JPanel {
     
-    public SlotsContainer(){
+    public CourtsContainer(){
                 
         slots = new ArrayList();
         initComponents();
@@ -26,13 +26,13 @@ public class SlotsContainer extends JPanel {
         setLayout(new java.awt.GridLayout(2, 3));
 
         for (int i = 0; i < 6; i++) {
-            slots.add(new Slot());
+            slots.add(new Court());
             add(slots.get(i));
         }
         
         
     }
     
-    private final ArrayList<Slot> slots;
+    private final ArrayList<Court> slots;
     
 }

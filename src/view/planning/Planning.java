@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.planning;
 
 import app.AppController;
 import app.MenuActionListener;
@@ -12,14 +12,15 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import view.main.ChooseModeDialog;
 
 /**
  *
  * @author laurent
  */
-public final class PlanningManager extends JFrame {
+public final class Planning extends JFrame {
     
-    private PlanningManager(){
+    private Planning(){
         
         initComponents();
         
@@ -46,10 +47,10 @@ public final class PlanningManager extends JFrame {
         
     }
         
-    private static PlanningManager getFrame(){
+    private static Planning getFrame(){
         
-        if(PlanningManager.frame == null){
-            frame = new PlanningManager();
+        if(Planning.frame == null){
+            frame = new Planning();
         }
         
         return frame;
@@ -67,7 +68,7 @@ public final class PlanningManager extends JFrame {
         menuBar = new javax.swing.JMenuBar();
         menuGenerate = new javax.swing.JMenu();
         menuDisconnect = new javax.swing.JMenuItem();
-
+        
         menuGenerate.setText("Générer les matchs");
         menuBar.add(menuGenerate);
         
@@ -115,7 +116,7 @@ public final class PlanningManager extends JFrame {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
         {
-            PlanningManager.close();
+            Planning.close();
             ChooseModeDialog.display();
         }
     }
@@ -148,6 +149,6 @@ public final class PlanningManager extends JFrame {
     private JMenuItem menuFinal;
 
     private ArrayList daysTab;
-    private static PlanningManager frame;
+    private static Planning frame;
     
 }

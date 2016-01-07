@@ -6,8 +6,8 @@
 package app;
 
 import javax.swing.SwingUtilities;
-import view.ChooseModeDialog;
-import view.PlanningManager;
+import view.main.ChooseModeDialog;
+import view.planning.Planning;
 
 /**
  *

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -62,7 +62,7 @@ public class ChooseModeDialog extends JFrame implements ActionListener {
     private void initializeComponents(){
         
         setTitle("Choix du mode d'utilisation");
-        setSize(300, 150);
+        setSize(250, 165);
         
         JPanel overPanel = new JPanel();
         

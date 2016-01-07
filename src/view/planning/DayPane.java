@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package view.planning;
 
 import java.util.ArrayList;
 import javax.swing.JTabbedPane;
@@ -26,18 +26,18 @@ public class DayPane extends JTabbedPane {
        
         /* Test with random values */
         for (int i = 0; i < 5; i++) {
-            slotsContainer.add(new SlotsContainer());
+            slotsContainer.add(new CourtsContainer());
         }
         
         ///////
         
         setTabPlacement(javax.swing.JTabbedPane.LEFT);
         
-        addTab("8h", (SlotsContainer) slotsContainer.get(0));
-        addTab("11h", (SlotsContainer) slotsContainer.get(1));
-        addTab("14h", (SlotsContainer) slotsContainer.get(2));
-        addTab("18h", (SlotsContainer) slotsContainer.get(3));
-        addTab("21h", (SlotsContainer) slotsContainer.get(4));
+        addTab("8h", (CourtsContainer) slotsContainer.get(0));
+        addTab("11h", (CourtsContainer) slotsContainer.get(1));
+        addTab("14h", (CourtsContainer) slotsContainer.get(2));
+        addTab("18h", (CourtsContainer) slotsContainer.get(3));
+        addTab("21h", (CourtsContainer) slotsContainer.get(4));
     }
     
     private final ArrayList slotsContainer;
