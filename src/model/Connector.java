@@ -107,7 +107,7 @@ public class Connector {
                 cpt += 1;
             }
 
-            cpt = 0;
+            cpt = 1;
             PreparedStatement stmt = dataBase.prepareStatement(statement);
             
             for(Object param: params) {
