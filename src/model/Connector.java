@@ -100,7 +100,7 @@ public class Connector {
                             + "'HH24:MI DD-MM-YYYY')"
                             + secondPart;
                     
-                    System.out.println(statement);
+                   // System.out.println(statement);
                     treatedDate += 1;
                 
                 }
@@ -108,12 +108,13 @@ public class Connector {
             }
 
             cpt = 1;
+            System.out.println(statement);
             PreparedStatement stmt = dataBase.prepareStatement(statement);
             
             for(Object param: params) {
 
                 if(param instanceof Date) {
-                
+                    cpt -= 1;
                 } else if(param instanceof Integer) {
 
                     stmt.setInt(cpt, (Integer)param);
@@ -136,6 +137,7 @@ public class Connector {
 
             }
            
+            
             ResultSet queryResponse = stmt.executeQuery();
           
           

@@ -64,6 +64,30 @@ public class ReservationCollection {
         
     }
     
+    public static ArrayList<Reservation> read(Date startDate, Date endDate, int courtId) {
+        
+        ArrayList<Reservation> result = new ArrayList<>();
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(startDate);
+        params.add(endDate);
+        params.add(courtId);
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From reservation where start_date >= ? and end_date <= ? and court_id = ?", params);
+        
+        Reservation current;
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            current = new Reservation(row);
+            result.add(current);
+            
+        }
+        
+        return result;
+        
+    }
+    
     public static void create(Reservation reservation) {
         
         ArrayList<Object> params = new ArrayList<>();
