@@ -5,10 +5,10 @@
  */
 package view.reservation;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import model.swing.ReservationTableModel;
 
 /**
  *
@@ -25,26 +25,8 @@ public class DailyReservation extends JPanel {
         scrollPane = new javax.swing.JScrollPane();
         tableContent = new javax.swing.JTable();
         
-        tableContent.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"8h", null, null, null, null, null, null},
-                {"11h", null, null, null, null, null, null},
-                {"14h", null, null, null, null, null, null},
-                {"18h", null, null, null, null, null, null},
-                {"21h", null, null, null, null, null, null}
-            },
-            new String [] {
-                "Horaire", "Court A", "Court B", "Entraînement 1", "Entraînement 2", "Entraînement 3", "Entraînement 4"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        reservationTableModel = new ReservationTableModel();
+        tableContent.setModel(reservationTableModel);
         
         tableContent.setRowHeight(30);
         tableContent.setShowGrid(true);
@@ -70,8 +52,13 @@ public class DailyReservation extends JPanel {
 
     }// </editor-fold>                        
 
-    
+    public ReservationTableModel getReservationTableModel(){
+        return reservationTableModel;
+    }
+
     private JScrollPane scrollPane;
     private JTable tableContent;
+    
+    private ReservationTableModel reservationTableModel;
     
 }

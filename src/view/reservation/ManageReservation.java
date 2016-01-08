@@ -19,9 +19,9 @@ import view.main.ChooseModeDialog;
  *
  * @author laurent
  */
-public class Reservation extends JFrame {
+public class ManageReservation extends JFrame {
     
-    private Reservation() {
+    private ManageReservation() {
         initComponents();
     }
     
@@ -42,10 +42,10 @@ public class Reservation extends JFrame {
         
     }
     
-    private static Reservation getFrame(){
+    private static ManageReservation getFrame(){
         
-        if(Reservation.frame == null){
-            frame = new Reservation();
+        if(ManageReservation.frame == null){
+            frame = new ManageReservation();
         }
         
         return frame;
@@ -57,7 +57,7 @@ public class Reservation extends JFrame {
         overPane = new JPanel();
         tabbedPane = new JTabbedPane();
         
-        dailyReservations = new ArrayList<>();
+        ManageReservation.dailyReservations = new ArrayList<>();
         
         for (int i = 1; i <= Settings.NB_DAYS; i++) {
             dailyReservations.add(new DailyReservation());
@@ -98,22 +98,37 @@ public class Reservation extends JFrame {
         });
         
     }
+    
     private void askForClosing() {
         if (JOptionPane.showConfirmDialog(frame, 
                 "Etes-vous sûr de vouloir vous fermer ? Toute modification non validée sera perdue.", "Fermer", 
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
         {
-            Reservation.close();
+            ManageReservation.close();
             ChooseModeDialog.display();
         }
         
     }    
+    
+    public static ArrayList<DailyReservation> getDailyReservations(){
+        return ManageReservation.dailyReservations;
+    }
+    
+    /**
+     * Get the DayPane of the day dayNumber (starting from 0)
+     * @param dayNumber (0 is day 1)
+     * @return the DayPane
+     */
+    public static DailyReservation getDailyReservation(int dayNumber){
+        return (DailyReservation) ManageReservation.dailyReservations.get(dayNumber);
+    }
+    
     private JPanel overPane;
-    private ArrayList<DailyReservation> dailyReservations;
+    private static ArrayList<DailyReservation> dailyReservations;
     private JButton btnValid, btnExit;
     
-    private static Reservation frame;
+    private static ManageReservation frame;
     private JTabbedPane tabbedPane;
     
 }

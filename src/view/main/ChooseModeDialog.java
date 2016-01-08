@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import view.reservation.Reservation;
+import view.reservation.ManageReservation;
 
 /**
  *
@@ -99,7 +99,7 @@ public class ChooseModeDialog extends JFrame implements ActionListener {
         JButton source = (JButton) e.getSource();
                 
         if(source == btnPlayer){
-            Reservation.display();
+            ManageReservation.display();
         }else{
             Connection.display();
         }
