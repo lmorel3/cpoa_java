@@ -90,11 +90,34 @@ public class Connector {
                          
                     Date date = (Date)param;
                     
+                    String hours;
+                    String minutes;
+                    
+                    if(date.getHours() < 10) {
+                        
+                        hours = 0+String.valueOf(date.getHours());
+                        
+                    } else {
+                        
+                        hours = String.valueOf(date.getHours());
+                        
+                    }
+                    
+                    if(date.getMinutes()< 10) {
+                        
+                        minutes = 0+String.valueOf(date.getMinutes());
+                        
+                    } else {
+                        
+                        minutes = String.valueOf(date.getMinutes());
+                        
+                    }
+                    
                     statement = firstPart
                             + "to_date('"
-                            +date.getHours()+":"
-                            +date.getMinutes()+" "
-                            +(date.getDay()-2)+"-"
+                            +hours+":"
+                            +minutes+" "
+                            +date.getDate()+"-"
                             +date.getMonth()+"-"
                             +date.getYear()+"',"
                             + "'HH24:MI DD-MM-YYYY')"
