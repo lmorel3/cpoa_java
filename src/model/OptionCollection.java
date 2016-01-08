@@ -16,25 +16,20 @@ import java.util.HashMap;
  */
 public class OptionCollection {
 
-    public static ArrayList<Option> read(int index) {
+    public static Option readOne(int index) {
         
-        ArrayList<Option> result = new ArrayList<>();
+        Option result = new Option();
         ArrayList<Object> params = new ArrayList<>();
         
         params.add(index);
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From option_type where option_id = ?", params);
         
-        Option current;
-        
         for(HashMap<String, Object> row : cursor) {
             
-            current = new Option(row);
-            result.add(current);
+            result.hydrate(row);
             
         }
-        
-        
         return result;
         
         
@@ -52,7 +47,7 @@ public class OptionCollection {
         for(HashMap<String, Object> row : optionIdList) {
             
             optionId = (int)((BigDecimal)row.get("OPTION_ID")).intValue();
-            current = OptionCollection.read(optionId).get(0);
+            current = OptionCollection.readOne(optionId);
             
             result.add(current);
             

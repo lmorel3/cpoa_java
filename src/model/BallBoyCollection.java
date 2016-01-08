@@ -15,22 +15,19 @@ import java.util.HashMap;
  */
 public class BallBoyCollection {
     
-    public static ArrayList<BallBoy> read(int index) {
+    public static BallBoy readOne(int index) {
         
         ArrayList<Object> params = new ArrayList<>();
-        ArrayList<BallBoy> result = new ArrayList<>();
+        BallBoy result = new BallBoy();
         
         params.add(index);
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * from person where person_type = 'BallBoy' and person_id = ?", params);
         
-        BallBoy current;
         
         for(HashMap<String, Object> row : cursor) {
             
-            
-            current = new BallBoy(row);
-            result.add(current);
+            result.hydrate(row);
             
         }
         

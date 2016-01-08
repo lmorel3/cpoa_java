@@ -47,10 +47,9 @@ public class UmpireCollection{
      * @param umpireId
      * @return 
      */
-    public static ArrayList<Umpire> read(int umpireId) {
-        ArrayList<Umpire> result = new ArrayList<>();
+    public static Umpire readOne(int umpireId) {
         
-        Umpire current;
+        Umpire current = new Umpire();
         
         ArrayList<Object> params = new ArrayList<>();
         params.add(umpireId);
@@ -58,13 +57,13 @@ public class UmpireCollection{
         ArrayList<HashMap<String, Object>> queryResponses = Connector.getConnection().query("Select * From person where person_type = 'Umpire' and person_id = ?", params);
         for(HashMap<String, Object> queryResponse : queryResponses) {
             
-            current = new Umpire(queryResponse);
+            current.hydrate(queryResponse);
             
-            result.add(current);
+            
             
         }
         
-        return result;
+        return current;
     }
     
     /**

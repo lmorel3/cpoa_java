@@ -17,6 +17,10 @@ public class Option {
     private int optionId;
     private String label;
     
+    public Option() {
+        
+    }
+    
     public Option(int optionId, String label) {
         
         this.optionId = optionId;

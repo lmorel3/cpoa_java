@@ -23,6 +23,10 @@ public class Hotel {
     private int stars;
     private ArrayList<Option> options;
     
+    public Hotel() {
+        
+    }
+    
     public Hotel(HashMap<String, Object> datas) {
         
         this.hydrate(datas);

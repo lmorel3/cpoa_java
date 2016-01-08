@@ -32,8 +32,12 @@ public class Reservation {
         this.endDate = endDate;
         
     }
+    
+    public Reservation() {
+        
+    }
 
-    Reservation(HashMap<String, Object> datas) {
+    public Reservation(HashMap<String, Object> datas) {
         this.hydrate(datas);
     }
 

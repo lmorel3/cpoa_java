@@ -14,25 +14,20 @@ import java.util.HashMap;
  */
 public class ManagerCollection {
     
-    public static ArrayList<Manager> read(int index) {
+    public static Manager readOne(int index) {
         
         ArrayList<Object> params = new ArrayList<>();
         params.add(index);
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person where person_id = ? and person_type = 'Manager'", params);
         
-        Manager current;
-        ArrayList<Manager> result = new ArrayList<>();
+        Manager result = new Manager();
         
         for(HashMap<String, Object> row : cursor) {
         
-            current = new Manager(row);
-            result.add(current);
-        
+            result.hydrate(row);
         
         }
-        
-        
         
         return result;
     }

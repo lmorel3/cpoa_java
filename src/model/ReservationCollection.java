@@ -17,21 +17,19 @@ import java.util.HashMap;
 public class ReservationCollection {
 
     
-    public static ArrayList<Reservation> read(int index) {
+    public static Reservation readOne(int index) {
         
-        ArrayList<Reservation> result = new ArrayList<>();
         ArrayList<Object> params = new ArrayList<>();
         
         params.add(index);
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From reservation where reservation_id = ?", params);
         
-        Reservation current;
+        Reservation result = new Reservation();
         
         for(HashMap<String, Object> row : cursor) {
         
-            current = new Reservation(row);
-            result.add(current);
+            result.hydrate(row);
         
         }
         

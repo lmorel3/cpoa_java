@@ -15,22 +15,20 @@ import java.util.HashMap;
  */
 public class HotelCollection {
     
-    public static ArrayList<Hotel> read(int index) {
+    public static Hotel readOne(int index) {
         
         ArrayList<Object> params = new ArrayList<>();
         
-        ArrayList<Hotel> result = new ArrayList<>();
+        Hotel result = new Hotel();
         
         params.add(index);
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From hotel where hotel_id = ?", params);
         
-        Hotel current;
         
         for(HashMap<String, Object> row : cursor) {
             
-            current = new Hotel(row);
-            result.add(current);
+            result.hydrate(row);
             
             
         }

@@ -14,6 +14,10 @@ import java.util.HashMap;
  */
 public class BallBoy extends Person {
     
+    public BallBoy() {
+        
+    }
+    
     public BallBoy(HashMap<String, Object> datas) {
         
         this.hydrate(datas);

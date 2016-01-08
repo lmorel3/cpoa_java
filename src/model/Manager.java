@@ -16,6 +16,10 @@ import java.util.HashMap;
 public class Manager extends Person {
    
     private String login, password;
+    
+    public Manager() {
+        
+    }
 
     public Manager(int personId, String forename, String lastname, String country, String login, String password) {
         super(personId, forename, lastname, country);
@@ -62,7 +66,7 @@ public class Manager extends Person {
         
     } 
     
-    private void hydrate(HashMap<String, Object> datas) {        
+    public void hydrate(HashMap<String, Object> datas) {        
         
         try {
             

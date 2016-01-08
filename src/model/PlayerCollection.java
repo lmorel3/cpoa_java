@@ -16,10 +16,9 @@ import java.util.HashMap;
 public class PlayerCollection {
     
     
-    public static ArrayList<Player> read(int index) {
+    public static Player readOne(int index) {
         
-        ArrayList<Player> result = new ArrayList<>();
-        Player current;
+        Player result = new Player();
         
         ArrayList<Object> params = new ArrayList<>();
         
@@ -27,8 +26,7 @@ public class PlayerCollection {
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person where person_type = 'Player' and person_id = ?", params);
         for(HashMap<String, Object> row : cursor) {
             
-            current = new Player(row);
-            result.add(current);
+            result.hydrate(row);
             
         }
 
