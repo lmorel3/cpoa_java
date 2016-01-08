@@ -19,9 +19,9 @@ import view.main.ChooseModeDialog;
  *
  * @author laurent
  */
-public class Reservation extends JFrame {
+public class ManageReservation extends JFrame {
     
-    private Reservation() {
+    private ManageReservation() {
         initComponents();
     }
     
@@ -42,10 +42,10 @@ public class Reservation extends JFrame {
         
     }
     
-    private static Reservation getFrame(){
+    private static ManageReservation getFrame(){
         
-        if(Reservation.frame == null){
-            frame = new Reservation();
+        if(ManageReservation.frame == null){
+            frame = new ManageReservation();
         }
         
         return frame;
@@ -104,7 +104,7 @@ public class Reservation extends JFrame {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
         {
-            Reservation.close();
+            ManageReservation.close();
             ChooseModeDialog.display();
         }
         
@@ -113,7 +113,7 @@ public class Reservation extends JFrame {
     private ArrayList<DailyReservation> dailyReservations;
     private JButton btnValid, btnExit;
     
-    private static Reservation frame;
+    private static ManageReservation frame;
     private JTabbedPane tabbedPane;
     
 }
