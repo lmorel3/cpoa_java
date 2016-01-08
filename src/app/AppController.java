@@ -8,6 +8,8 @@ package app;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import model.Manager;
+import model.Reservation;
+import model.ReservationCollection;
 import view.main.Connection;
 import view.planning.Court;
 import view.planning.CourtsContainer;
@@ -60,16 +62,31 @@ public class AppController {
     
     public static void refreshPlanning(){
         
-        ArrayList<DayPane> dayPane = Planning.getDayPanes();
+        ArrayList<DayPane> dayPanes = Planning.getDayPanes();
+                
+        DayPane currentDay;
+        CourtsContainer currentSlot;
+        Court currentCourt;
         
-        DayPane day1 = dayPane.get(0);
-        CourtsContainer courtsDay1 = day1.getCourtsContainer(0);
-        Court court = courtsDay1.getCourt(0);
+        ArrayList<Reservation> reservations = ReservationCollection.readAll();
         
-        court.setTitle("Essai :)");
-        court.setPhase("Qualification !");
-        court.setInformations("Laurent<br>vs<br>Loic");
-        court.setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+        int numberOfDay;
+        
+        for(Reservation reservation : reservations) {
+            
+            numberOfDay = Settings.getDayNumber(reservation.getStartDate());
+            currentDay = dayPanes.get(numberOfDay);
+            currentSlot = currentDay.getCourtsContainer(reservation.getSlotId());
+            currentCourt = currentSlot.getCourt(reservation.getCourtId());
+            
+            currentCourt.setInformations(reservation.getReservationName());
+            currentCourt.setPhase("Réservation");
+            currentCourt.setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+            
+        }
+        
+        
+        
         
     }
         

@@ -37,9 +37,20 @@ public class Settings {
      */    
     public static int getDayNumber(Date date){
         
-        long diff = date.getTime() - DATE_BEGINNING.getTime();
+        int dayNumber = 0;
         
-        return (int) (diff/(1000*60*60*24)) + 1;
+        Calendar beginningDate = Calendar.getInstance();
+        Calendar currDate = Calendar.getInstance();
+        
+        beginningDate.setTime(DATE_BEGINNING);
+        currDate.setTime(date);
+        
+        while(!beginningDate.after(currDate)) {
+            beginningDate.add(Calendar.DAY_OF_MONTH, 1);
+            dayNumber += 1;
+        }
+         
+        return dayNumber;
         
     }
 

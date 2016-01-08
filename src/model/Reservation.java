@@ -9,6 +9,7 @@ package model;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 /**
@@ -19,14 +20,16 @@ public class Reservation {
     
     private int reservationId;
     private int courtId;
+    private int slotId;
     private String reservationName;
     private Date startDate;
     private Date endDate;
     
-    public Reservation(int reservationId, int courtId, String reservationName, Date startDate, Date endDate) {
+    public Reservation(int reservationId, int courtId, int slotId, String reservationName, Date startDate, Date endDate) {
         
         this.reservationId = reservationId;
         this.courtId = courtId;
+        this.slotId = slotId;
         this.reservationName = reservationName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -57,6 +60,14 @@ public class Reservation {
         this.courtId = courtId;
     }
 
+    public int getSlotId() {
+        return slotId;
+    }
+
+    public void setSlotId(int slotId) {
+        this.slotId = slotId;
+    }
+    
     public String getReservationName() {
         return reservationName;
     }
@@ -65,7 +76,7 @@ public class Reservation {
         this.reservationName = reservationName;
     }
 
-    public Date getStartDate() {
+    public java.util.Date getStartDate() {
         return startDate;
     }
 
@@ -87,14 +98,16 @@ public class Reservation {
             
             int reservationId = (int)((BigDecimal)datas.get("RESERVATION_ID")).intValue();
             int courtId = (int)((BigDecimal)datas.get("COURT_ID")).intValue();
-            Date startDate = (Date)datas.get("START_DATE");
-            Date endDate = (Date)datas.get("END_DATE");
+            int slotId = (int)((BigDecimal)datas.get("SLOT_ID")).intValue();               
+            java.util.Date startDate = new java.util.Date(((java.util.Date)datas.get("START_DATE")).getTime());
+            java.util.Date endDate = new java.util.Date(((java.util.Date)datas.get("END_DATE")).getTime());
             String reservationName = (String)datas.get("RESERVATION_NAME");
             
             this.reservationId = reservationId;
             this.courtId =courtId;
-            this.startDate = startDate;
-            this.endDate = endDate;
+            this.slotId = slotId;
+            this.startDate = (java.util.Date)startDate;
+            this.endDate = (java.util.Date)endDate;
             this.reservationName = reservationName;
             
             

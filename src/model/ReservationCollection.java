@@ -86,6 +86,22 @@ public class ReservationCollection {
         
     }
     
+    public static ArrayList<Reservation> readAll() {
+        
+        ArrayList<Reservation> result = new ArrayList<>();
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From reservation", new ArrayList<>());
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            result.add(new Reservation(row));
+            
+        }
+        
+        return result;
+        
+    }
+    
     public static void create(Reservation reservation) {
         
         ArrayList<Object> params = new ArrayList<>();
