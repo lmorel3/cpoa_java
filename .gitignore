@@ -1,12 +1,7 @@
 build/
 nbproject/private/*
 dist/
-nbproject/private/private.xml
 properties.properties
 nbproject/project.properties
 src/design_test/Test.java
-*.properties
 nbproject/private/private.properties
-*.properties
-src/design_test/Test.java
-src/design_test/Test.java
