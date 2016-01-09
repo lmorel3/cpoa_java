@@ -32,6 +32,25 @@ public class PlayerCollection {
 
         return result;
         
+    }       
+    
+    public static ArrayList<Player> readAll() {
+        
+        ArrayList<Player> result = new ArrayList<>();
+        Player current;
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person where person_type = 'Player'", params);
+        for(HashMap<String, Object> row : cursor) {
+            
+            current = new Player(row);
+            result.add(current);
+            
+        }
+
+        return result;
+        
     }    
    
 }

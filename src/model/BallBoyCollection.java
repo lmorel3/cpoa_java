@@ -34,6 +34,27 @@ public class BallBoyCollection {
         return result;
         
     }
+        
+    public static ArrayList<BallBoy> readAll() {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        ArrayList<BallBoy> result = new ArrayList<>();
+                
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * from person where person_type = 'BallBoy'", params);
+        
+        BallBoy current;
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            
+            current = new BallBoy(row);
+            result.add(current);
+            
+        }
+        
+        return result;
+        
+    }
     
 
 }

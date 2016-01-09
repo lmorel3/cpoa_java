@@ -3,6 +3,7 @@
  */
 package view.planning;
 
+import app.AppController;
 import app.Settings;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -107,6 +108,7 @@ public class Court extends JPanel {
             else{ EditMatch.matchType = Settings.MATCH_TYPE_DOUBLE; }
             
             EditMatch.display();
+            AppController.initEditMatch();
 
         }
         

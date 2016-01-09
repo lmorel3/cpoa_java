@@ -66,6 +66,25 @@ public class UmpireCollection{
         return current;
     }
     
+    public static ArrayList<Umpire> readAll() {
+        ArrayList<Umpire> result = new ArrayList<>();
+        
+        Umpire current;
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        ArrayList<HashMap<String, Object>> queryResponses = Connector.getConnection().query("Select * From person where person_type = 'Umpire'", params);
+        for(HashMap<String, Object> queryResponse : queryResponses) {
+            
+            current = new Umpire(queryResponse);
+            
+            result.add(current);
+            
+        }
+        
+        return result;
+    }
+    
     /**
      * 
      * @param umpireId

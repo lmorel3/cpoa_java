@@ -6,8 +6,10 @@
 package view.planning;
 
 import app.Settings;
+import javax.swing.ComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import model.swing.PersonListModel;
 
 /**
  *
@@ -53,7 +55,13 @@ public class EditMatch extends JFrame {
         int COMBOBOX_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?150:170; 
         int LIST_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?190:230; 
         int NATIONALITY_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?20:40; 
-
+        
+        EditMatch.modelPlayerA = new PersonListModel();
+        EditMatch.modelPlayerB = new PersonListModel();
+        EditMatch.modelBallBoys = new PersonListModel();
+        EditMatch.modelUmpire = new PersonListModel();
+        EditMatch.modelNetUmpires = new PersonListModel();
+        
         overPane = new javax.swing.JPanel();
         rowTitle = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
@@ -128,13 +136,8 @@ public class EditMatch extends JFrame {
         labelPlayerA.setPreferredSize(new java.awt.Dimension(150, 16));
         row1.add(labelPlayerA);
 
-        comboPlayerA.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboPlayerA.setModel((ComboBoxModel<String>) EditMatch.modelPlayerA);
         comboPlayerA.setPreferredSize(new java.awt.Dimension(COMBOBOX_WIDTH, 27));
-        comboPlayerA.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-
-            }
-        });
         row1.add(comboPlayerA);
 
         nationalityPlayerA.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -151,13 +154,8 @@ public class EditMatch extends JFrame {
         labelPlayerB.setPreferredSize(new java.awt.Dimension(150, 16));
         row2.add(labelPlayerB);
 
-        comboPlayerB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboPlayerB.setModel(EditMatch.modelPlayerB);
         comboPlayerB.setPreferredSize(new java.awt.Dimension(COMBOBOX_WIDTH, 27));
-        comboPlayerB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-
-            }
-        });
         row2.add(comboPlayerB);
 
         nationalityPlayerB.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -174,13 +172,8 @@ public class EditMatch extends JFrame {
         labelChairUmpire.setPreferredSize(new java.awt.Dimension(150, 16));
         row3.add(labelChairUmpire);
 
-        comboChairUmpire.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboChairUmpire.setModel(EditMatch.modelUmpire);
         comboChairUmpire.setPreferredSize(new java.awt.Dimension(COMBOBOX_WIDTH, 27));
-        comboChairUmpire.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-
-            }
-        });
         row3.add(comboChairUmpire);
 
         nationalityChairUmpire.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -201,11 +194,7 @@ public class EditMatch extends JFrame {
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 55));
 
-        listNetUmpires.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        listNetUmpires.setModel(EditMatch.modelNetUmpires);
         jScrollPane2.setViewportView(listNetUmpires);
 
         row7.add(jScrollPane2);
@@ -223,11 +212,7 @@ public class EditMatch extends JFrame {
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 55));
 
-        listBallBoys.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
+        listBallBoys.setModel(EditMatch.modelBallBoys);
         jScrollPane1.setViewportView(listBallBoys);
 
         row4.add(jScrollPane1);
@@ -338,6 +323,12 @@ public class EditMatch extends JFrame {
     private javax.swing.JLabel title;
     
     private static EditMatch frame;
+    
+    public static PersonListModel modelPlayerA;
+    public static PersonListModel modelPlayerB;
+    public static PersonListModel modelUmpire;
+    public static PersonListModel modelNetUmpires;
+    public static PersonListModel modelBallBoys;
     
     static int matchType;
 
