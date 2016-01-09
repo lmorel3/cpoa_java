@@ -68,8 +68,10 @@ public class Connection extends JFrame implements ActionListener {
         labelInfos.setText("<html><body>Rentrez vos identifiants pour accéder à<br> l'interface de gestion des plannings</body></html>");
 
         labelLogin.setText("Nom d'utilisateur");
-
         labelPassword.setText("Mot de passe");
+        
+        inputLogin.setText("toto");
+        inputPassword.setText("tata");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -12,8 +12,7 @@ import model.ReservationCollection;
  *
  * @author Laurent
  */
-public class ReservationTableModel extends AbstractTableModel 
-{
+public class ReservationTableModel extends AbstractTableModel {
 
     private Object values[][] = new Object [][] {
         {"8h", null, null, null, null, null, null},
@@ -23,7 +22,7 @@ public class ReservationTableModel extends AbstractTableModel
         {"21h", null, null, null, null, null, null}
     };
     
-    private String columnNames[] = new String [] {
+    private final String columnNames[] = new String [] {
         "Horaire", "Court A", "Court B", "Entraînement 1", "Entraînement 2", "Entraînement 3", "Entraînement 4"
     };
     
@@ -43,8 +42,19 @@ public class ReservationTableModel extends AbstractTableModel
     }
 
     @Override
+    public String getColumnName(int columnIndex) {
+            return columnNames[columnIndex];
+    }
+
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {            
         return values[rowIndex][columnIndex];
+    }
+
+    @Override
+     public void setValueAt(Object value, int row, int col) {
+        values[row][col] = value; // save edits some where
+        fireTableCellUpdated(row, col); // informe any object about changes
     }
 
     @Override

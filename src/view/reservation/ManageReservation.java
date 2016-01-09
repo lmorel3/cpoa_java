@@ -5,7 +5,7 @@
  */
 package view.reservation;
 
-import app.AppController;
+import app.ReservationController;
 import app.Settings;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -70,7 +70,7 @@ public class ManageReservation extends JFrame {
         btnValid.setText("Valider");
         btnValid.addActionListener((java.awt.event.ActionEvent evt) -> {
             
-            AppController.makeReservation();
+            ReservationController.makeReservation();
             
         });
 

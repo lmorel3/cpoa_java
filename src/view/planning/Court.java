@@ -3,13 +3,14 @@
  */
 package view.planning;
 
-import app.AppController;
+import app.PlanningController;
 import app.Settings;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import model.Match;
 
 /**
  *
@@ -65,8 +66,12 @@ public class Court extends JPanel {
         informationsContainer.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
-                askForType();
+                // Launch the match creation
+                if(match == null){
+                    askForType();
+                }else{
+                    editMatch();
+                }
             }
 
             @Override
@@ -88,7 +93,6 @@ public class Court extends JPanel {
         
     }
     
-        
     private void askForType() {
         
         Object[] options = {"Simple",
@@ -104,11 +108,34 @@ public class Court extends JPanel {
         
         if (question != 2){
             
+            int matchType = Settings.MATCH_TYPE_DOUBLE;
+            if(question == 0){ matchType = Settings.MATCH_TYPE_SIMPLE; }
+            
+            PlanningController.initMatchCreation(matchType);
+
+        }
+        
+    }
+            
+    private void editMatch() {
+        
+        Object[] options = {"Modifier",
+                    "Supprimer"};
+
+        int question = JOptionPane.showOptionDialog(Planning.getFrame(), 
+                "Que souhaitez-vous faire ?", "Editer le match ?", 
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        
+        if (question != 2){
+            
             if(question == 0){ EditMatch.matchType = Settings.MATCH_TYPE_SIMPLE; }
             else{ EditMatch.matchType = Settings.MATCH_TYPE_DOUBLE; }
             
-            EditMatch.display();
-            AppController.initEditMatch();
+            PlanningController.initMatchEdition(match);
 
         }
         
@@ -142,6 +169,10 @@ public class Court extends JPanel {
         }
     }
     
+    public void setMatch(Match match){
+        this.match = match;
+    }
+    
     public String getTitle(){
         return title.getText();
     }
@@ -157,12 +188,18 @@ public class Court extends JPanel {
     public int getStatus(){
         return status;
     }
+    
+    public Match getMatch(){
+        return match;
+    }
         
     private final JLabel informations;
     private final JPanel informationsContainer; 
     private final JLabel image;
     private final JLabel title;
     private final JLabel phase;
+    
+    private Match match;
     
     private int status;
     
