@@ -20,6 +20,11 @@ public abstract class Person {
     private String forename;
     private String country;
     
+    public static String TYPE_BALLBOY = "BallBoy";
+    public static String TYPE_UMPIRE = "Umpire";
+    public static String TYPE_PLAYER = "Player";
+    public static String TYPE_MANAGER = "MANAGER";
+    
     public Person() {}
 
     public Person(int personId, String lastname, String forename, String country) {

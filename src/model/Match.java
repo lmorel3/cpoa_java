@@ -6,7 +6,10 @@
 
 package model;
 
-import java.sql.Date;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 
@@ -15,31 +18,50 @@ import java.sql.Date;
 public class Match {
 
     private int matchId;
-    private int[] result;
+    private String result;
     private Date date;
-    private String kind;
-    private String phase;
+    private int kind;
+    private int phase;
     private Court court;
-    private Player[] players;
-    private Match previousMatchs;
-    private Umpire[] umpires;
-    private BallBoy[] ballboys;
+    private int slot;
+    private ArrayList<Player> players;
+    private ArrayList<Match> previousMatchs;
+    private ArrayList<Umpire> umpires;
+    private ArrayList<BallBoy> ballboys;
     private Player winner;
 
+    public static int KIND_SIMPLE = 1;
+    public static int KIND_DOUBLE = 2;
+    
+    public static int PHASE_QUALIFICAITON = 0;
+    public static int PHASE_8EME = 8;
+    public static int PHASE_QUART = 4;
+    public static int PHASE_SEMIFINAL = 2;
+    public static int PHASE_FINAL = 1;
+    
+    
+    public Match() {
    
+    }
+    
+    public Match(HashMap<String, Object> datas) {
+        
+        this.hydrate(datas);
+        
+    }
 
-
-    public Match(int matchId, Date date, String kind, String phase, Court court, Match previousMatchs, Player[] players, Umpire[] umpires, BallBoy[] ballboys) {
+    public Match(int matchId, Date date, int kind, int phase, Court court, int slot, ArrayList<Match> previousMatchs, ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
         this.matchId = matchId;
         this.date = date;
         this.kind = kind;
+        this.slot = slot;
         this.phase = phase;
         this.court = court;
         this.players = players;
         this.previousMatchs = previousMatchs;
     }
     
-    public void concludeMatch(int[] result, Player winner) {
+    public void concludeMatch(String result, Player winner) {
         
         this.result = result;
         this.winner = winner;
@@ -63,83 +85,49 @@ public class Match {
     public void setWinner(Player winner) {
         this.winner = winner;
     }
-    
 
-    /**
-     * Get the value of ballboys
-     *
-     * @return the value of ballboys
-     */
-    public BallBoy[] getBallboys() {
-        return ballboys;
+    public int getSlot() {
+        return slot;
     }
 
-    /**
-     * Set the value of ballboys
-     *
-     * @param ballboys new value of ballboys
-     */
-    public void setBallboys(BallBoy[] ballboys) {
-        this.ballboys = ballboys;
+    public void setSlot(int slot) {
+        this.slot = slot;
     }
 
-
-    /**
-     * Get the value of umpires
-     *
-     * @return the value of umpires
-     */
-    public Umpire[] getUmpires() {
-        return umpires;
-    }
-
-    /**
-     * Set the value of umpires
-     *
-     * @param umpires new value of umpires
-     */
-    public void setUmpires(Umpire[] umpires) {
-        this.umpires = umpires;
-    }
-
-
-    /**
-     * Get the value of previousMatchs
-     *
-     * @return the value of previousMatchs
-     */
-    public Match getPreviousMatchs() {
-        return previousMatchs;
-    }
-
-    /**
-     * Set the value of previousMatchs
-     *
-     * @param previousMatchs new value of previousMatchs
-     */
-    public void setPreviousMatchs(Match previousMatchs) {
-        this.previousMatchs = previousMatchs;
-    }
-
-
-    /**
-     * Get the value of players
-     *
-     * @return the value of players
-     */
-    public Player[] getPlayers() {
+    public ArrayList<Player> getPlayers() {
         return players;
     }
 
-    /**
-     * Set the value of players
-     *
-     * @param players new value of players
-     */
-    public void setPlayers(Player[] players) {
+    public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
+    public ArrayList<Match> getPreviousMatchs() {
+        return previousMatchs;
+    }
+
+    public void setPreviousMatchs(ArrayList<Match> previousMatchs) {
+        this.previousMatchs = previousMatchs;
+    }
+
+    public ArrayList<Umpire> getUmpires() {
+        return umpires;
+    }
+
+    public void setUmpires(ArrayList<Umpire> umpires) {
+        this.umpires = umpires;
+    }
+
+    public ArrayList<BallBoy> getBallboys() {
+        return ballboys;
+    }
+
+    public void setBallboys(ArrayList<BallBoy> ballboys) {
+        this.ballboys = ballboys;
+    }
+    
+
+   
 
     /**
      * Get the value of court
@@ -165,7 +153,7 @@ public class Match {
      *
      * @return the value of phase
      */
-    public String getPhase() {
+    public int getPhase() {
         return phase;
     }
 
@@ -174,7 +162,7 @@ public class Match {
      *
      * @param phase new value of phase
      */
-    public void setPhase(String phase) {
+    public void setPhase(int phase) {
         this.phase = phase;
     }
 
@@ -184,7 +172,7 @@ public class Match {
      *
      * @return the value of kind
      */
-    public String getKind() {
+    public int getKind() {
         return kind;
     }
 
@@ -193,7 +181,7 @@ public class Match {
      *
      * @param kind new value of kind
      */
-    public void setKind(String kind) {
+    public void setKind(int kind) {
         this.kind = kind;
     }
 
@@ -222,7 +210,7 @@ public class Match {
      *
      * @return the value of result
      */
-    public int[] getResult() {
+    public String getResult() {
         return result;
     }
 
@@ -231,7 +219,7 @@ public class Match {
      *
      * @param result new value of result
      */
-    public void setResult(int[] result) {
+    public void setResult(String result) {
         this.result = result;
     }
 
@@ -252,6 +240,65 @@ public class Match {
      */
     public void setMatchId(int matchId) {
         this.matchId = matchId;
+    }
+    
+    public void hydrate(HashMap<String, Object> datas) {        
+        
+        try {
+            
+            int matchId = (int)((BigDecimal)datas.get("MATCH_ID")).intValue();
+            int courtId = (int)((BigDecimal)datas.get("COURT_ID")).intValue();
+            int winnerId = (int)((BigDecimal)datas.get("WINNER")).intValue();
+            int slotId = (int)((BigDecimal)datas.get("SLOT_ID")).intValue();               
+            java.util.Date date = new java.util.Date(((java.util.Date)datas.get("DATE_MATCH")).getTime());
+            String result = (String)datas.get("RESULTS");
+            int kind = (int)((BigDecimal)datas.get("KIND")).intValue();
+            int phase = (int)((BigDecimal)datas.get("PHASE")).intValue();
+            int previousMatch1Id = (int)((BigDecimal)datas.get("PREVIOUS_MATCH1")).intValue();
+            int previousMatch2Id = (int)((BigDecimal)datas.get("PREVIOUS_MATCH2")).intValue();
+            
+            ArrayList<Umpire> umpires = UmpireCollection.readByMatch(matchId);
+            ArrayList<BallBoy> ballBoys = BallBoyCollection.readByMatch(matchId);
+            ArrayList<Player> players = PlayerCollection.readByMatch(matchId);
+            
+            Match previousM1 = MatchCollection.readOne(previousMatch1Id);
+            Match previousM2 = MatchCollection.readOne(previousMatch2Id);
+            
+            ArrayList<Match> previousMatchs = new ArrayList<>();
+            previousMatchs.add(previousM1);
+            previousMatchs.add(previousM2);
+            
+            this.matchId = matchId;
+            this.court = CourtCollection.readOne(courtId);
+            this.slot = slotId;
+            this.winner = PlayerCollection.readOne(winnerId);
+            this.kind = kind;
+            this.phase = phase;
+            this.umpires = umpires;
+            this.ballboys = ballBoys;
+            this.players = players;
+            this.date = date;
+            this.previousMatchs = previousMatchs;
+            this.result = result;
+                 
+            
+        }
+        catch (Exception e) {
+            
+            System.err.println("Erreur d'hydratation Match " + e.getMessage());
+            
+        }
+        
+    }
+    
+     public static int getLastId() {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        ArrayList<HashMap<String, Object>> result = Connector.getConnection().query("Select match_id from match where rownum = 1 order by reservation_id desc", params);
+        
+        return 1+(int)((BigDecimal)result.get(0).get("MATCH_ID")).intValue();
+        
     }
 
 

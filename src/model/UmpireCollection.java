@@ -54,7 +54,7 @@ public class UmpireCollection{
         ArrayList<Object> params = new ArrayList<>();
         params.add(umpireId);
         
-        ArrayList<HashMap<String, Object>> queryResponses = Connector.getConnection().query("Select * From person where person_type = 'Umpire' and person_id = ?", params);
+        ArrayList<HashMap<String, Object>> queryResponses = Connector.getConnection().query("Select * From person where person_type = '"+Person.TYPE_UMPIRE+"' and person_id = ?", params);
         for(HashMap<String, Object> queryResponse : queryResponses) {
             
             current.hydrate(queryResponse);
@@ -66,6 +66,27 @@ public class UmpireCollection{
         return current;
     }
     
+    public static ArrayList<Umpire> readByMatch(int matchIndex) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        ArrayList<Umpire> result = new ArrayList<>();
+        
+        params.add(matchIndex);
+        Umpire current;        
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person Where person_id IN (Select person_id From umpire_match where match_id = ?) and person_type = '"+Person.TYPE_UMPIRE+"'", params);
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            current = new Umpire(row);
+            result.add(current);
+            
+        }
+        
+        return result;        
+        
+    }
+    
     public static ArrayList<Umpire> readAll() {
         ArrayList<Umpire> result = new ArrayList<>();
         
@@ -73,7 +94,7 @@ public class UmpireCollection{
         
         ArrayList<Object> params = new ArrayList<>();
         
-        ArrayList<HashMap<String, Object>> queryResponses = Connector.getConnection().query("Select * From person where person_type = 'Umpire'", params);
+        ArrayList<HashMap<String, Object>> queryResponses = Connector.getConnection().query("Select * From person where person_type = '"+Person.TYPE_UMPIRE+"'", params);
         for(HashMap<String, Object> queryResponse : queryResponses) {
             
             current = new Umpire(queryResponse);

@@ -7,6 +7,7 @@
 package model;
 
 import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.Date;
 import java.sql.DriverManager;
@@ -131,7 +132,7 @@ public class Connector {
             }
 
             cpt = 1;
-            System.out.println(statement);
+            // System.out.println(statement);
             PreparedStatement stmt = dataBase.prepareStatement(statement);
             
             for(Object param: params) {
@@ -182,34 +183,30 @@ public class Connector {
                         
                         queryResponse.getObject(i);
                         
-                        
                         if(queryResponse.wasNull()) {
                             Object typeObject = queryResponse.getObject(i);
-                            if(typeObject instanceof Date) {
+                            //System.out.println(queryResponseMetaData.getColumnClassName(i));
+                            if(queryResponseMetaData.getColumnClassName(i).equals("java.sql.Date")) {
 
-                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), new Date(0,0,0));
+                                resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), new Date(0,0,0));
 
-                        } else if(typeObject instanceof Integer) {
+                            } else if(queryResponseMetaData.getColumnClassName(i).equals("java.math.BigDecimal")) {
+                                
+                                resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), new BigDecimal(0));
 
-                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), 0);
+                            } else if(queryResponseMetaData.getColumnClassName(i).equals("java.lang.Boolean")) {
 
-                        } else if(typeObject instanceof Float) {
+                                resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), false);
 
-                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), 0f);
+                            } else { // String ou autre
 
-                        } else if(typeObject instanceof Boolean) {
+                                resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), "");
 
-                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), false);
-
-                        } else { // String ou autre
-
-                            resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), "");
-
-                        }
+                            }
                             
                             
                         } else {
-                                       resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), queryResponse.getObject(i));
+                               resultLine.put(queryResponseMetaData.getColumnName(i).toUpperCase(), queryResponse.getObject(i));
                         }
                     }                     
 

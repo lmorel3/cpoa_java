@@ -6,6 +6,9 @@
 
 package model;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+
 /**
  * 
  * @author Rouquette Loïc
@@ -13,6 +16,8 @@ package model;
 class Court {
     private int courtId;
     private String courtName;
+    
+    public Court() {}
     
     public Court(int courtId, String courtName) {
         
@@ -37,5 +42,22 @@ class Court {
         this.courtName = courtName;
     }
     
+    public void hydrate(HashMap<String, Object> datas) {        
+        
+        try {
+            
+            int courtId = (int)((BigDecimal)datas.get("COURT_ID")).intValue();
+            String courtName = (String)datas.get("COURT_NAME");
+            
+            this.courtId = courtId;
+            this.courtName = courtName;
+                 
+        }
+        catch (Exception e) {
+            
+            System.err.println("Erreur d'hydratation Court " + e.getMessage());
+            
+        }
+    }
     
 }
