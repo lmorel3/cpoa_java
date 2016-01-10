@@ -5,9 +5,13 @@
  */
 package view.reservation;
 
+import app.Settings;
+import java.util.Date;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import model.MatchCollection;
+import model.ReservationCollection;
 import model.swing.ReservationTableModel;
 
 /**
@@ -16,16 +20,18 @@ import model.swing.ReservationTableModel;
  */
 public class DailyReservation extends JPanel {
 
-    public DailyReservation() {
-        initComponents();
+    public DailyReservation(int dayNumber) {
+        initComponents(dayNumber);
     }
     
-    private void initComponents() {
+    
+    
+    private void initComponents(int DayNumber) {
 
         scrollPane = new javax.swing.JScrollPane();
         tableContent = new javax.swing.JTable();
         
-        reservationTableModel = new ReservationTableModel();
+        reservationTableModel = new ReservationTableModel(ReservationCollection.read(Settings.generateDate(DayNumber),Settings.generateDate(DayNumber+1)), MatchCollection.readByDate(Settings.generateDate(DayNumber)));
         tableContent.setModel(reservationTableModel);
         
         tableContent.setRowHeight(30);

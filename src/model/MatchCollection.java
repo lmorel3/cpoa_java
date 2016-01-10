@@ -7,6 +7,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -47,6 +48,28 @@ public class MatchCollection {
             current = new Match(row);
             result.add(current);
             
+        }
+        
+        return result;
+        
+    }
+    
+    public static ArrayList<Match> readByDate(Date date) {
+        
+        ArrayList<Match> result = new ArrayList<>();
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(date);
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From match where date_match = ?", params);
+        
+        Match current;
+        
+        for(HashMap<String, Object> row : cursor) {
+        
+            current = new Match(row);
+            result.add(current);
+        
         }
         
         return result;

@@ -42,15 +42,61 @@ public class Settings {
         Calendar beginningDate = Calendar.getInstance();
         Calendar currDate = Calendar.getInstance();
         
-        beginningDate.setTime(DATE_BEGINNING);
+        beginningDate.setTime(convertedDate(date));
         currDate.setTime(date);
         
         while(!beginningDate.after(currDate)) {
-            beginningDate.add(Calendar.DAY_OF_MONTH, 1);
+            beginningDate.add(Calendar.DATE, 1);
             dayNumber += 1;
         }
          
         return dayNumber;
+        
+    }
+    
+    public static Date generateDate(int dayNumber) {
+        
+        Date date;
+        
+        int day = DATE_BEGINNING.getDate();
+        int month = DATE_BEGINNING.getMonth();
+        int year = DATE_BEGINNING.getYear();
+        
+        date = new Date(year, month, day + dayNumber);
+        
+        return date;
+        
+    }
+    
+    public static java.util.Date convertedDate(Object date) {
+        
+        Date result;
+        
+        int year;
+        int month;
+        int day;
+        
+        if(date instanceof java.sql.Date) {
+        
+            year = ((java.sql.Date)date).getYear();
+            month = ((java.sql.Date)date).getMonth();
+            day = ((java.sql.Date)date).getDate();
+                    
+        } else if (date instanceof java.util.Date) {
+            
+            year = ((java.util.Date)date).getYear()-1900;
+            month = ((java.util.Date)date).getMonth();
+            day = ((java.util.Date)date).getDate();
+            
+        } else {
+            
+            year = month = day = 0;
+            
+        }
+        
+        result = new Date(year, month, day);
+        
+        return result;
         
     }
 

@@ -6,6 +6,7 @@
 
 package model;
 
+import app.Settings;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class ReservationCollection {
         return result;
         
     }
-    
+       
     public static ArrayList<Reservation> read(Date startDate, Date endDate) {
         
         ArrayList<Reservation> result = new ArrayList<>();
@@ -113,8 +114,9 @@ public class ReservationCollection {
         params.add(reservation.getStartDate());
         params.add(reservation.getEndDate());
         params.add(reservation.getReservationName());
+        params.add(reservation.getSlotId());
         
-        Connector.getConnection().query("Insert into reservation values (?, ?, ?, ?, ?)", params);
+        Connector.getConnection().query("Insert into reservation values (?, ?, ?, ?, ?, ?)", params);
         
         
         

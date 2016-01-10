@@ -132,7 +132,7 @@ public class Connector {
             }
 
             cpt = 1;
-            // System.out.println(statement);
+            System.out.println(statement);
             PreparedStatement stmt = dataBase.prepareStatement(statement);
             
             for(Object param: params) {

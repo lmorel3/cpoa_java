@@ -13,7 +13,7 @@ import java.util.HashMap;
  * 
  * @author Rouquette Loïc
  */
-class Court {
+public class Court {
     private int courtId;
     private String courtName;
     

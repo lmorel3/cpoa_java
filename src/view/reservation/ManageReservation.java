@@ -60,7 +60,7 @@ public class ManageReservation extends JFrame {
         ManageReservation.dailyReservations = new ArrayList<>();
         
         for (int i = 1; i <= Settings.NB_DAYS; i++) {
-            dailyReservations.add(new DailyReservation());
+            dailyReservations.add(new DailyReservation(i-1));
             tabbedPane.add("Jour " + i, (DailyReservation) dailyReservations.get(i-1));
         }
         
@@ -70,7 +70,8 @@ public class ManageReservation extends JFrame {
         btnValid.setText("Valider");
         btnValid.addActionListener((java.awt.event.ActionEvent evt) -> {
             
-            ReservationController.makeReservation();
+            
+            ReservationController.makeReservation(ManageReservation.getDailyReservations());
             
         });
 

@@ -30,20 +30,26 @@ public class PlanningController {
         CourtsContainer currentSlot;
         Court currentCourt;
         
-        ArrayList<Reservation> reservations = ReservationCollection.readAll();
+        ArrayList<Reservation> reservationsOfTheDay;
         
-        int numberOfDay;
-        
-        for(Reservation reservation : reservations) {
+        int dayNumber;
+       
+        for(dayNumber = 0; dayNumber < Settings.NB_DAYS; dayNumber++) {
             
-            numberOfDay = Settings.getDayNumber(reservation.getStartDate());
-            currentDay = dayPanes.get(numberOfDay);
-            currentSlot = currentDay.getCourtsContainer(reservation.getSlotId());
-            currentCourt = currentSlot.getCourt(reservation.getCourtId());
+            reservationsOfTheDay = ReservationCollection.read(Settings.generateDate(dayNumber), Settings.generateDate(dayNumber+1));
             
-            currentCourt.setInformations(reservation.getReservationName());
-            currentCourt.setPhase("Réservation");
-            currentCourt.setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+            for(Reservation currentReservation : reservationsOfTheDay) {
+                
+                currentDay = dayPanes.get(dayNumber);
+                currentSlot = currentDay.getCourtsContainer(currentReservation.getSlotId());
+                currentCourt = currentSlot.getCourt(currentReservation.getCourtId());
+                
+                currentCourt.setInformations(currentReservation.getReservationName());
+                currentCourt.setPhase("Réservation");
+                currentCourt.setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+                
+            }
+            
             
         }
         
