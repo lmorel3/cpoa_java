@@ -36,7 +36,7 @@ public class ReservationTableModel extends AbstractTableModel {
         
     };
     
-    private ArrayList<Integer[]> createReservations;
+    private ArrayList<Integer[]> createdReservations;
     
     private final String columnNames[] = new String [] {
         "Horaire", "Court A", "Court B", "Entraînement 1", "Entraînement 2", "Entraînement 3", "Entraînement 4"
@@ -49,7 +49,7 @@ public class ReservationTableModel extends AbstractTableModel {
     
     public ReservationTableModel(ArrayList<Reservation> reservations, ArrayList<Match> matchs) {
         
-        createReservations = new ArrayList();
+        createdReservations = new ArrayList();
         
         String matchText = "MATCH";
         for(Reservation reservation : reservations) {
@@ -66,12 +66,10 @@ public class ReservationTableModel extends AbstractTableModel {
             
         }
         
-        
-        
     }
 
-    public ArrayList<Integer[]> getCreateReservations() {
-        return createReservations;
+    public ArrayList<Integer[]> getCreatedReservations() {
+        return createdReservations;
     }
 
     @Override
@@ -96,15 +94,28 @@ public class ReservationTableModel extends AbstractTableModel {
 
     @Override
      public void setValueAt(Object value, int slotId, int courtId) {
-        values[slotId][courtId] = value; // save edits some where
+         
+        values[slotId][courtId] = value; 
+
+        // We add only if coords aren't already in the array
+        boolean adding = (createdReservations.isEmpty()); // If it's empty, we had
         
-        Integer[] coord = {slotId, courtId};
+        // Else, we loop through the array
+        for(Integer[] reservationInformation : createdReservations) {
+            if(reservationInformation[0] != slotId && reservationInformation[1] != courtId){
+                adding = true;
+            }
+        }
         
-        createReservations.add(coord);
+        if(adding){
+            
+            Integer[] coord = {slotId, courtId};
+            createdReservations.add(coord);
+            
+        }
         
-        fireTableCellUpdated(slotId, courtId); // informe any object about changes
-        
-        
+        fireTableCellUpdated(slotId, courtId); 
+
     }
      
     public void setNoEditable(int rowIndex, int columnIndex) {

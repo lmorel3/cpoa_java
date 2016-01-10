@@ -40,7 +40,7 @@ public class ReservationController {
             
           ReservationTableModel tModel = dailyReservation.getReservationTableModel();
           
-          ArrayList<Integer[]> createdReservation = tModel.getCreateReservations();
+          ArrayList<Integer[]> createdReservation = tModel.getCreatedReservations();
           
           for(Integer[] reservationInformation : createdReservation) {
               
