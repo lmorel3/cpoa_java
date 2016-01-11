@@ -6,6 +6,8 @@
 package view.planning;
 
 import app.Settings;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.Match;
@@ -92,10 +94,13 @@ public class EditMatch extends JFrame {
         labelMatchType = new javax.swing.JLabel();
         comboType = new javax.swing.JComboBox<>();
         row6 = new javax.swing.JPanel();
+        labelResult = new javax.swing.JLabel();
+        inputResult = new javax.swing.JTextField();
+        row8 = new javax.swing.JPanel();
         btnExit = new javax.swing.JButton();
         btnValid = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(GLOBAL_WIDTH, 360));
+        setPreferredSize(new java.awt.Dimension(GLOBAL_WIDTH, 390));
         setResizable(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -240,7 +245,20 @@ public class EditMatch extends JFrame {
         row5.add(comboType);
 
         overPane.add(row5);
-
+        
+        row8.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 12, 5));
+        
+        labelResult.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        labelResult.setText("Résultat");
+        labelResult.setPreferredSize(new java.awt.Dimension(155, 16));
+        row8.add(labelResult);
+        
+        inputResult.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 30));
+        inputResult.setText("0-0 0-0 0-0");
+        row8.add(inputResult);
+        
+        overPane.add(row8);
+        
         row6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.RIGHT, 12, 5));
 
         btnExit.setText("Annuler");
@@ -250,7 +268,7 @@ public class EditMatch extends JFrame {
         btnValid.setText("Valider");
         btnValid.setPreferredSize(new java.awt.Dimension(95, 29));
         row6.add(btnValid);
-
+        
         overPane.add(row6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -281,6 +299,24 @@ public class EditMatch extends JFrame {
             askForClosing();
             
         });
+        
+        inputResult.addKeyListener(new KeyListener(){
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+            
+                if(! (Character.isDigit(e.getKeyChar()) || e.getKeyChar() == ' ' || e.getKeyChar() == '-')){
+                    e.consume();
+                }
+                
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {}
+            @Override
+            public void keyReleased(KeyEvent e) {}
+            
+        });
 
         pack();
     }// </editor-fold> 
@@ -291,12 +327,11 @@ public class EditMatch extends JFrame {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION)
         {
-            AddMatch.close();
+            EditMatch.close();
         }
     }
     
     public static void setMatch(Match match){
-        
         
         
     }
@@ -305,12 +340,14 @@ public class EditMatch extends JFrame {
         return EditMatch.match;
     }
     
+    
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnValid;
     private javax.swing.JComboBox<String> comboChairUmpire;
     private javax.swing.JComboBox<String> comboPlayerA;
     private javax.swing.JComboBox<String> comboPlayerB;
     private javax.swing.JComboBox<String> comboType;
+    private javax.swing.JTextField inputResult;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelBallBoys;
@@ -319,6 +356,7 @@ public class EditMatch extends JFrame {
     private javax.swing.JLabel labelNetUmpires;
     private javax.swing.JLabel labelPlayerA;
     private javax.swing.JLabel labelPlayerB;
+    private javax.swing.JLabel labelResult;
     private javax.swing.JList<String> listBallBoys;
     private javax.swing.JList<String> listNetUmpires;
     private javax.swing.JLabel nationalityChairUmpire;
@@ -332,18 +370,19 @@ public class EditMatch extends JFrame {
     private javax.swing.JPanel row5;
     private javax.swing.JPanel row6;
     private javax.swing.JPanel row7;
+    private javax.swing.JPanel row8;
     private javax.swing.JPanel rowTitle;
     private javax.swing.JLabel title;
     
     private static EditMatch frame;
     
-    private static PersonListModel modelPlayerA;
-    private static PersonListModel modelPlayerB;
-    private static PersonListModel modelUmpire;
-    private static PersonListModel modelNetUmpires;
-    private static PersonListModel modelBallBoys;
+    public static PersonListModel modelPlayerA;
+    public static PersonListModel modelPlayerB;
+    public static PersonListModel modelUmpire;
+    public static PersonListModel modelNetUmpires;
+    public static PersonListModel modelBallBoys;
     
-    private static Match match;
+    public static Match match;
     
     static int matchType;
 
