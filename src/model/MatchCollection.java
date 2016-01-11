@@ -96,20 +96,18 @@ public class MatchCollection {
     
     public static void generatePhase(int phase) {
         
-        int previousPhase;
-        int numberOfPreviousPhase = 0;
+        int previousPhase = 2*phase;
         
-        switch(phase) {
-            case 0:
-                previousPhase = 0;
-                numberOfPreviousPhase = 0;
-        }
+        System.out.println(previousPhase);
+        System.out.println(MatchCollection.countMatchOfPhase(previousPhase));
         
-        if (MatchCollection.countMatchOfPhase(previousPhase) != numberOfPreviousPhase) {
+        if(phase != 0) {
+            if (MatchCollection.countMatchOfPhase(previousPhase) != previousPhase) {
             
+                System.out.println("La fonction n'est pas possible. La phase précédente n'est pas terminée.");
             
+            }
         }
-        
         
         
     }

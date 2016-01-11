@@ -66,7 +66,7 @@ public class ReservationController {
     
     public static void deleteReservation(Reservation reservation){
         
-        System.out.println("Suppression de la réservation " + reservation.getReservationName());
+         ReservationCollection.delete(reservation.getReservationId());
         
     }
     

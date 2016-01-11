@@ -33,7 +33,8 @@ public class PlanningController {
         ArrayList<Reservation> reservationsOfTheDay;
         
         int dayNumber;
-       
+        int coordonate;
+        
         for(dayNumber = 0; dayNumber < Settings.NB_DAYS; dayNumber++) {
             
             reservationsOfTheDay = ReservationCollection.read(Settings.generateDate(dayNumber), Settings.generateDate(dayNumber+1));
@@ -42,8 +43,36 @@ public class PlanningController {
                 
                 currentDay = dayPanes.get(dayNumber);
                 currentSlot = currentDay.getCourtsContainer(currentReservation.getSlotId());
-                currentCourt = currentSlot.getCourt(currentReservation.getCourtId());
                 
+                // 0 - 1 - 2   <->  1 - 3 - 5
+                // 3 - 4 - 5        2 - 4 - 6
+                
+                switch(currentReservation.getCourtId()) {
+                    
+                    case 1:
+                        coordonate = 0;
+                        break;
+                    case 2:
+                        coordonate = 3;
+                        break;
+                    case 3:
+                        coordonate = 1;
+                        break;
+                    case 4:
+                        coordonate = 4;
+                        break;
+                    case 5:
+                        coordonate = 2;
+                        break;
+                    case 6:
+                        coordonate = 5;
+                        break;
+                    default:
+                        coordonate = -1;
+                    
+                }
+                
+                currentCourt = currentSlot.getCourt(coordonate);
                 currentCourt.setMatch(currentReservation);
                 
             }
