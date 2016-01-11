@@ -38,36 +38,35 @@ public class ReservationController {
         
         for(DailyReservation dailyReservation : dailyReservations) {
             
-          ReservationTableModel tModel = dailyReservation.getReservationTableModel();
-          
-          ArrayList<Integer[]> createdReservation = tModel.getCreatedReservations();
-          
-          for(Integer[] reservationInformation : createdReservation) {
-              
-              slot = reservationInformation[0];
-              court = reservationInformation[1];
-              name = (String)tModel.getValueAt(slot, court);
-              date = Settings.generateDate(nbOfDay);
-              
-              reservation = new Reservation(0, court, slot, name, date, date);
-              ReservationCollection.create(reservation);
-              
-              tModel.setNoEditable(slot, court);
-              
-              JOptionPane.showMessageDialog(dailyReservation, "Les réservations ont bien été effecutées. Elles ne sont désormais plus modifiables.");
-              
-          }
-          
-          
-          
-              nbOfDay += 1;
-       }
-          
-          
+            ReservationTableModel tModel = dailyReservation.getReservationTableModel();
+
+            ArrayList<Integer[]> createdReservation = tModel.getCreatedReservations();
+
+            for(Integer[] reservationInformation : createdReservation) {
+
+                slot = reservationInformation[0];
+                court = reservationInformation[1];
+                name = (String)tModel.getValueAt(slot, court);
+                date = Settings.generateDate(nbOfDay);
+
+                reservation = new Reservation(0, court, slot, name, date, date);
+                ReservationCollection.create(reservation);
+
+                tModel.setNoEditable(slot, court);
+
+                JOptionPane.showMessageDialog(dailyReservation, "Les réservations ont bien été effecutées. Elles ne sont désormais plus modifiables.");
+
+            }
             
+            nbOfDay += 1;
+            
+        }
         
+    }
+    
+    public static void deleteReservation(Reservation reservation){
         
-        System.out.println("Reservation :D");
+        System.out.println("Suppression de la réservation " + reservation.getReservationName());
         
     }
     

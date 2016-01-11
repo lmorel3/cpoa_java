@@ -4,6 +4,7 @@
 package view.planning;
 
 import app.PlanningController;
+import app.ReservationController;
 import app.Settings;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -11,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.Match;
+import model.Reservation;
 
 /**
  *
@@ -67,10 +69,14 @@ public class Court extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Launch the match creation
+                System.out.println(match);
                 if(match == null){
                     askForType();
                 }else{
-                    editMatch();
+                    if(match instanceof Match)
+                        editMatch();
+                    else
+                        askForDeletingReservation();
                 }
             }
 
@@ -98,7 +104,7 @@ public class Court extends JPanel {
         Object[] options = {"Simple",
                     "Double"};
 
-        int question = JOptionPane.showOptionDialog(Planning.getFrame(), 
+        int question = JOptionPane.showOptionDialog(null, 
                 "Choisissez le type de match.", "Type de match", 
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -122,7 +128,7 @@ public class Court extends JPanel {
         Object[] options = {"Modifier",
                     "Supprimer"};
 
-        int question = JOptionPane.showOptionDialog(Planning.getFrame(), 
+        int question = JOptionPane.showOptionDialog(null, 
                 "Que souhaitez-vous faire ?", "Editer le match ?", 
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
@@ -135,10 +141,25 @@ public class Court extends JPanel {
             if(question == 0){ EditMatch.matchType = Settings.MATCH_TYPE_SIMPLE; }
             else{ EditMatch.matchType = Settings.MATCH_TYPE_DOUBLE; }
             
-            PlanningController.initMatchEdition(match);
+            PlanningController.initMatchEdition((Match)match);
 
         }
         
+    }
+    
+    private void askForDeletingReservation(){
+        if (JOptionPane.showConfirmDialog(null, "Souhaitez-vous supprimer cette resevation ?", "Suppresion",
+            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            ReservationController.deleteReservation((Reservation) match);
+        }
+    }
+    
+    private void updateInformations(){
+        if(match instanceof Reservation){       
+            setPhase("Réservation");
+            setInformations(((Reservation) match).getReservationName());
+            setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+        }
     }
     
     public void setTitle(String newTitle){
@@ -169,8 +190,9 @@ public class Court extends JPanel {
         }
     }
     
-    public void setMatch(Match match){
+    public void setMatch(Object match){
         this.match = match;
+        updateInformations();
     }
     
     public String getTitle(){
@@ -189,7 +211,7 @@ public class Court extends JPanel {
         return status;
     }
     
-    public Match getMatch(){
+    public Object getMatch(){
         return match;
     }
         
@@ -199,7 +221,7 @@ public class Court extends JPanel {
     private final JLabel title;
     private final JLabel phase;
     
-    private Match match;
+    private Object match;
     
     private int status;
     

@@ -44,9 +44,7 @@ public class PlanningController {
                 currentSlot = currentDay.getCourtsContainer(currentReservation.getSlotId());
                 currentCourt = currentSlot.getCourt(currentReservation.getCourtId());
                 
-                currentCourt.setInformations(currentReservation.getReservationName());
-                currentCourt.setPhase("Réservation");
-                currentCourt.setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+                currentCourt.setMatch(currentReservation);
                 
             }
             
