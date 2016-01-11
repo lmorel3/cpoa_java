@@ -76,4 +76,42 @@ public class MatchCollection {
         
     }
     
+    public static int countMatchOfPhase(int phase) {
+        
+        int result = 0;
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(phase);
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select match_id from match where phase = ?", params);
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            result += 1;
+            
+        }
+        
+        return result;
+        
+    }
+    
+    public static void generatePhase(int phase) {
+        
+        int previousPhase;
+        int numberOfPreviousPhase = 0;
+        
+        switch(phase) {
+            case 0:
+                previousPhase = 0;
+                numberOfPreviousPhase = 0;
+        }
+        
+        if (MatchCollection.countMatchOfPhase(previousPhase) != numberOfPreviousPhase) {
+            
+            
+        }
+        
+        
+        
+    }
+    
 }
