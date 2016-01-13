@@ -33,7 +33,7 @@ public class Match {
     public static int KIND_SIMPLE = 1;
     public static int KIND_DOUBLE = 2;
     
-    public static int PHASE_QUALIFICAITON = 0;
+    public static int PHASE_QUALIFICAITON = 16;
     public static int PHASE_8EME = 8;
     public static int PHASE_QUART = 4;
     public static int PHASE_SEMIFINAL = 2;

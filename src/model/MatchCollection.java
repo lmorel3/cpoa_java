@@ -101,10 +101,10 @@ public class MatchCollection {
         System.out.println(previousPhase);
         System.out.println(MatchCollection.countMatchOfPhase(previousPhase));
         
-        if(phase != 0) {
+        if(phase != Match.PHASE_QUALIFICAITON) {
             if (MatchCollection.countMatchOfPhase(previousPhase) != previousPhase) {
             
-                System.out.println("La fonction n'est pas possible. La phase précédente n'est pas terminée.");
+                System.err.println("La fonction n'est pas possible. La phase précédente n'est pas terminée.");
             
             }
         }

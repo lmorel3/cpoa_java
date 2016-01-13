@@ -15,7 +15,11 @@ import java.util.HashMap;
  */
 public class PlayerCollection {
     
-    
+    /**
+     * Return the player where player_id = index
+     * @param index the id of the player
+     * @return player
+     */
     public static Player readOne(int index) {
         
         Player result = new Player();
@@ -34,6 +38,11 @@ public class PlayerCollection {
         
     } 
     
+    /**
+     * Return the list of the players who participate at a match
+     * @param matchIndex id of the match
+     * @return the list of the players of a match
+     */
     public static ArrayList<Player> readByMatch(int matchIndex) {
         
         ArrayList<Object> params = new ArrayList<>();
@@ -55,6 +64,74 @@ public class PlayerCollection {
         
     }
     
+    /**
+     * Return the list of the player who won the previous Phase and don't
+     * participate to the current phase.
+     * @param phase the number of the pahse. Use Match.PHASE_
+     * @return the list of the player who won the previous Phase and don't
+     * participate to the current phase.
+     */
+    public static ArrayList<Player> readFreePlayerByPhase(int phase) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        ArrayList<Player> result = new ArrayList<>();
+        Player current;
+        
+        ArrayList<HashMap<String, Object>> cursor;
+        
+        if(phase != Match.PHASE_QUALIFICAITON) {
+        
+        params.add(phase);
+        params.add(phase*2);
+        
+        cursor = Connector.getConnection().query(""
+                +"Select * "
+                +"From person "
+                +"Where person_type = 'Player' and person_id not in ("
+                        +"Select p.person_id "
+                        +"From match m, person p, player_match pm "
+                        +"Where m.MATCH_ID = pm.MATCH_ID "
+                            +"and pm.PERSON_ID = p.person_id "
+                            +"and person_type = 'Player' "
+                            +"and m.phase = ?) and person_id in ( "
+                                    +"Select winner "
+                                        +" From match "
+                                        +" Where match.phase = ?)"      
+                , params);
+        } else {
+         params.add(phase);
+        
+        cursor = Connector.getConnection().query(""
+                +"Select * "
+                +"From person "
+                +"Where person_type = 'Player' and person_id not in ("
+                        +"Select p.person_id "
+                        +"From match m, person p, player_match pm "
+                        +"Where m.MATCH_ID = pm.MATCH_ID "
+                            +"and pm.PERSON_ID = p.person_id "
+                            +"and person_type = 'Player' "
+                            +"and m.phase = ?)"     
+                , params);
+  
+        }
+        
+        
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            current = new Player(row);
+            result.add(current);
+            
+        }
+        
+        return result;
+        
+    }
+    
+    /**
+     * Return the list of all the players
+     * @return the list of all the players
+     */
     public static ArrayList<Player> readAll() {
         
         ArrayList<Player> result = new ArrayList<>();
