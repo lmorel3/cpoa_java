@@ -38,16 +38,7 @@ public class Match {
     public final static int PHASE_QUART = 4;
     public final static int PHASE_SEMIFINAL = 2;
     public final static int PHASE_FINAL = 1;
-    
-    public final static int ERR_PLAYERS = 1;
-    public final static int ERR_FREE_UMPIRE = 2;
-    public final static int ERR_TOO_MANY_MATCH_UMPIRE = 3;
-    public final static int ERR_ISFINAL = 4;
-    public final static int ERR_COURT_IS_RESERVED = 5;
-    public final static int ERR_CANT_MOVE_OVER_NEXT_MATCH = 6;
-    public final static int ERR_NATIONALITY_CONFLICT = 7;
-    
-    
+        
     public Match() {
    
     }

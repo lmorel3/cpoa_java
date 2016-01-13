@@ -87,6 +87,33 @@ public class ReservationCollection {
         
     }
     
+    /**
+     * Return if the slot contains a reservation
+     * @param date
+     * @param courtId
+     * @param slotId
+     * @return 
+     */
+    public static boolean exist(Date date, int courtId, int slotId) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(date);
+        params.add(courtId);
+        params.add(slotId);
+        
+        int size = Connector.getConnection().query("Select * From reservation where start_date = ? and court_id = ? and slot_id = ?", params).size();
+        
+        if(size == 0) {
+            
+            return false;
+            
+        }
+        
+        return true;
+        
+    }
+    
     public static ArrayList<Reservation> readAll() {
         
         ArrayList<Reservation> result = new ArrayList<>();

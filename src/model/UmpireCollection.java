@@ -80,7 +80,7 @@ public class UmpireCollection{
         params.add(matchIndex);
         Umpire current;        
         
-        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person Where person_id IN (Select person_id From umpire_match where match_id = ?) and person_type = '"+Person.TYPE_UMPIRE+"' and person_level = "+Umpire.CHAIR_LEVEL, params);
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person Where person_id IN (Select person_id From umpire_match where match_id = ?) and person_type = '"+Person.TYPE_UMPIRE+"' and person_level = '"+Umpire.CHAIR_LEVEL+"'", params);
         
         for(HashMap<String, Object> row : cursor) {
             
@@ -96,7 +96,7 @@ public class UmpireCollection{
             
         }
         
-        cursor = Connector.getConnection().query("Select * From person Where person_id IN (Select person_id From umpire_match where match_id = ?) and person_type = '"+Person.TYPE_UMPIRE+"' and person_level = "+Umpire.NET_LEVEL, params);
+        cursor = Connector.getConnection().query("Select * From person Where person_id IN (Select person_id From umpire_match where match_id = ?) and person_type = '"+Person.TYPE_UMPIRE+"' and person_level = '"+Umpire.NET_LEVEL+"'", params);
         
         for(HashMap<String, Object> row : cursor) {
             
@@ -163,4 +163,22 @@ public class UmpireCollection{
         return true;
     }
 
+    /**
+     * Return the number of matchs where the Umpire participates
+     * @param umpire
+     * @return the number of matchs where the Umpire participates
+     */
+    public static int getCountOfMatch(Umpire umpire) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(umpire.getPersonId());
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * from umpire_match where person_id = ?", params);
+        
+        return cursor.size();
+        
+        
+    }
+    
 }

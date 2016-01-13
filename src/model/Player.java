@@ -7,6 +7,7 @@ package model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -100,6 +101,23 @@ public class Player extends Person{
             System.err.println(e.getMessage());
             
         }
+        
+    }
+    
+    public boolean playAt(Date date, int slot) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(this.getPersonId());
+        params.add(date);
+        params.add(slot);
+        
+        
+        return !Connector.getConnection().query(""+
+                "Select p.person_id " +
+                "From person p, player_match pm, match m " +
+                "where m.MATCH_ID = pm.MATCH_ID and p.PERSON_ID = pm.PERSON_ID and p.person_id = ? and date_match = ? and slot_id = ?", params).isEmpty();
+        
         
     }
     
