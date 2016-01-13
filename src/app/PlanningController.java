@@ -9,12 +9,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.BallBoy;
+import model.BallBoyCollection;
 import model.Match;
 import model.Person;
 import model.Player;
+import model.PlayerCollection;
 import model.Reservation;
 import model.ReservationCollection;
 import model.Umpire;
+import model.UmpireCollection;
 import view.planning.AddMatch;
 import view.planning.Court;
 import view.planning.CourtsContainer;
@@ -80,41 +83,40 @@ public class PlanningController {
         List<Umpire> matchUmpires = match.getUmpires();
 
         
-        // Add only valid Players
-        /*for(Person p : Récupérer Player compatibles){
+        // Add only valid Umpires
+        for(Person p : PlayerCollection.getFreeAt(match.getDate(), match.getSlot())){// Récupérer Player compatibles){
             persons.add((Player)p);
         }
         EditMatch.modelPlayerA.setPersons((ArrayList<Person>) persons);
         persons.clear();
-        */
+        
         EditMatch.modelPlayerA.setSelectedItem(matchPlayers.get(0));
 
         
         // Add only valid Players
-        /*for(Person p : Récupérer Player compatibles){
+        for(Person p : PlayerCollection.getFreeAt(match.getDate(), match.getSlot())){ //Récupérer Player compatibles
             persons.add((Player)p);
         }
         EditMatch.modelPlayerB.setPersons((ArrayList<Person>) persons);
         persons.clear();
-        */
+        
         EditMatch.modelPlayerB.setSelectedItem(matchPlayers.get(1));
         
         // Add only valid BallBoys
-        /*for(Person p : Récupérer BallBoy compatibles){
+        for(Person p : BallBoyCollection.getFreeAt(match.getDate(), match.getSlot())){ //Récupérer BallBoy compatibles){
             persons.add((BallBoy)p);
         }
         EditMatch.modelBallBoys.setPersons((ArrayList<Person>) persons);
         persons.clear();
-        */
         
-        //EditMatch.setSelectedBallBoys(match.getBallboys()); // Select match's current BallBoys 
         
-        /*for(Person p : Récupérer net Umpire compatibles){
+        EditMatch.setSelectedBallBoys(match.getBallboys()); // Select match's current BallBoys 
+        
+        for(Person p : UmpireCollection.getFreeAt(match.getDate(), match.getSlot())){ //Récupérer net Umpire compatibles){
             persons.add((Umpire)p);
         }
         EditMatch.modelUmpire.setPersons((ArrayList<Person>) persons);
         persons.clear();
-        */
         
         EditMatch.modelUmpire.setSelectedItem(matchUmpires.get(0));
         
@@ -136,43 +138,45 @@ public class PlanningController {
     public static void initMatchCreation(int matchType, int dayNumber, int slotId, int courtId){
         
         AddMatch.getFrame(matchType, dayNumber, slotId, courtId);
+        Date date = Settings.generateDate(dayNumber);
+        
+        /*System.out.println("initMatchCreation " + matchType + " - " + dayNumber + " : " + slotId + " " + courtId);
+        System.out.println("Date : " + date);
+        System.out.println(PlayerCollection.getFreeAt(date, slotId));
+        System.out.println(BallBoyCollection.getFreeAt(date, slotId));
+        System.out.println(UmpireCollection.getFreeAt(date, slotId));*/
                 
-        // Add only valid Players
-        /*for(Person p : Récupérer Player compatibles){
-            persons.add((Player)p);
-        }
-        AddMatch.modelPlayerA.setPersons((ArrayList<Person>) persons);
-        persons.clear();
-        */
+        List<Person> players = new ArrayList<>();
 
+        // Add only valid Players
+        for(Person p : PlayerCollection.getFreeAt(date, slotId)){ //Récupérer Player compatibles){
+            players.add((Player)p);
+        }
+        AddMatch.modelPlayerA.setPersons((ArrayList<Person>) players);
         
         // Add only valid Players
-        /*for(Person p : Récupérer Player compatibles){
-            persons.add((Player)p);
+        for(Person p : PlayerCollection.getFreeAt(date, slotId)){ //Récupérer Player compatibles){
+            players.add((Player)p);
         }
-        AddMatch.modelPlayerB.setPersons((ArrayList<Person>) persons);
-        persons.clear();
-        */
+        AddMatch.modelPlayerB.setPersons((ArrayList<Person>) players);
+        
+        List<Person> ballboys = new ArrayList<>();
         
         // Add only valid BallBoys
-        /*for(Person p : Récupérer BallBoy compatibles){
-            persons.add((BallBoy)p);
+        for(Person p : BallBoyCollection.getFreeAt(date, slotId)){ //Récupérer BallBoy compatibles){
+            ballboys.add((BallBoy)p);
         }
-        AddMatch.modelBallBoys.setPersons((ArrayList<Person>) persons);
-        persons.clear();
-        */
+        AddMatch.modelBallBoys.setPersons((ArrayList<Person>) ballboys);
         
-        
-        /*for(Person p : Récupérer net Umpire compatibles){
-            persons.add((Umpire)p);
+        List<Person> umpires = new ArrayList<>();
+
+        for(Person p : UmpireCollection.getFreeAt(date, slotId)){ // Récupérer Umpire compatibles
+            umpires.add((Umpire)p);
         }
-        AddMatch.modelUmpire.setPersons((ArrayList<Person>) persons);
-        persons.clear();
-        */
-        
+        AddMatch.modelUmpire.setPersons((ArrayList<Person>) umpires);
         
         AddMatch.display(matchType, dayNumber, slotId, courtId);
-           
+                           
     }
     
     /**

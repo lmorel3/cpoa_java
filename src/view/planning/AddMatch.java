@@ -29,14 +29,15 @@ public class AddMatch extends JFrame {
         AddMatch.courtId = courtId;
         
         initComponents();
-        
+                
     }
     
     public static void display(int matchType, int dayNumber, int slotId, int courtId){
         
         frame = getFrame(matchType, dayNumber, slotId, courtId);
-        
+
         frame.setVisible(true);
+        frame.refresh();
         
     }
     
@@ -53,9 +54,10 @@ public class AddMatch extends JFrame {
     public static AddMatch getFrame(int matchType, int dayNumber, int slotId, int courtId){
         
         if(AddMatch.frame == null){
+            System.out.println("New frame AddMatch");
             frame = new AddMatch(matchType, dayNumber, slotId, courtId);
         }
-        
+                        
         return frame;
         
     } 
@@ -275,7 +277,7 @@ public class AddMatch extends JFrame {
                 .addComponent(overPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        
+                
         addWindowListener(new java.awt.event.WindowAdapter() {
            @Override
            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -336,6 +338,15 @@ public class AddMatch extends JFrame {
         
         return ballboys;       
         
+    }
+    
+    private void refresh(){
+        comboPlayerA.updateUI();
+        comboPlayerB.updateUI();
+        comboChairUmpire.updateUI();
+        listNetUmpires.updateUI();
+        listBallBoys.updateUI();
+        comboType.updateUI();
     }
     
     private javax.swing.JButton btnExit;

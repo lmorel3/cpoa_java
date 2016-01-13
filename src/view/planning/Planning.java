@@ -128,7 +128,7 @@ public final class Planning extends JFrame {
         setContentPane(tabbedPaneTop);
         
         for (int i = 1; i <= Settings.NB_DAYS; i++) {
-            daysTab.add(new DayPane(i)); // i : dayNumber
+            daysTab.add(new DayPane(i-1)); // i : dayNumber (start at 0)
             tabbedPaneTop.add("Jour " + i, (DayPane) daysTab.get(i-1));
         }
 
