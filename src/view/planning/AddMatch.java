@@ -26,7 +26,7 @@ public class AddMatch extends JFrame {
         AddMatch.matchType = matchType;
         AddMatch.dayNumber = dayNumber;
         AddMatch.slotId = slotId;
-        AddMatch.courtId = courtId;
+        AddMatch.interfaceCourtId = courtId;
         
         initComponents();
                 
@@ -341,6 +341,7 @@ public class AddMatch extends JFrame {
     }
     
     private void refresh(){
+        
         comboPlayerA.updateUI();
         comboPlayerB.updateUI();
         comboChairUmpire.updateUI();
@@ -348,10 +349,9 @@ public class AddMatch extends JFrame {
         listBallBoys.updateUI();
         comboType.updateUI();
         
-        comboPlayerA.setSelectedIndex(0);
-        comboPlayerB.setSelectedIndex(0);
-        comboChairUmpire.setSelectedIndex(0);
-        comboType.setSelectedIndex(0);
+        if(AddMatch.modelPlayerA.getSize() > 0){ comboPlayerA.setSelectedIndex(0); }
+        if(AddMatch.modelPlayerB.getSize() > 0){ comboPlayerB.setSelectedIndex(0); }
+        if(AddMatch.modelUmpire.getSize() > 0){ comboChairUmpire.setSelectedIndex(0); }
         
     }
     
@@ -369,8 +369,8 @@ public class AddMatch extends JFrame {
     private javax.swing.JLabel labelNetUmpires;
     private javax.swing.JLabel labelPlayerA;
     private javax.swing.JLabel labelPlayerB;
-    private javax.swing.JList<String> listBallBoys;
-    private static javax.swing.JList<String> listNetUmpires;
+    public static javax.swing.JList<String> listBallBoys;
+    public static javax.swing.JList<String> listNetUmpires;
     private javax.swing.JLabel nationalityChairUmpire;
     private javax.swing.JLabel nationalityPlayerA;
     private javax.swing.JLabel nationalityPlayerB;
@@ -395,7 +395,7 @@ public class AddMatch extends JFrame {
     public static javax.swing.DefaultComboBoxModel modelPhase;
 
         
-    public static int matchType, dayNumber, slotId, courtId;
+    public static int matchType, dayNumber, slotId, interfaceCourtId;
 
     
 }

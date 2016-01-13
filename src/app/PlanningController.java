@@ -8,9 +8,12 @@ package app;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.BallBoy;
 import model.BallBoyCollection;
+import model.CourtCollection;
 import model.Match;
+import model.MatchCollection;
 import model.Person;
 import model.Player;
 import model.PlayerCollection;
@@ -47,7 +50,7 @@ public class PlanningController {
         ArrayList<Reservation> reservationsOfTheDay;
         
         int dayNumber;
-        int realCourtId;
+        int interfaceCourtId;
         
         for(dayNumber = 0; dayNumber < Settings.NB_DAYS; dayNumber++) {
             
@@ -58,9 +61,9 @@ public class PlanningController {
                 currentDay = dayPanes.get(dayNumber);
                 currentSlot = currentDay.getCourtsContainer(currentReservation.getSlotId());
                 
-                realCourtId = Court.getRealCourtId(currentReservation.getCourtId());
+                interfaceCourtId = Court.getInterfaceCourt(currentReservation.getCourtId());
                 
-                currentCourt = currentSlot.getCourt(realCourtId);
+                currentCourt = currentSlot.getCourt(interfaceCourtId);
                 currentCourt.setMatch(currentReservation);
                 
             }
@@ -186,19 +189,19 @@ public class PlanningController {
      */
     public static void createMatch(){
         
-        String kind = (String) AddMatch.modelPhase.getSelectedItem();
+        String round = (String) AddMatch.modelPhase.getSelectedItem();
         
-        int phase = PlanningController.getPhaseIdByName(kind);
+        int phase = PlanningController.getPhaseIdByName(round);
         
         //int matchId, Date date, int kind, int phase, Court court, int slot, ArrayList<Match> previousMatchs, 
         //        o        x        x           x       x               x               o           
         //ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
         //              x                       x                           x
         
-        int courtId = Court.getRealCourtId(AddMatch.courtId);
+        int courtId = Court.getRealCourtId(AddMatch.interfaceCourtId);
         int slotId = AddMatch.slotId;
         Date date = Settings.generateDate(AddMatch.dayNumber);
-        
+                
         Player playerA = (Player) AddMatch.modelPlayerA.getSelectedItem();
         Player playerB = (Player) AddMatch.modelPlayerB.getSelectedItem();
         
@@ -206,15 +209,64 @@ public class PlanningController {
         players.add(playerA);
         players.add(playerB);
         
+        if(AddMatch.matchType == Match.KIND_DOUBLE){
+            players.add(playerA.getPartner());
+            players.add(playerB.getPartner());
+        }
+        
         List<Umpire> umpires = new ArrayList<>();
         
         Umpire umpire = (Umpire) AddMatch.modelUmpire.getSelectedItem();
         umpires.add(umpire); // Item 0 is the chair umpire
         
-        List<Umpire> netUmpires = AddMatch.getNetUmpires();
-        umpires.addAll(netUmpires);
+        int[] selectedNetUmpires = AddMatch.listNetUmpires.getSelectedIndices();
+        List<Umpire> netUmpires = new ArrayList<>();
+
+        for (int selectedNetUmpire : selectedNetUmpires) {
+            netUmpires.add((Umpire) AddMatch.modelNetUmpires.getElementAt(selectedNetUmpire));
+        }
         
-        List<BallBoy> ballboys = AddMatch.getBallBoys();
+        int[] selectedBallBoys = AddMatch.listBallBoys.getSelectedIndices();
+        List<BallBoy> ballboys = new ArrayList<>();
+
+        for (int selectedBallBoy : selectedBallBoys) {
+            ballboys.add((BallBoy) AddMatch.modelBallBoys.getElementAt(selectedBallBoy));
+        }        
+        
+        Match match = new Match();
+        match.setBallboys((ArrayList<BallBoy>) ballboys);
+        match.setCourt(CourtCollection.readOne(courtId));
+        match.setDate(date);
+        match.setKind(AddMatch.matchType);
+        match.setPhase(phase);
+        match.setPlayers((ArrayList<Player>) players);
+        match.setSlot(slotId);
+        match.setUmpires((ArrayList<Umpire>) umpires);
+        
+        List<String> errors = new ArrayList<>();
+        
+        if(!MatchCollection.checkCountOfMatchOfUmpire(match)){
+            errors.add("L'arbitre de chaise a déjà arbitré 2 matchs durant ce tournoi.");
+        }
+        
+        if(!MatchCollection.checkPhasesOrder(match)){
+            errors.add("Le tour de " + round + " est déjà terminé !");
+        }
+        
+        if(!MatchCollection.checkPlayersAndUmpireNationality(match)){
+            errors.add("L'arbitre ne doit pas avoir la même nationalité que celles des joueurs");
+        }
+        
+        if(!MatchCollection.checkPlayersDisponibility(match)){
+            errors.add("Les joueurs sélectionnés ne sont pas disponible pour jouer ce match");
+        }
+        
+        // Constraints checked and correct
+        if(errors.isEmpty()){
+            MatchCollection.create(match);
+        }else{
+            JOptionPane.showMessageDialog (null, errors.toString(), "Erreur : contraintes non respectées", JOptionPane.INFORMATION_MESSAGE);
+        }
         
         
     }
@@ -243,7 +295,7 @@ public class PlanningController {
         //ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
         //              x                       x                           x
         
-        int courtId = Court.getRealCourtId(AddMatch.courtId);
+        int courtId = Court.getRealCourtId(AddMatch.interfaceCourtId);
         int slotId = AddMatch.slotId;
         Date date = Settings.generateDate(AddMatch.dayNumber);
         

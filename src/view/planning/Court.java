@@ -20,7 +20,7 @@ import model.Reservation;
  */
 public class Court extends JPanel {
     
-    public Court(int dayNumber, int slotId, int courtId){
+    public Court(int dayNumber, int slotId, int interfaceCourtId){
         
         informationsContainer = new javax.swing.JPanel();
         informations = new javax.swing.JLabel();
@@ -30,11 +30,11 @@ public class Court extends JPanel {
         
         this.slotId = slotId;
         this.dayNumber = dayNumber;
-        this.courtId = courtId;
+        this.interfaceCourtId = interfaceCourtId;
         
         initComponents();
         
-        setTitle("D"+dayNumber+" S"+slotId + "C"+courtId);
+        setTitle("D"+dayNumber+" S"+slotId + "C"+interfaceCourtId);
         
     }
     
@@ -116,6 +116,42 @@ public class Court extends JPanel {
         // 3 - 4 - 5        2 - 4 - 6
                 
         
+        int realCourtId = 1;
+        switch(frameCourtId) {
+                    
+            case 1:
+                realCourtId = 3;
+                break;
+            case 2:
+                realCourtId = 5;
+                break;
+            case 3:
+                realCourtId = 2;
+                break;
+            case 4:
+                realCourtId = 4;
+                break;
+            case 5:
+                realCourtId = 6;
+                break;
+
+        }
+        
+        return realCourtId;
+        
+    }
+       
+    /**
+     * Get the interface courtId (generated in CourtsContainer) from database
+     * @param frameCourtId
+     * @return real courtId (generated)
+     */
+    public static int getInterfaceCourt(int frameCourtId){
+
+        // 0 - 1 - 2   <->  1 - 3 - 5
+        // 3 - 4 - 5        2 - 4 - 6
+                
+        
         int realCourtId = -1;
         switch(frameCourtId) {
                     
@@ -162,7 +198,7 @@ public class Court extends JPanel {
             int matchType = Match.KIND_DOUBLE;
             if(question == 0){ matchType = Match.KIND_SIMPLE; }
             
-            PlanningController.initMatchCreation(matchType, dayNumber, slotId, courtId);
+            PlanningController.initMatchCreation(matchType, dayNumber, slotId, interfaceCourtId);
 
         }
         
@@ -270,6 +306,6 @@ public class Court extends JPanel {
     
     private int status;
     
-    private final int slotId, dayNumber, courtId;
+    private final int slotId, dayNumber, interfaceCourtId;
     
 }

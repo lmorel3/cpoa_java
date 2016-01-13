@@ -28,7 +28,7 @@ public class CourtsContainer extends JPanel {
         setLayout(new java.awt.GridLayout(2, 3));
 
         for (int i = 0; i < 6; i++) {
-            courts.add(new Court(dayNumber, slotId, i)); // i = courtId
+            courts.add(new Court(dayNumber, slotId, i)); // i = interfaceCourtId
             add(courts.get(i));
         }
         

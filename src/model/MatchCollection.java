@@ -136,7 +136,9 @@ public class MatchCollection {
         
         }
         
-        Connector.getConnection().query("Insert into match values (?, ?, ?, ?, NULL, ?, ?, NULL, ?, ?", params);
+        match.setMatchId(Match.getLastId());
+        
+        Connector.getConnection().query("Insert into match values (?, ?, ?, ?, NULL, ?, ?, NULL, ?, ?)", params);
         
         for(Player p : match.getPlayers()) {
 

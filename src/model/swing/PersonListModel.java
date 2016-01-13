@@ -37,7 +37,7 @@ public class PersonListModel extends AbstractListModel implements ComboBoxModel{
 
     @Override
     public Object getElementAt(int index) {
-        return persons.get(index).getForename() + " " + persons.get(index).getLastname();
+        return persons.get(index);
     }
 
     @Override

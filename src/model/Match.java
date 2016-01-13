@@ -40,6 +40,8 @@ public class Match {
     public final static int PHASE_FINAL = 1;
         
     public Match() {
+        
+        this.previousMatchs = new ArrayList<>(); // Facultative
    
     }
     
@@ -294,7 +296,7 @@ public class Match {
         
         ArrayList<Object> params = new ArrayList<>();
         
-        ArrayList<HashMap<String, Object>> result = Connector.getConnection().query("Select match_id from match where rownum = 1 order by reservation_id desc", params);
+        ArrayList<HashMap<String, Object>> result = Connector.getConnection().query("Select match_id from match where rownum = 1 order by match_id desc", params);
         
         return 1+(int)((BigDecimal)result.get(0).get("MATCH_ID")).intValue();
         

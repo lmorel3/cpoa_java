@@ -74,9 +74,11 @@ public abstract class Person {
         
         return 1+(int)((BigDecimal)result.get(0).get("PERSON_ID")).intValue();
         
-        
-        
-        
+    }
+    
+    @Override
+    public String toString(){
+        return forename + " " + lastname;
     }
 
     @Override
