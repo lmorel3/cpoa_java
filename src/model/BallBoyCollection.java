@@ -7,6 +7,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -70,6 +71,39 @@ public class BallBoyCollection {
             
             current = new BallBoy(row);
             result.add(current);
+            
+        }
+        
+        return result;
+        
+    }
+    
+    public static ArrayList<BallBoy> getFreeAt(Date date, int slot) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(date);
+        params.add(slot);
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query(""
+                
+                +"Select *\n" +
+                "  From person\n" +
+                "  Where person_type = '"+Person.TYPE_BALLBOY+"' " +
+                "  and person_id not in " +
+                "  (Select person_id " +
+                "  From BallBoy_MATCH bm, match m\n" +
+                "  Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and m.SLOT_ID = ?)"
+                
+                , params);
+        
+        ArrayList<BallBoy> result = new ArrayList<>();
+        
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            result.add(new BallBoy(row));
+            
             
         }
         

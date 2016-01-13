@@ -79,5 +79,19 @@ public abstract class Person {
         
     }
 
+    @Override
+    public boolean equals(Object o) {
+        
+        if (!(o instanceof Person)) {
+            
+            return false;
+            
+        }
+        
+        Person p = (Person)o;
+        
+        return p.getPersonId() == this.getPersonId();
+    }
+
     
 }
