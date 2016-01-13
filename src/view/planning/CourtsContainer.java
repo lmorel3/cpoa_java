@@ -13,9 +13,12 @@ import javax.swing.JPanel;
  */
 public class CourtsContainer extends JPanel {
     
-    public CourtsContainer(){
+    public CourtsContainer(int dayNumber, int slotId){
                 
         courts = new ArrayList();
+        this.slotId = slotId;
+        this.dayNumber = dayNumber;
+        
         initComponents();
                 
     }
@@ -25,7 +28,7 @@ public class CourtsContainer extends JPanel {
         setLayout(new java.awt.GridLayout(2, 3));
 
         for (int i = 0; i < 6; i++) {
-            courts.add(new Court());
+            courts.add(new Court(dayNumber, slotId, i)); // i = courtId
             add(courts.get(i));
         }
         
@@ -46,5 +49,6 @@ public class CourtsContainer extends JPanel {
     }
     
     private final ArrayList<Court> courts;
+    private int dayNumber, slotId;
     
 }

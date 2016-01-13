@@ -5,7 +5,7 @@
  */
 package view.planning;
 
-import app.Settings;
+import app.PlanningController;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.Match;
@@ -17,14 +17,16 @@ import model.swing.PersonListModel;
  */
 public class AddMatch extends JFrame {
     
-    private AddMatch(int matchType){
+    private AddMatch(int matchType, int dayNumber, int slotId, int courtId){
         this.matchType = matchType;
+        this.dayNumber = dayNumber;
+        this.slotId = slotId;
         initComponents();
     }
     
-    public static void display(int matchType){
+    public static void display(int matchType, int dayNumber, int slotId, int courtId){
         
-        frame = getFrame(matchType);
+        frame = getFrame(matchType, dayNumber, slotId, courtId);
         
         frame.setVisible(true);
         
@@ -32,7 +34,7 @@ public class AddMatch extends JFrame {
     
     public static void close(){
         
-        frame = getFrame(0);
+        frame = getFrame(0,0,0,0);
         
         frame.setVisible(false);
         frame.dispose(); // Destroy the frame
@@ -40,10 +42,10 @@ public class AddMatch extends JFrame {
         
     }
     
-    private static AddMatch getFrame(int matchType){
+    private static AddMatch getFrame(int matchType, int dayNumber, int slotId, int courtId){
         
         if(AddMatch.frame == null){
-            frame = new AddMatch(matchType);
+            frame = new AddMatch(matchType, dayNumber, slotId, courtId);
         }
         
         return frame;
@@ -52,13 +54,13 @@ public class AddMatch extends JFrame {
     
     private void initComponents() {
         
-        int GLOBAL_WIDTH = (matchType == Settings.MATCH_TYPE_SIMPLE)?420:480; 
-        int COMBOBOX_WIDTH = (matchType == Settings.MATCH_TYPE_SIMPLE)?150:170; 
-        int LIST_WIDTH = (matchType == Settings.MATCH_TYPE_SIMPLE)?190:230; 
-        int NATIONALITY_WIDTH = (matchType == Settings.MATCH_TYPE_SIMPLE)?20:40; 
+        int GLOBAL_WIDTH = (matchType == Match.KIND_SIMPLE)?420:480; 
+        int COMBOBOX_WIDTH = (matchType == Match.KIND_SIMPLE)?150:170; 
+        int LIST_WIDTH = (matchType == Match.KIND_SIMPLE)?190:230; 
+        int NATIONALITY_WIDTH = (matchType == Match.KIND_SIMPLE)?20:40; 
         
-        String PLAYERA_LABEL = (matchType == Settings.MATCH_TYPE_SIMPLE)?"Joueur A":"Equipe A";
-        String PLAYERB_LABEL = (matchType == Settings.MATCH_TYPE_SIMPLE)?"Joueur B":"Equipe B";
+        String PLAYERA_LABEL = (matchType == Match.KIND_SIMPLE)?"Joueur A":"Equipe A";
+        String PLAYERB_LABEL = (matchType == Match.KIND_SIMPLE)?"Joueur B":"Equipe B";
         
         AddMatch.modelPlayerA = new PersonListModel();
         AddMatch.modelPlayerB = new PersonListModel();
@@ -230,14 +232,10 @@ public class AddMatch extends JFrame {
         labelMatchType.setPreferredSize(new java.awt.Dimension(150, 16));
         row5.add(labelMatchType);
 
-        comboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Qualification", "Huitième de finale", "Quart de finale", "Demie finale", "Finale" }));
+        modelType = new javax.swing.DefaultComboBoxModel<>(new String[] { "Qualification", "Huitième de finale", "Quart de finale", "Demie finale", "Finale" });
+        comboType.setModel(modelType);
         comboType.setMinimumSize(new java.awt.Dimension(125, 27));
         comboType.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 27));
-        comboType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-
-            }
-        });
         row5.add(comboType);
 
         overPane.add(row5);
@@ -282,7 +280,13 @@ public class AddMatch extends JFrame {
             askForClosing();
             
         });
-
+        
+        btnValid.addActionListener((java.awt.event.ActionEvent evt) -> {
+            
+            PlanningController.createMatch();
+            
+        });
+                
         pack();
     }// </editor-fold> 
     
@@ -333,8 +337,10 @@ public class AddMatch extends JFrame {
     public static PersonListModel modelUmpire;
     public static PersonListModel modelNetUmpires;
     public static PersonListModel modelBallBoys;
+    
+    public static javax.swing.DefaultComboBoxModel modelType;
         
-    private int matchType;
+    public final int matchType, dayNumber, slotId;
 
     
 }

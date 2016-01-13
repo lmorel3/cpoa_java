@@ -20,7 +20,7 @@ import model.Reservation;
  */
 public class Court extends JPanel {
     
-    public Court(){
+    public Court(int dayNumber, int slotId, int courtId){
         
         informationsContainer = new javax.swing.JPanel();
         informations = new javax.swing.JLabel();
@@ -28,7 +28,13 @@ public class Court extends JPanel {
         title = new javax.swing.JLabel();
         phase = new javax.swing.JLabel();
         
+        this.slotId = slotId;
+        this.dayNumber = dayNumber;
+        this.courtId = courtId;
+        
         initComponents();
+        
+        setTitle("D"+dayNumber+" S"+slotId + "C"+courtId);
         
     }
     
@@ -114,10 +120,10 @@ public class Court extends JPanel {
         
         if (question != 2){
             
-            int matchType = Settings.MATCH_TYPE_DOUBLE;
-            if(question == 0){ matchType = Settings.MATCH_TYPE_SIMPLE; }
+            int matchType = Match.KIND_DOUBLE;
+            if(question == 0){ matchType = Match.KIND_SIMPLE; }
             
-            PlanningController.initMatchCreation(matchType);
+            PlanningController.initMatchCreation(matchType, dayNumber, slotId, courtId);
 
         }
         
@@ -138,8 +144,8 @@ public class Court extends JPanel {
         
         if (question != 2){
             
-            if(question == 0){ EditMatch.matchType = Settings.MATCH_TYPE_SIMPLE; }
-            else{ EditMatch.matchType = Settings.MATCH_TYPE_DOUBLE; }
+            if(question == 0){ EditMatch.matchType = Match.KIND_SIMPLE; }
+            else{ EditMatch.matchType = Match.KIND_DOUBLE; }
             
             PlanningController.initMatchEdition((Match)match);
 
@@ -224,5 +230,7 @@ public class Court extends JPanel {
     private Object match;
     
     private int status;
+    
+    private final int slotId, dayNumber, courtId;
     
 }

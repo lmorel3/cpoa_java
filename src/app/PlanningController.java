@@ -89,14 +89,31 @@ public class PlanningController {
         
     }
     
-    public static void initMatchCreation(int matchType){
+    public static void initMatchCreation(int matchType, int dayNumber, int slotId, int courtId){
         
-        AddMatch.display(matchType);
+        AddMatch.display(matchType, dayNumber, slotId, courtId);
            
     }
+    
+    public static void createMatch(){
+        
+        String kind = (String) AddMatch.modelType.getSelectedItem();
+        String kindLowerCase = kind.toLowerCase();
+        
+        int phase = Match.PHASE_QUALIFICAITON;
+        if(kindLowerCase.startsWith("huitième"))
+            phase = Match.PHASE_8EME;
+        else if(kindLowerCase.startsWith("quart"))
+            phase = Match.PHASE_QUART;
+        else if(kindLowerCase.startsWith("demie"))
+            phase = Match.PHASE_SEMIFINAL;
+        else if(kindLowerCase.startsWith("finale"))
+            phase = Match.PHASE_FINAL;
+        
+        //int matchId, Date date, int kind, int phase, Court court, int slot, ArrayList<Match> previousMatchs, ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
 
-    public static void initMatchEdition() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
+
          
 }

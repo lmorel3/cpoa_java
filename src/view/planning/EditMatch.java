@@ -53,13 +53,13 @@ public class EditMatch extends JFrame {
     
     private void initComponents() {
         
-        int GLOBAL_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?420:480; 
-        int COMBOBOX_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?150:170; 
-        int LIST_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?190:230; 
-        int NATIONALITY_WIDTH = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?20:40; 
+        int GLOBAL_WIDTH = (EditMatch.matchType == Match.KIND_SIMPLE)?420:480; 
+        int COMBOBOX_WIDTH = (EditMatch.matchType == Match.KIND_SIMPLE)?150:170; 
+        int LIST_WIDTH = (EditMatch.matchType == Match.KIND_SIMPLE)?190:230; 
+        int NATIONALITY_WIDTH = (EditMatch.matchType == Match.KIND_SIMPLE)?20:40; 
         
-        String PLAYERA_LABEL = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?"Joueur A":"Equipe A";
-        String PLAYERB_LABEL = (EditMatch.matchType == Settings.MATCH_TYPE_SIMPLE)?"Joueur B":"Equipe B";
+        String PLAYERA_LABEL = (EditMatch.matchType == Match.KIND_SIMPLE)?"Joueur A":"Equipe A";
+        String PLAYERB_LABEL = (EditMatch.matchType == Match.KIND_SIMPLE)?"Joueur B":"Equipe B";
         
         EditMatch.modelPlayerA = new PersonListModel();
         EditMatch.modelPlayerB = new PersonListModel();

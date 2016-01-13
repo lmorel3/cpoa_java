@@ -13,10 +13,12 @@ import javax.swing.JTabbedPane;
  */
 public class DayPane extends JTabbedPane {
     
-    public DayPane(){
-               
-        initComponents();
+    public DayPane(int dayNumber){
         
+        this.dayNumber = dayNumber;
+
+        initComponents();
+                
     }
     
     private void initComponents(){
@@ -25,7 +27,7 @@ public class DayPane extends JTabbedPane {
 
         /* Test with random values */
         for (int i = 0; i < 5; i++) {
-            courtsContainer.add(new CourtsContainer());
+            courtsContainer.add(new CourtsContainer(dayNumber, i)); // i = slotId
         }
         
         ///////
@@ -53,5 +55,7 @@ public class DayPane extends JTabbedPane {
     }
     
     private ArrayList courtsContainer;
+    
+    private int dayNumber;
     
 }
