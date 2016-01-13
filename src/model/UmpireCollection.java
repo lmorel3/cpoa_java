@@ -7,6 +7,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -178,6 +179,38 @@ public class UmpireCollection{
         
         return cursor.size();
         
+        
+    }
+    
+    public static ArrayList<Umpire> getFreeAt(Date date, int slot) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(date);
+        params.add(slot);
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query(""
+                
+                +" Select * " +
+                "  From person " +
+                "  Where person_type = '"+Person.TYPE_UMPIRE+"' " +
+                "      and person_id not in " +
+                "              (Select person_id " +
+                "                  From Umpire_match bm, match m " +
+                "                  Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and m.SLOT_ID = ?)"
+                
+                , params);
+        
+        ArrayList<Umpire> result = new ArrayList<>();
+        
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            result.add(new Umpire(row));
+            
+        }
+        
+        return result;
         
     }
     

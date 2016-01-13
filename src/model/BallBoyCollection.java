@@ -78,6 +78,12 @@ public class BallBoyCollection {
         
     }
     
+    /**
+     * Return the list of the BallBoy who are free at this day and this slot
+     * @param date
+     * @param slot
+     * @return 
+     */
     public static ArrayList<BallBoy> getFreeAt(Date date, int slot) {
         
         ArrayList<Object> params = new ArrayList<>();
@@ -87,12 +93,12 @@ public class BallBoyCollection {
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query(""
                 
-                +"Select *\n" +
-                "  From person\n" +
+                +"Select * " +
+                "  From person " +
                 "  Where person_type = '"+Person.TYPE_BALLBOY+"' " +
                 "  and person_id not in " +
                 "  (Select person_id " +
-                "  From BallBoy_MATCH bm, match m\n" +
+                "  From BallBoy_MATCH bm, match m " +
                 "  Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and m.SLOT_ID = ?)"
                 
                 , params);
@@ -103,7 +109,6 @@ public class BallBoyCollection {
         for(HashMap<String, Object> row : cursor) {
             
             result.add(new BallBoy(row));
-            
             
         }
         

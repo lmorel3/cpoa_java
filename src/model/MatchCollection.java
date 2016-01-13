@@ -99,16 +99,32 @@ public class MatchCollection {
    
     public static void create(Match match) {
         
+        /*
+        
+        **private int matchId;*
+        **private Date date;
+        **private int kind;
+        **private int phase;
+        **private Court court;
+        **private int slot;
+        **private ArrayList<Player> players;
+        **private ArrayList<Match> previousMatchs;
+        **private ArrayList<Umpire> umpires;
+        **private ArrayList<BallBoy> ballboys;
+        
+        
+        */
+        
         ArrayList<Object> params = new ArrayList<>();
         
         params.add(Match.getLastId());
-        params.add(match.getCourt());
+        params.add(match.getCourt().getCourtId());;
         params.add(match.getSlot());
         params.add(match.getDate());
         params.add(match.getKind());
         params.add(match.getPhase());
         
-        if(match.getPreviousMatchs().isEmpty()) {
+        if(match.getPreviousMatchs().size() != 2) {
             
             params.add(null);
             params.add(null);
@@ -122,11 +138,39 @@ public class MatchCollection {
         
         Connector.getConnection().query("Insert into match values (?, ?, ?, ?, NULL, ?, ?, NULL, ?, ?", params);
         
+        for(Player p : match.getPlayers()) {
+
+            params = new ArrayList<>();
+            params.add(match.getMatchId());
+            params.add(p.getPersonId());
+            Connector.getConnection().query("Insert into player_match values (?,?)", params);
+            
+        }
+        
+        for(Umpire u : match.getUmpires()) {
+            
+            params = new ArrayList<>();
+            params.add(match.getMatchId());
+            params.add(u.getPersonId());
+            Connector.getConnection().query("Insert into umpire_match values (?,?)", params);
+            
+        }
+        
+        for(BallBoy b : match.getBallboys()) {
+            
+            params = new ArrayList<>();
+            params.add(match.getMatchId());
+            params.add(b.getPersonId());
+            Connector.getConnection().query("Insert into ballboy_match values (?,?)", params);
+            
+        }
+        
     }
     
     public static void finalise(Match match) {
         
         ArrayList<Object> params = new ArrayList<>();
+        
         
         params.add(match.getWinner().getPersonId());
         params.add(match.getResult());

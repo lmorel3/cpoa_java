@@ -152,6 +152,37 @@ public class PlayerCollection {
         
     }    
     
+    public static ArrayList<Player> getFreeAt(Date date, int slot) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(date);
+        params.add(slot);
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query(""
+                
+                +" Select * " +
+                "  From person " +
+                "  Where person_type = '"+Person.TYPE_PLAYER+"' " +
+                "      and person_id not in " +
+                "              (Select person_id " +
+                "                  From player_match bm, match m " +
+                "                  Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and m.SLOT_ID = ?)"
+                
+                , params);
+        
+        ArrayList<Player> result = new ArrayList<>();
+        
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            result.add(new Player(row));
+            
+        }
+        
+        return result;
+        
+    }
     
    
 }
