@@ -161,13 +161,13 @@ public class PlayerCollection {
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query(""
                 
-                +" Select * " +
-                "  From person " +
-                "  Where person_type = '"+Person.TYPE_PLAYER+"' " +
-                "      and person_id not in " +
-                "              (Select person_id " +
-                "                  From player_match bm, match m " +
-                "                  Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and m.SLOT_ID = ?)"
+                +"Select * " +
+                "From person " +
+                "Where person_type = '"+Person.TYPE_PLAYER+"' " +
+                "and person_id not in " +
+                "(Select person_id " +
+                "From player_match bm, match m " +
+                "Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and m.SLOT_ID = ?)"
                 
                 , params);
         

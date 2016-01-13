@@ -191,13 +191,13 @@ public class UmpireCollection{
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query(""
                 
-                +" Select * " +
-                "  From person " +
-                "  Where person_type = '"+Person.TYPE_UMPIRE+"' " +
-                "      and person_id not in " +
-                "              (Select person_id " +
-                "                  From Umpire_match bm, match m " +
-                "                  Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and m.SLOT_ID = ?)"
+                +"Select * "
+                +"From person "
+                +"Where person_type = 'Player' "
+                +"and person_id not in "
+                +"(Select person_id "
+                +"From player_match bm, match m "
+                +"Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and slot_id = ? "
                 
                 , params);
         

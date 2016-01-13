@@ -140,7 +140,7 @@ public class MatchCollection {
         
         for(Player p : match.getPlayers()) {
 
-            params = new ArrayList<>();
+            params.clear();
             params.add(match.getMatchId());
             params.add(p.getPersonId());
             Connector.getConnection().query("Insert into player_match values (?,?)", params);
@@ -149,7 +149,7 @@ public class MatchCollection {
         
         for(Umpire u : match.getUmpires()) {
             
-            params = new ArrayList<>();
+            params.clear();
             params.add(match.getMatchId());
             params.add(u.getPersonId());
             Connector.getConnection().query("Insert into umpire_match values (?,?)", params);
@@ -158,7 +158,7 @@ public class MatchCollection {
         
         for(BallBoy b : match.getBallboys()) {
             
-            params = new ArrayList<>();
+            params.clear();
             params.add(match.getMatchId());
             params.add(b.getPersonId());
             Connector.getConnection().query("Insert into ballboy_match values (?,?)", params);
@@ -174,6 +174,8 @@ public class MatchCollection {
         
         params.add(match.getWinner().getPersonId());
         params.add(match.getResult());
+        
+        Connector.getConnection().query("Update match set winner = ?, results = ?", params);
         
         
         
