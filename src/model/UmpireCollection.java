@@ -169,7 +169,7 @@ public class UmpireCollection{
      * @param umpire
      * @return the number of matchs where the Umpire participates
      */
-    public static int getCountOfMatch(Umpire umpire) {
+    public static int getCountOfMatch(Umpire umpire, int kindOfMatch) {
         
         ArrayList<Object> params = new ArrayList<>();
         

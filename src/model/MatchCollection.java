@@ -316,7 +316,7 @@ public class MatchCollection {
      * @param match
      * @return true : if the umpire is available else false
      */
-    public static boolean checkCountOfMatchOfUmpire(Match match) {
+    public static boolean checkCountOfMatchOfUmpire(Match match, int kindOfMatch) {
         
         if(match.getUmpires().isEmpty()) {
             
@@ -326,7 +326,7 @@ public class MatchCollection {
         
         
         // match.getUmpires().get(0) return the ChairUmpire
-        if (UmpireCollection.getCountOfMatch(match.getUmpires().get(0)) <= 4) {
+        if (UmpireCollection.getCountOfMatch(match.getUmpires().get(0), kindOfMatch) <= 1) {
             
             return false;
             
