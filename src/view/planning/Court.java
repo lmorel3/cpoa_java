@@ -105,6 +105,45 @@ public class Court extends JPanel {
         
     }
     
+    /**
+     * Get the real courtId (in database) from the frame courtId (generated in CourtsContainer)
+     * @param frameCourtId
+     * @return real courtId (in database)
+     */
+    public static int getRealCourtId(int frameCourtId){
+
+        // 0 - 1 - 2   <->  1 - 3 - 5
+        // 3 - 4 - 5        2 - 4 - 6
+                
+        
+        int realCourtId = -1;
+        switch(frameCourtId) {
+                    
+            case 1:
+                realCourtId = 0;
+                break;
+            case 2:
+                realCourtId = 3;
+                break;
+            case 3:
+                realCourtId = 1;
+                break;
+            case 4:
+                realCourtId = 4;
+                break;
+            case 5:
+                realCourtId = 2;
+                break;
+            case 6:
+                realCourtId = 5;
+                break;
+
+        }
+        
+        return realCourtId;
+        
+    }
+    
     private void askForType() {
         
         Object[] options = {"Simple",

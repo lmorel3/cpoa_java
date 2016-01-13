@@ -5,12 +5,17 @@
  */
 package view.planning;
 
-import app.Settings;
+import app.PlanningController;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import model.BallBoy;
 import model.Match;
+import model.Person;
+import model.Umpire;
 import model.swing.PersonListModel;
 
 /**
@@ -19,21 +24,22 @@ import model.swing.PersonListModel;
  */
 public class EditMatch extends JFrame {
     
-    private EditMatch(){
+    private EditMatch(Match match){
+        this.match = match;
         initComponents();
     }
     
-    public static void display(){
+    public static void display(Match match){
         
-        frame = getFrame();
+        frame = getFrame(match);
         
         frame.setVisible(true);
         
     }
     
     public static void close(){
-        
-        frame = getFrame();
+                
+        frame = getFrame(new Match());
         
         frame.setVisible(false);
         frame.dispose(); // Destroy the frame
@@ -41,10 +47,10 @@ public class EditMatch extends JFrame {
         
     }
     
-    private static EditMatch getFrame(){
+    public static EditMatch getFrame(Match match){
         
         if(EditMatch.frame == null){
-            frame = new EditMatch();
+            frame = new EditMatch(match);
         }
         
         return frame;
@@ -66,6 +72,7 @@ public class EditMatch extends JFrame {
         EditMatch.modelBallBoys = new PersonListModel();
         EditMatch.modelUmpire = new PersonListModel();
         EditMatch.modelNetUmpires = new PersonListModel();
+        EditMatch.modelPhase = new javax.swing.DefaultComboBoxModel<>(PlanningController.PHASES_NAME);
         
         overPane = new javax.swing.JPanel();
         rowTitle = new javax.swing.JPanel();
@@ -234,14 +241,9 @@ public class EditMatch extends JFrame {
         labelMatchType.setPreferredSize(new java.awt.Dimension(150, 16));
         row5.add(labelMatchType);
 
-        comboType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Qualification", "Huitième de finale", "Quart de finale", "Demie finale", "Finale" }));
+        comboType.setModel(EditMatch.modelPhase);
         comboType.setMinimumSize(new java.awt.Dimension(125, 27));
         comboType.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 27));
-        comboType.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-
-            }
-        });
         row5.add(comboType);
 
         overPane.add(row5);
@@ -294,6 +296,13 @@ public class EditMatch extends JFrame {
            }
         });
         
+        
+        btnExit.addActionListener((java.awt.event.ActionEvent evt) -> {
+            
+            PlanningController.editMatch();
+            
+        });
+        
         btnExit.addActionListener((java.awt.event.ActionEvent evt) -> {
             
             askForClosing();
@@ -331,8 +340,71 @@ public class EditMatch extends JFrame {
         }
     }
     
-    public static void setMatch(Match match){
+    public static List<Umpire> getNetUmpires(){
         
+        List<Umpire> netUmpires = new ArrayList<>();
+        
+        int[] selectedIndexes = listNetUmpires.getSelectedIndices();
+        
+        // Get all the selected items using the indices
+        for (int i = 0; i < selectedIndexes.length; i++) {
+            netUmpires.add((Umpire) modelNetUmpires.getElementAt(selectedIndexes[i]));
+        }
+        
+        return netUmpires;
+        
+    }
+    
+    public static List<BallBoy> getBallBoys(){
+        
+        List<BallBoy> ballboys = new ArrayList<>();
+        
+        int[] selectedIndexes = listNetUmpires.getSelectedIndices();
+        
+        // Get all the selected items using the indices
+        for (int i = 0; i < selectedIndexes.length; i++) {
+            ballboys.add((BallBoy) modelNetUmpires.getElementAt(selectedIndexes[i]));
+        }
+        
+        return ballboys;       
+        
+    }
+    
+    public static void setSelectedBallBoys(List<BallBoy> ballboys){
+        
+        int index = 0, j = 0;
+        int[] selectedIndicies = new int[ballboys.size()];
+        for(Person b : modelBallBoys.getPersons()){
+            
+            if( ballboys.contains(((BallBoy)b)) ){
+                selectedIndicies[j] = index;
+                j++;
+            }
+            
+            index++;
+            
+        }
+        
+        listBallBoys.setSelectedIndices(selectedIndicies);
+        
+    }   
+    
+    public static void setSelectedNetUmpires(List<Umpire> netUmpires){
+        
+        int index = 0, j = 0;
+        int[] selectedIndicies = new int[netUmpires.size()];
+        for(Person b : modelNetUmpires.getPersons()){
+            
+            if( netUmpires.contains(((Umpire)b)) ){
+                selectedIndicies[j] = index;
+                j++;
+            }
+            
+            index++;
+            
+        }
+        
+        listNetUmpires.setSelectedIndices(selectedIndicies);
         
     }
     
@@ -357,8 +429,8 @@ public class EditMatch extends JFrame {
     private javax.swing.JLabel labelPlayerA;
     private javax.swing.JLabel labelPlayerB;
     private javax.swing.JLabel labelResult;
-    private javax.swing.JList<String> listBallBoys;
-    private javax.swing.JList<String> listNetUmpires;
+    private static javax.swing.JList<String> listBallBoys;
+    private static javax.swing.JList<String> listNetUmpires;
     private javax.swing.JLabel nationalityChairUmpire;
     private javax.swing.JLabel nationalityPlayerA;
     private javax.swing.JLabel nationalityPlayerB;
@@ -381,6 +453,7 @@ public class EditMatch extends JFrame {
     public static PersonListModel modelUmpire;
     public static PersonListModel modelNetUmpires;
     public static PersonListModel modelBallBoys;
+    public static javax.swing.DefaultComboBoxModel modelPhase;
     
     public static Match match;
     

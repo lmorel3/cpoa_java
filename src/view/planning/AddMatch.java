@@ -6,9 +6,13 @@
 package view.planning;
 
 import app.PlanningController;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import model.BallBoy;
 import model.Match;
+import model.Umpire;
 import model.swing.PersonListModel;
 
 /**
@@ -18,10 +22,14 @@ import model.swing.PersonListModel;
 public class AddMatch extends JFrame {
     
     private AddMatch(int matchType, int dayNumber, int slotId, int courtId){
-        this.matchType = matchType;
-        this.dayNumber = dayNumber;
-        this.slotId = slotId;
+        
+        AddMatch.matchType = matchType;
+        AddMatch.dayNumber = dayNumber;
+        AddMatch.slotId = slotId;
+        AddMatch.courtId = courtId;
+        
         initComponents();
+        
     }
     
     public static void display(int matchType, int dayNumber, int slotId, int courtId){
@@ -42,7 +50,7 @@ public class AddMatch extends JFrame {
         
     }
     
-    private static AddMatch getFrame(int matchType, int dayNumber, int slotId, int courtId){
+    public static AddMatch getFrame(int matchType, int dayNumber, int slotId, int courtId){
         
         if(AddMatch.frame == null){
             frame = new AddMatch(matchType, dayNumber, slotId, courtId);
@@ -67,6 +75,7 @@ public class AddMatch extends JFrame {
         AddMatch.modelBallBoys = new PersonListModel();
         AddMatch.modelUmpire = new PersonListModel();
         AddMatch.modelNetUmpires = new PersonListModel();
+        AddMatch.modelPhase = new javax.swing.DefaultComboBoxModel<>(PlanningController.PHASES_NAME);
         
         overPane = new javax.swing.JPanel();
         rowTitle = new javax.swing.JPanel();
@@ -232,8 +241,7 @@ public class AddMatch extends JFrame {
         labelMatchType.setPreferredSize(new java.awt.Dimension(150, 16));
         row5.add(labelMatchType);
 
-        modelType = new javax.swing.DefaultComboBoxModel<>(new String[] { "Qualification", "Huitième de finale", "Quart de finale", "Demie finale", "Finale" });
-        comboType.setModel(modelType);
+        comboType.setModel(AddMatch.modelPhase);
         comboType.setMinimumSize(new java.awt.Dimension(125, 27));
         comboType.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 27));
         row5.add(comboType);
@@ -300,6 +308,36 @@ public class AddMatch extends JFrame {
         }
     }
     
+    public static List<Umpire> getNetUmpires(){
+        
+        List<Umpire> netUmpires = new ArrayList<>();
+        
+        int[] selectedIndexes = listNetUmpires.getSelectedIndices();
+        
+        // Get all the selected items using the indices
+        for (int i = 0; i < selectedIndexes.length; i++) {
+            netUmpires.add((Umpire) modelNetUmpires.getElementAt(selectedIndexes[i]));
+        }
+        
+        return netUmpires;
+        
+    }
+    
+    public static List<BallBoy> getBallBoys(){
+        
+        List<BallBoy> ballboys = new ArrayList<>();
+        
+        int[] selectedIndexes = listNetUmpires.getSelectedIndices();
+        
+        // Get all the selected items using the indices
+        for (int i = 0; i < selectedIndexes.length; i++) {
+            ballboys.add((BallBoy) modelNetUmpires.getElementAt(selectedIndexes[i]));
+        }
+        
+        return ballboys;       
+        
+    }
+    
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnValid;
     private javax.swing.JComboBox<String> comboChairUmpire;
@@ -315,7 +353,7 @@ public class AddMatch extends JFrame {
     private javax.swing.JLabel labelPlayerA;
     private javax.swing.JLabel labelPlayerB;
     private javax.swing.JList<String> listBallBoys;
-    private javax.swing.JList<String> listNetUmpires;
+    private static javax.swing.JList<String> listNetUmpires;
     private javax.swing.JLabel nationalityChairUmpire;
     private javax.swing.JLabel nationalityPlayerA;
     private javax.swing.JLabel nationalityPlayerB;
@@ -337,10 +375,10 @@ public class AddMatch extends JFrame {
     public static PersonListModel modelUmpire;
     public static PersonListModel modelNetUmpires;
     public static PersonListModel modelBallBoys;
-    
-    public static javax.swing.DefaultComboBoxModel modelType;
+    public static javax.swing.DefaultComboBoxModel modelPhase;
+
         
-    public final int matchType, dayNumber, slotId;
+    public static int matchType, dayNumber, slotId, courtId;
 
     
 }

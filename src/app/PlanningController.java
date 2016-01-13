@@ -6,9 +6,15 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import model.BallBoy;
 import model.Match;
+import model.Person;
+import model.Player;
 import model.Reservation;
 import model.ReservationCollection;
+import model.Umpire;
 import view.planning.AddMatch;
 import view.planning.Court;
 import view.planning.CourtsContainer;
@@ -21,7 +27,12 @@ import view.planning.Planning;
  * @author laurent
  */
 public class PlanningController {
+    
+    public static final String[] PHASES_NAME = new String[] { "Qualification", "Huitième de finale", "Quart de finale", "Demie finale", "Finale" };
    
+    /**
+     * Fill the planning with Matchs and Reservations
+     */
     public static void refreshPlanning(){
         
         ArrayList<DayPane> dayPanes = Planning.getDayPanes();
@@ -33,7 +44,7 @@ public class PlanningController {
         ArrayList<Reservation> reservationsOfTheDay;
         
         int dayNumber;
-        int coordonate;
+        int realCourtId;
         
         for(dayNumber = 0; dayNumber < Settings.NB_DAYS; dayNumber++) {
             
@@ -44,35 +55,9 @@ public class PlanningController {
                 currentDay = dayPanes.get(dayNumber);
                 currentSlot = currentDay.getCourtsContainer(currentReservation.getSlotId());
                 
-                // 0 - 1 - 2   <->  1 - 3 - 5
-                // 3 - 4 - 5        2 - 4 - 6
+                realCourtId = Court.getRealCourtId(currentReservation.getCourtId());
                 
-                switch(currentReservation.getCourtId()) {
-                    
-                    case 1:
-                        coordonate = 0;
-                        break;
-                    case 2:
-                        coordonate = 3;
-                        break;
-                    case 3:
-                        coordonate = 1;
-                        break;
-                    case 4:
-                        coordonate = 4;
-                        break;
-                    case 5:
-                        coordonate = 2;
-                        break;
-                    case 6:
-                        coordonate = 5;
-                        break;
-                    default:
-                        coordonate = -1;
-                    
-                }
-                
-                currentCourt = currentSlot.getCourt(coordonate);
+                currentCourt = currentSlot.getCourt(realCourtId);
                 currentCourt.setMatch(currentReservation);
                 
             }
@@ -81,23 +66,161 @@ public class PlanningController {
         }
         
     }
-    
+        
+    /**
+     * Launch the EditMatch frame, fill datas and display it
+     * @param match the match to edit
+     */
     public static void initMatchEdition(Match match){
         
-        EditMatch.display();
-        EditMatch.setMatch(match);
+        EditMatch.getFrame(match);
+        
+        List<Person> persons = new ArrayList<>();
+        List<Player> matchPlayers = match.getPlayers();
+        List<Umpire> matchUmpires = match.getUmpires();
+
+        
+        // Add only valid Players
+        /*for(Person p : Récupérer Player compatibles){
+            persons.add((Player)p);
+        }
+        EditMatch.modelPlayerA.setPersons((ArrayList<Person>) persons);
+        persons.clear();
+        */
+        EditMatch.modelPlayerA.setSelectedItem(matchPlayers.get(0));
+
+        
+        // Add only valid Players
+        /*for(Person p : Récupérer Player compatibles){
+            persons.add((Player)p);
+        }
+        EditMatch.modelPlayerB.setPersons((ArrayList<Person>) persons);
+        persons.clear();
+        */
+        EditMatch.modelPlayerB.setSelectedItem(matchPlayers.get(1));
+        
+        // Add only valid BallBoys
+        /*for(Person p : Récupérer BallBoy compatibles){
+            persons.add((BallBoy)p);
+        }
+        EditMatch.modelBallBoys.setPersons((ArrayList<Person>) persons);
+        persons.clear();
+        */
+        
+        //EditMatch.setSelectedBallBoys(match.getBallboys()); // Select match's current BallBoys 
+        
+        /*for(Person p : Récupérer net Umpire compatibles){
+            persons.add((Umpire)p);
+        }
+        EditMatch.modelUmpire.setPersons((ArrayList<Person>) persons);
+        persons.clear();
+        */
+        
+        EditMatch.modelUmpire.setSelectedItem(matchUmpires.get(0));
+        
+        String phaseName = PlanningController.getPhaseNameById(match.getPhase());
+        EditMatch.modelPhase.setSelectedItem(phaseName);
+        
+        EditMatch.display(match);
+        
         
     }
-    
+
+    /**
+     * Launch the AddMatch frame, fill datas and display it
+     * @param matchType kind of match (Match.KIND_SIMPLE or Match.KIND_DOUBLE)
+     * @param dayNumber dayId number of the match
+     * @param slotId slotId of the match
+     * @param courtId courtId of the match
+     */
     public static void initMatchCreation(int matchType, int dayNumber, int slotId, int courtId){
+        
+        AddMatch.getFrame(matchType, dayNumber, slotId, courtId);
+                
+        // Add only valid Players
+        /*for(Person p : Récupérer Player compatibles){
+            persons.add((Player)p);
+        }
+        AddMatch.modelPlayerA.setPersons((ArrayList<Person>) persons);
+        persons.clear();
+        */
+
+        
+        // Add only valid Players
+        /*for(Person p : Récupérer Player compatibles){
+            persons.add((Player)p);
+        }
+        AddMatch.modelPlayerB.setPersons((ArrayList<Person>) persons);
+        persons.clear();
+        */
+        
+        // Add only valid BallBoys
+        /*for(Person p : Récupérer BallBoy compatibles){
+            persons.add((BallBoy)p);
+        }
+        AddMatch.modelBallBoys.setPersons((ArrayList<Person>) persons);
+        persons.clear();
+        */
+        
+        
+        /*for(Person p : Récupérer net Umpire compatibles){
+            persons.add((Umpire)p);
+        }
+        AddMatch.modelUmpire.setPersons((ArrayList<Person>) persons);
+        persons.clear();
+        */
+        
         
         AddMatch.display(matchType, dayNumber, slotId, courtId);
            
     }
     
+    /**
+     * Called by the "Valid" button of the AddMatch frame
+     * Add a match with properties selected in AddMatch frame
+     */
     public static void createMatch(){
         
-        String kind = (String) AddMatch.modelType.getSelectedItem();
+        String kind = (String) AddMatch.modelPhase.getSelectedItem();
+        
+        int phase = PlanningController.getPhaseIdByName(kind);
+        
+        //int matchId, Date date, int kind, int phase, Court court, int slot, ArrayList<Match> previousMatchs, 
+        //        o        x        x           x       x               x               o           
+        //ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
+        //              x                       x                           x
+        
+        int courtId = Court.getRealCourtId(AddMatch.courtId);
+        int slotId = AddMatch.slotId;
+        Date date = Settings.generateDate(AddMatch.dayNumber);
+        
+        Player playerA = (Player) AddMatch.modelPlayerA.getSelectedItem();
+        Player playerB = (Player) AddMatch.modelPlayerB.getSelectedItem();
+        
+        List<Player> players = new ArrayList<>();
+        players.add(playerA);
+        players.add(playerB);
+        
+        List<Umpire> umpires = new ArrayList<>();
+        
+        Umpire umpire = (Umpire) AddMatch.modelUmpire.getSelectedItem();
+        umpires.add(umpire); // Item 0 is the chair umpire
+        
+        List<Umpire> netUmpires = AddMatch.getNetUmpires();
+        umpires.addAll(netUmpires);
+        
+        List<BallBoy> ballboys = AddMatch.getBallBoys();
+        
+        
+    }
+    
+    /**
+     * Called by the "Valid" button of the EditMatch frame
+     * Edit a match with properties selected in EditMatch frame
+     */
+    public static void editMatch(){
+        
+        String kind = (String) AddMatch.modelPhase.getSelectedItem();
         String kindLowerCase = kind.toLowerCase();
         
         int phase = Match.PHASE_QUALIFICAITON;
@@ -110,10 +233,74 @@ public class PlanningController {
         else if(kindLowerCase.startsWith("finale"))
             phase = Match.PHASE_FINAL;
         
-        //int matchId, Date date, int kind, int phase, Court court, int slot, ArrayList<Match> previousMatchs, ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
-
+        //int matchId, Date date, int kind, int phase, Court court, int slot, ArrayList<Match> previousMatchs, 
+        //        o        x        x           x       x               x               o           
+        //ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
+        //              x                       x                           x
+        
+        int courtId = Court.getRealCourtId(AddMatch.courtId);
+        int slotId = AddMatch.slotId;
+        Date date = Settings.generateDate(AddMatch.dayNumber);
+        
+        Player playerA = (Player) AddMatch.modelPlayerA.getSelectedItem();
+        Player playerB = (Player) AddMatch.modelPlayerB.getSelectedItem();
+        
+        List<Player> players = new ArrayList<>();
+        players.add(playerA);
+        players.add(playerB);
+        
+        List<Umpire> umpires = new ArrayList<>();
+        
+        Umpire umpire = (Umpire) AddMatch.modelUmpire.getSelectedItem();
+        umpires.add(umpire); // Item 0 is the chair umpire
+        
+        List<Umpire> netUmpires = AddMatch.getNetUmpires();
+        umpires.addAll(netUmpires);
+        
+        List<BallBoy> ballboys = AddMatch.getBallBoys();
         
     }
+    
+    /**
+     * Get the phase id by its name
+     * @param phaseName
+     * @return phaseId
+     */
+    public static int getPhaseIdByName(String phaseName){
+        
+        phaseName = phaseName.toLowerCase();
+        int phase = Match.PHASE_QUALIFICAITON;
+        if(phaseName.startsWith("huitième"))
+            phase = Match.PHASE_8EME;
+        else if(phaseName.startsWith("quart"))
+            phase = Match.PHASE_QUART;
+        else if(phaseName.startsWith("demie"))
+            phase = Match.PHASE_SEMIFINAL;
+        else if(phaseName.startsWith("finale"))
+            phase = Match.PHASE_FINAL;
+        
+        return phase;
+    }
 
+    /**
+     * Get the phase name by its id
+     * @param phaseId
+     * @return phaseName
+     */
+    public static String getPhaseNameById(int phaseId){
+        
+        String phaseName = PlanningController.PHASES_NAME[0];
+        if(phaseId == Match.PHASE_8EME)
+            phaseName = PlanningController.PHASES_NAME[1];
+        else if(phaseId == Match.PHASE_QUART)
+            phaseName = PlanningController.PHASES_NAME[2];
+        else if(phaseId == Match.PHASE_SEMIFINAL)
+            phaseName = PlanningController.PHASES_NAME[3];
+        else if(phaseId == Match.PHASE_FINAL)
+            phaseName = PlanningController.PHASES_NAME[4];
+        
+        return phaseName;
+        
+    }
          
 }
