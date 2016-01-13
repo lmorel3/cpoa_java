@@ -9,6 +9,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 
@@ -94,20 +95,86 @@ public class MatchCollection {
         
     }
     
-    public static void generatePhase(int phase) {
+    /**
+     * 
+     * @param match
+     * @return 
+     */
+    public static List<Integer> isValid(Match match) {
         
-        int previousPhase = 2*phase;
+        List<Integer> errors = new ArrayList<>();
         
-        System.out.println(previousPhase);
-        System.out.println(MatchCollection.countMatchOfPhase(previousPhase));
+     /*   private int matchId;
+        private String result;
+        private Date date;
+        private int kind;
+        private int phase;
+        private Court court;
+        private int slot;
+        private ArrayList<Player> players;
+        private ArrayList<Match> previousMatchs;
+        private ArrayList<Umpire> umpires;
+        private ArrayList<BallBoy> ballboys;
+        private Player winner; */
         
-        if(phase != Match.PHASE_QUALIFICAITON) {
-            if (MatchCollection.countMatchOfPhase(previousPhase) != previousPhase) {
+        //Disponibilité des joueurs
+        
+        errors.add(Match.ERR_PLAYERS);
+        
+        //Nationalité arbitre
+        
+        errors.add(Match.ERR_NATIONALITY_CONFLICT);
+        
+        //Ordre chronologique des phases
+        
+        
+        
+        // Match over ne peuvent plus être déplacé
+        
+        // Arbitre 2 matchs / tournois
+        
+        // Check reservations
+        
+        // Match antérieurs ne peut pas être déplacé après les match des phases suivantes.
+        
+        return errors;
+        
+    }
+    
+    public static void create(Match match) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(Match.getLastId());
+        params.add(match.getCourt());
+        params.add(match.getSlot());
+        params.add(match.getDate());
+        params.add(match.getKind());
+        params.add(match.getPhase());
+        
+        if(match.getPreviousMatchs().isEmpty()) {
             
-                System.err.println("La fonction n'est pas possible. La phase précédente n'est pas terminée.");
+            params.add(null);
+            params.add(null);
             
-            }
+        } else {
+        
+            params.add(match.getPreviousMatchs().get(0).getMatchId());
+            params.add(match.getPreviousMatchs().get(1).getMatchId());
+        
         }
+        
+        Connector.getConnection().query("Insert into match values (?, ?, ?, ?, NULL, ?, ?, NULL, ?, ?", params);
+        
+    }
+    
+    public static void finalise(Match match) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(match.getWinner().getPersonId());
+        params.add(match.getResult());
+        
         
         
     }

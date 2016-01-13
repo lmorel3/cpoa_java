@@ -7,6 +7,8 @@ package app;
 
 import javax.swing.JOptionPane;
 import model.Manager;
+import model.Match;
+import model.MatchCollection;
 import view.main.Connection;
 import view.planning.Planning;
 
@@ -46,6 +48,27 @@ public class AppController {
         }
         
 
+    }
+    
+    /**
+     * Generate automaticaly the match of the phase "phase"
+     * @param phase the number of the phase. Use Match.PHASE_
+     */
+    public static void generatePhase(int phase) {
+        
+        int previousPhase = 2*phase;
+        
+        System.out.println(previousPhase);
+        System.out.println(MatchCollection.countMatchOfPhase(previousPhase));
+        
+        if(phase != Match.PHASE_QUALIFICAITON) {
+            if (MatchCollection.countMatchOfPhase(previousPhase) != previousPhase) {
+            
+                System.err.println("La fonction n'est pas possible. La phase précédente n'est pas terminée.");
+            
+            }
+        }
+        
     }
     
     

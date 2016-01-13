@@ -66,6 +66,12 @@ public class UmpireCollection{
         return current;
     }
     
+    /**
+     * Return the list of the umpires of a match. The first umpire is the
+     * Chair umpire.
+     * @param matchIndex The id of the mathc
+     * @return the list of the umpires of a match
+     */
     public static ArrayList<Umpire> readByMatch(int matchIndex) {
         
         ArrayList<Object> params = new ArrayList<>();
@@ -74,7 +80,7 @@ public class UmpireCollection{
         params.add(matchIndex);
         Umpire current;        
         
-        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person Where person_id IN (Select person_id From umpire_match where match_id = ?) and person_type = '"+Person.TYPE_UMPIRE+"'", params);
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person Where person_id IN (Select person_id From umpire_match where match_id = ?) and person_type = '"+Person.TYPE_UMPIRE+"' and person_level = "+Umpire.CHAIR_LEVEL, params);
         
         for(HashMap<String, Object> row : cursor) {
             
@@ -83,6 +89,22 @@ public class UmpireCollection{
             
         }
         
+        if(result.isEmpty()) {
+            
+            
+            result.add(new Umpire());
+            
+        }
+        
+        cursor = Connector.getConnection().query("Select * From person Where person_id IN (Select person_id From umpire_match where match_id = ?) and person_type = '"+Person.TYPE_UMPIRE+"' and person_level = "+Umpire.NET_LEVEL, params);
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            current = new Umpire(row);
+            result.add(current);
+            
+        }
+               
         return result;        
         
     }

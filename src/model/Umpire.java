@@ -14,6 +14,9 @@ import java.util.HashMap;
  */
 public class Umpire extends Person {
     
+    public static final String CHAIR_LEVEL = "ITT1";
+    public static final String NET_LEVEL = "JAT2";
+    
     String level;
     
     public Umpire() {}
