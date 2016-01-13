@@ -347,6 +347,12 @@ public class AddMatch extends JFrame {
         listNetUmpires.updateUI();
         listBallBoys.updateUI();
         comboType.updateUI();
+        
+        comboPlayerA.setSelectedIndex(0);
+        comboPlayerB.setSelectedIndex(0);
+        comboChairUmpire.setSelectedIndex(0);
+        comboType.setSelectedIndex(0);
+        
     }
     
     private javax.swing.JButton btnExit;

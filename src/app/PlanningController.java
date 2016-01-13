@@ -146,19 +146,20 @@ public class PlanningController {
         System.out.println(BallBoyCollection.getFreeAt(date, slotId));
         System.out.println(UmpireCollection.getFreeAt(date, slotId));*/
                 
-        List<Person> players = new ArrayList<>();
+        List<Person> playersA = new ArrayList<>();
 
         // Add only valid Players
         for(Person p : PlayerCollection.getFreeAt(date, slotId)){ //Récupérer Player compatibles){
-            players.add((Player)p);
+            playersA.add((Player)p);
         }
-        AddMatch.modelPlayerA.setPersons((ArrayList<Person>) players);
+        AddMatch.modelPlayerA.setPersons((ArrayList<Person>) playersA);
         
+        List<Person> playersB = new ArrayList<>();
         // Add only valid Players
         for(Person p : PlayerCollection.getFreeAt(date, slotId)){ //Récupérer Player compatibles){
-            players.add((Player)p);
+            playersB.add((Player)p);
         }
-        AddMatch.modelPlayerB.setPersons((ArrayList<Person>) players);
+        AddMatch.modelPlayerB.setPersons((ArrayList<Person>) playersB);
         
         List<Person> ballboys = new ArrayList<>();
         

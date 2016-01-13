@@ -193,11 +193,11 @@ public class UmpireCollection{
                 
                 +"Select * "
                 +"From person "
-                +"Where person_type = 'Player' "
+                +"Where person_type = '"+ Person.TYPE_UMPIRE +"' "
                 +"and person_id not in "
                 +"(Select person_id "
-                +"From player_match bm, match m "
-                +"Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and slot_id = ? "
+                +"From umpire_match bm, match m "
+                +"Where bm.MATCH_ID = m.MATCH_ID and m.DATE_MATCH = ? and slot_id = ?)"
                 
                 , params);
         
