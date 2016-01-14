@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.ListCellRenderer;
 import model.BallBoy;
 import model.Match;
 import model.Umpire;
+import model.swing.DoublePersonListRenderer;
 import model.swing.PersonListModel;
+import model.swing.PersonListRenderer;
 
 /**
  *
@@ -87,15 +90,15 @@ public class AddMatch extends JFrame {
         row1 = new javax.swing.JPanel();
         labelPlayerA = new javax.swing.JLabel();
         comboPlayerA = new javax.swing.JComboBox<>();
-        nationalityPlayerA = new javax.swing.JLabel();
+        //nationalityPlayerA = new javax.swing.JLabel();
         row2 = new javax.swing.JPanel();
         labelPlayerB = new javax.swing.JLabel();
         comboPlayerB = new javax.swing.JComboBox<>();
-        nationalityPlayerB = new javax.swing.JLabel();
+        //nationalityPlayerB = new javax.swing.JLabel();
         row3 = new javax.swing.JPanel();
         labelChairUmpire = new javax.swing.JLabel();
         comboChairUmpire = new javax.swing.JComboBox<>();
-        nationalityChairUmpire = new javax.swing.JLabel();
+        //nationalityChairUmpire = new javax.swing.JLabel();
         row7 = new javax.swing.JPanel();
         labelNetUmpires = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -156,13 +159,22 @@ public class AddMatch extends JFrame {
         row1.add(labelPlayerA);
 
         comboPlayerA.setModel(AddMatch.modelPlayerA);
-        comboPlayerA.setPreferredSize(new java.awt.Dimension(COMBOBOX_WIDTH, 27));
+        comboPlayerA.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 27));
+        
+        if((AddMatch.matchType == Match.KIND_SIMPLE)){
+            ListCellRenderer listRenderer = new PersonListRenderer();
+            comboPlayerA.setRenderer(listRenderer);
+        }else{
+            ListCellRenderer listRenderer = new DoublePersonListRenderer();
+            comboPlayerA.setRenderer(listRenderer);
+        }
+        
         row1.add(comboPlayerA);
 
-        nationalityPlayerA.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        /*nationalityPlayerA.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nationalityPlayerA.setText("ES - FR");
         nationalityPlayerA.setPreferredSize(new java.awt.Dimension(NATIONALITY_WIDTH, 16));
-        row1.add(nationalityPlayerA);
+        row1.add(nationalityPlayerA);*/
 
         overPane.add(row1);
 
@@ -174,13 +186,22 @@ public class AddMatch extends JFrame {
         row2.add(labelPlayerB);
 
         comboPlayerB.setModel(AddMatch.modelPlayerB);
-        comboPlayerB.setPreferredSize(new java.awt.Dimension(COMBOBOX_WIDTH, 27));
+        comboPlayerB.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 27));
+        
+        if((AddMatch.matchType == Match.KIND_SIMPLE)){
+            ListCellRenderer listRenderer = new PersonListRenderer();
+            comboPlayerB.setRenderer(listRenderer);
+        }else{
+            ListCellRenderer listRenderer = new DoublePersonListRenderer();
+            comboPlayerB.setRenderer(listRenderer);
+        }
+                
         row2.add(comboPlayerB);
 
-        nationalityPlayerB.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        /*nationalityPlayerB.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nationalityPlayerB.setText("CH - FR");
         nationalityPlayerB.setPreferredSize(new java.awt.Dimension(NATIONALITY_WIDTH, 16));
-        row2.add(nationalityPlayerB);
+        row2.add(nationalityPlayerB);*/
 
         overPane.add(row2);
 
@@ -192,13 +213,17 @@ public class AddMatch extends JFrame {
         row3.add(labelChairUmpire);
 
         comboChairUmpire.setModel(AddMatch.modelUmpire);
-        comboChairUmpire.setPreferredSize(new java.awt.Dimension(COMBOBOX_WIDTH, 27));
+        comboChairUmpire.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 27));
+        
+        ListCellRenderer listRenderer = new PersonListRenderer();
+        comboChairUmpire.setRenderer(listRenderer);
+        
         row3.add(comboChairUmpire);
 
-        nationalityChairUmpire.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        /*nationalityChairUmpire.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nationalityChairUmpire.setText("FR");
         nationalityChairUmpire.setPreferredSize(new java.awt.Dimension(NATIONALITY_WIDTH, 16));
-        row3.add(nationalityChairUmpire);
+        row3.add(nationalityChairUmpire);*/
 
         overPane.add(row3);
 
@@ -373,9 +398,9 @@ public class AddMatch extends JFrame {
     private javax.swing.JLabel labelPlayerB;
     public static javax.swing.JList<String> listBallBoys;
     public static javax.swing.JList<String> listNetUmpires;
-    private javax.swing.JLabel nationalityChairUmpire;
-    private javax.swing.JLabel nationalityPlayerA;
-    private javax.swing.JLabel nationalityPlayerB;
+    //private javax.swing.JLabel nationalityChairUmpire;
+    //private javax.swing.JLabel nationalityPlayerA;
+    //private javax.swing.JLabel nationalityPlayerB;
     private javax.swing.JPanel overPane;
     private javax.swing.JPanel row1;
     private javax.swing.JPanel row2;

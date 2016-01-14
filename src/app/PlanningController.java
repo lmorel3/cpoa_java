@@ -86,6 +86,9 @@ public class PlanningController {
         
     }
     
+    /**
+     * Init the planning with real court names
+     */
     public static void initPlanning(){
         
         List<model.Court> courts = CourtCollection.readAll();
@@ -115,50 +118,57 @@ public class PlanningController {
         
         EditMatch.getFrame(match);
         
-        List<Person> persons = new ArrayList<>();
+        List<Person> personsPlayerA = new ArrayList<>();
+        List<Person> personsPlayerB = new ArrayList<>();
+        List<Person> personsBallBoy = new ArrayList<>();
+        List<Person> personsUmpire = new ArrayList<>();
+        List<Person> personsNetUmpire = new ArrayList<>();
+        
         List<Player> matchPlayers = match.getPlayers();
         List<Umpire> matchUmpires = match.getUmpires();
 
-        
         // Add only valid Umpires
         for(Person p : PlayerCollection.getFreeAt(match.getDate(), match.getSlot())){// Récupérer Player compatibles){
-            persons.add((Player)p);
+            personsPlayerA.add((Player)p);
         }
-        EditMatch.modelPlayerA.setPersons((ArrayList<Person>) persons);
-        persons.clear();
+                
+        EditMatch.modelPlayerA.setPersons((ArrayList<Person>) personsPlayerA);
         
         EditMatch.modelPlayerA.setSelectedItem(matchPlayers.get(0));
 
         
         // Add only valid Players
         for(Person p : PlayerCollection.getFreeAt(match.getDate(), match.getSlot())){ //Récupérer Player compatibles
-            persons.add((Player)p);
+            personsPlayerB.add((Player)p);
         }
-        EditMatch.modelPlayerB.setPersons((ArrayList<Person>) persons);
-        persons.clear();
+        EditMatch.modelPlayerB.setPersons((ArrayList<Person>) personsPlayerB);
         
         EditMatch.modelPlayerB.setSelectedItem(matchPlayers.get(1));
         
         // Add only valid BallBoys
         for(Person p : BallBoyCollection.getFreeAt(match.getDate(), match.getSlot())){ //Récupérer BallBoy compatibles){
-            persons.add((BallBoy)p);
+            personsBallBoy.add((BallBoy)p);
         }
-        EditMatch.modelBallBoys.setPersons((ArrayList<Person>) persons);
-        persons.clear();
-        
+        EditMatch.modelBallBoys.setPersons((ArrayList<Person>) personsBallBoy);        
         
         EditMatch.setSelectedBallBoys(match.getBallboys()); // Select match's current BallBoys 
         
-        for(Person p : UmpireCollection.getFreeAt(match.getDate(), match.getSlot())){ //Récupérer net Umpire compatibles){
-            persons.add((Umpire)p);
+        for(Person p : UmpireCollection.getFreeAt(match.getDate(), match.getSlot())){ //Récupérer Umpire compatibles){
+            if(((Umpire)p).getLevel().equals(Umpire.CHAIR_LEVEL)){
+                personsUmpire.add((Umpire)p);
+            }else{
+                personsNetUmpire.add((Umpire)p);
+            }
         }
-        EditMatch.modelUmpire.setPersons((ArrayList<Person>) persons);
-        persons.clear();
-        
+        EditMatch.modelUmpire.setPersons((ArrayList<Person>) personsUmpire);
         EditMatch.modelUmpire.setSelectedItem(matchUmpires.get(0));
+               
+        EditMatch.modelNetUmpires.setPersons((ArrayList<Person>) personsNetUmpire);
         
         String phaseName = PlanningController.getPhaseNameById(match.getPhase());
         EditMatch.modelPhase.setSelectedItem(phaseName);
+        
+        EditMatch.inputResult.setText(match.getResult());
         
         EditMatch.display(match);
         
@@ -207,11 +217,17 @@ public class PlanningController {
         AddMatch.modelBallBoys.setPersons((ArrayList<Person>) ballboys);
         
         List<Person> umpires = new ArrayList<>();
+        List<Person> netUmpires = new ArrayList<>();
 
-        for(Person p : UmpireCollection.getFreeAt(date, slotId)){ // Récupérer Umpire compatibles
-            umpires.add((Umpire)p);
+        for(Person p : UmpireCollection.getFreeAt(date, slotId)){ //Récupérer Umpire compatibles){
+            if(((Umpire)p).getLevel().equals(Umpire.CHAIR_LEVEL) && UmpireCollection.getCountOfMatch(((Umpire)p), matchType) <= 1){
+                umpires.add((Umpire)p);
+            }else{
+                netUmpires.add((Umpire)p);
+            }
         }
         AddMatch.modelUmpire.setPersons((ArrayList<Person>) umpires);
+        AddMatch.modelNetUmpires.setPersons((ArrayList<Person>) netUmpires);
         
         AddMatch.display(matchType, dayNumber, slotId, courtId);
                            
@@ -294,8 +310,12 @@ public class PlanningController {
         // Constraints checked and correct
         if(errors.isEmpty()){
             MatchCollection.create(match);
+            PlanningController.refreshPlanning();
+            AddMatch.close();
+            JOptionPane.showMessageDialog (null, "Match enregistré avec succès !", "Enregistrement", JOptionPane.INFORMATION_MESSAGE);
         }else{
-            JOptionPane.showMessageDialog (null, errors.toString(), "Erreur : contraintes non respectées", JOptionPane.INFORMATION_MESSAGE);
+            System.err.println(errors);
+            JOptionPane.showMessageDialog (null, errors.toString(), "Erreur : contraintes non respectées", JOptionPane.ERROR_MESSAGE);
         }
         
         

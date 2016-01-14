@@ -352,11 +352,11 @@ public class MatchCollection {
         // match.getUmpires().get(0) return the ChairUmpire
         if (UmpireCollection.getCountOfMatch(match.getUmpires().get(0), kindOfMatch) <= 1) {
             
-            return false;
+            return true;
             
         }
         
-        return true;
+        return false;
         
     }
     
