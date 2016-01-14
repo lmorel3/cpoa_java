@@ -91,13 +91,10 @@ public class MatchCollection {
         params.add(date);
         
         ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From match where date_match = ?", params);
-        
-        Match current;
-        
+               
         for(HashMap<String, Object> row : cursor) {
         
-            current = new Match(row);
-            result.add(current);
+            result.add(new Match(row));
         
         }
         
@@ -425,5 +422,6 @@ public class MatchCollection {
          
          
      }
+    
     
 }
