@@ -37,6 +37,33 @@ public class MatchCollection {
 
     }
     
+    /**
+     * Return the match at the emplacment Date, courtId and slotId. If no match exist it returns null
+     * @param date The date of the searched match
+     * @param courtId the court of the searched match
+     * @param slotId the slot of the searched match
+     * @return The match at the emplacement if it exists else return false
+     */
+    public static Match readOneByEmplacement(Date date, int courtId, int slotId) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(date);
+        params.add(courtId);
+        params.add(slotId);
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From match where date = ? and court_id = ? and slot_id = ?", params);
+        
+        if(!cursor.isEmpty()) {
+            
+            return new Match(cursor.get(0));
+            
+        }
+        
+        return null;
+        
+    }
+    
     public static ArrayList<Match> readAll() {
         
         ArrayList<Match> result= new ArrayList<>();
@@ -384,5 +411,19 @@ public class MatchCollection {
         return true;
         
     }
+     
+     
+     public static void delete(Match match) {
+         
+         ArrayList<Object> params = new ArrayList<>();
+         
+         Connector.getConnection().query("Delete * From match where match_id = ?", params);
+         Connector.getConnection().query("Delete * From ballboy_match where match_id = ?", params);
+         Connector.getConnection().query("Delete * From umpire_match where match_id = ?", params);
+         Connector.getConnection().query("Delete * From player_match where match_id = ?", params);
+         
+         
+         
+     }
     
 }
