@@ -273,7 +273,7 @@ public class MatchCollection {
         
         for(Player p : players) {
             
-            if(p.getCountry().equals(chairUmpire.getCountry())) {
+            if(p.hasSameNationality(chairUmpire)) {
                 
                 return false;
                 

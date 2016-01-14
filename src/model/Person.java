@@ -94,6 +94,19 @@ public abstract class Person {
         
         return p.getPersonId() == this.getPersonId();
     }
-
+   
+    public boolean hasSameNationality(Object o) {
+        
+        if(!(o instanceof Person)) {
+            
+            return false;
+            
+        }
+        
+        Person p = (Person)o;
+        
+        return p.getCountry().toLowerCase().equals(this.getCountry().toLowerCase());
+        
+    }
     
 }

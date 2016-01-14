@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 import java.math.BigDecimal;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * 
+ *
  * @author Rouquette Loïc
  */
 public class Match {
@@ -32,23 +31,23 @@ public class Match {
 
     public final static int KIND_SIMPLE = 1;
     public final static int KIND_DOUBLE = 2;
-    
+
     public final static int PHASE_QUALIFICAITON = 16;
     public final static int PHASE_8EME = 8;
     public final static int PHASE_QUART = 4;
     public final static int PHASE_SEMIFINAL = 2;
     public final static int PHASE_FINAL = 1;
-        
+
     public Match() {
-        
+
         this.previousMatchs = new ArrayList<>(); // Facultative
-   
+
     }
-    
+
     public Match(HashMap<String, Object> datas) {
-        
+
         this.hydrate(datas);
-        
+
     }
 
     public Match(int matchId, Date date, int kind, int phase, Court court, int slot, ArrayList<Match> previousMatchs, ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
@@ -61,15 +60,15 @@ public class Match {
         this.players = players;
         this.previousMatchs = previousMatchs;
     }
-    
+
     public void concludeMatch(String result, Player winner) {
-        
+
         this.result = result;
         this.winner = winner;
-        
+
     }
-    
-     /**
+
+    /**
      * Get the value of winner
      *
      * @return the value of winner
@@ -126,9 +125,6 @@ public class Match {
     public void setBallboys(ArrayList<BallBoy> ballboys) {
         this.ballboys = ballboys;
     }
-    
-
-   
 
     /**
      * Get the value of court
@@ -148,7 +144,6 @@ public class Match {
         this.court = court;
     }
 
-
     /**
      * Get the value of phase
      *
@@ -166,7 +161,6 @@ public class Match {
     public void setPhase(int phase) {
         this.phase = phase;
     }
-
 
     /**
      * Get the value of kind
@@ -186,7 +180,6 @@ public class Match {
         this.kind = kind;
     }
 
-
     /**
      * Get the value of date
      *
@@ -204,7 +197,6 @@ public class Match {
     public void setDate(Date date) {
         this.date = date;
     }
-
 
     /**
      * Get the value of result
@@ -224,7 +216,6 @@ public class Match {
         this.result = result;
     }
 
-
     /**
      * Get the value of matchId
      *
@@ -242,33 +233,33 @@ public class Match {
     public void setMatchId(int matchId) {
         this.matchId = matchId;
     }
-    
-    public void hydrate(HashMap<String, Object> datas) {        
-        
+
+    public void hydrate(HashMap<String, Object> datas) {
+
         try {
-            
-            int matchId = (int)((BigDecimal)datas.get("MATCH_ID")).intValue();
-            int courtId = (int)((BigDecimal)datas.get("COURT_ID")).intValue();
-            int winnerId = (int)((BigDecimal)datas.get("WINNER")).intValue();
-            int slotId = (int)((BigDecimal)datas.get("SLOT_ID")).intValue();               
-            java.util.Date date = new java.util.Date(((java.util.Date)datas.get("DATE_MATCH")).getTime());
-            String result = (String)datas.get("RESULTS");
-            int kind = (int)((BigDecimal)datas.get("KIND")).intValue();
-            int phase = (int)((BigDecimal)datas.get("PHASE")).intValue();
-            int previousMatch1Id = (int)((BigDecimal)datas.get("PREVIOUS_MATCH1")).intValue();
-            int previousMatch2Id = (int)((BigDecimal)datas.get("PREVIOUS_MATCH2")).intValue();
-            
+
+            int matchId = (int) ((BigDecimal) datas.get("MATCH_ID")).intValue();
+            int courtId = (int) ((BigDecimal) datas.get("COURT_ID")).intValue();
+            int winnerId = (int) ((BigDecimal) datas.get("WINNER")).intValue();
+            int slotId = (int) ((BigDecimal) datas.get("SLOT_ID")).intValue();
+            java.util.Date date = new java.util.Date(((java.util.Date) datas.get("DATE_MATCH")).getTime());
+            String result = (String) datas.get("RESULTS");
+            int kind = (int) ((BigDecimal) datas.get("KIND")).intValue();
+            int phase = (int) ((BigDecimal) datas.get("PHASE")).intValue();
+            int previousMatch1Id = (int) ((BigDecimal) datas.get("PREVIOUS_MATCH1")).intValue();
+            int previousMatch2Id = (int) ((BigDecimal) datas.get("PREVIOUS_MATCH2")).intValue();
+
             ArrayList<Umpire> umpires = UmpireCollection.readByMatch(matchId);
             ArrayList<BallBoy> ballBoys = BallBoyCollection.readByMatch(matchId);
             ArrayList<Player> players = PlayerCollection.readByMatch(matchId);
-            
+
             Match previousM1 = MatchCollection.readOne(previousMatch1Id);
             Match previousM2 = MatchCollection.readOne(previousMatch2Id);
-            
+
             ArrayList<Match> previousMatchs = new ArrayList<>();
             previousMatchs.add(previousM1);
             previousMatchs.add(previousM2);
-            
+
             this.matchId = matchId;
             this.court = CourtCollection.readOne(courtId);
             this.slot = slotId;
@@ -281,28 +272,23 @@ public class Match {
             this.date = date;
             this.previousMatchs = previousMatchs;
             this.result = result;
-                 
-            
-        }
-        catch (Exception e) {
-            
+
+        } catch (Exception e) {
+
             System.err.println("Erreur d'hydratation Match " + e.getMessage());
-            
+
         }
-        
+
     }
-    
-     public static int getLastId() {
-        
+
+    public static int getLastId() {
+
         ArrayList<Object> params = new ArrayList<>();
-        
+
         ArrayList<HashMap<String, Object>> result = Connector.getConnection().query("Select match_id from match where rownum = 1 order by match_id desc", params);
-        
-        return 1+(int)((BigDecimal)result.get(0).get("MATCH_ID")).intValue();
-        
+
+        return 1 + (int) ((BigDecimal) result.get(0).get("MATCH_ID")).intValue();
+
     }
 
-
-    
-    
 }
