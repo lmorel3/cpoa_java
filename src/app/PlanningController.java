@@ -48,17 +48,19 @@ public class PlanningController {
         Court currentCourt;
         
         ArrayList<Reservation> reservationsOfTheDay;
+        ArrayList<Match> matchsOfTheDay;
         
         int dayNumber;
         int interfaceCourtId;
         
         for(dayNumber = 0; dayNumber < Settings.NB_DAYS; dayNumber++) {
             
+            currentDay = dayPanes.get(dayNumber);
+
             reservationsOfTheDay = ReservationCollection.read(Settings.generateDate(dayNumber), Settings.generateDate(dayNumber+1));
             
             for(Reservation currentReservation : reservationsOfTheDay) {
                 
-                currentDay = dayPanes.get(dayNumber);
                 currentSlot = currentDay.getCourtsContainer(currentReservation.getSlotId());
                 
                 interfaceCourtId = Court.getInterfaceCourt(currentReservation.getCourtId());
@@ -68,8 +70,40 @@ public class PlanningController {
                 
             }
             
+            matchsOfTheDay = MatchCollection.readByDate(Settings.generateDate(dayNumber));
+
+            for(Match currentMatch : matchsOfTheDay){
+                
+                currentSlot = currentDay.getCourtsContainer(currentMatch.getSlot());
+                interfaceCourtId = Court.getInterfaceCourt(currentMatch.getCourt().getCourtId());
+                
+                currentCourt = currentSlot.getCourt(interfaceCourtId);
+                currentCourt.setMatch(currentMatch);
+                
+            }
             
         }
+        
+    }
+    
+    public static void initPlanning(){
+        
+        List<model.Court> courts = CourtCollection.readAll();
+                
+        for(DayPane dayPane : Planning.getDayPanes()){
+            
+            for(CourtsContainer courtsContainer : dayPane.getCourtsContainer()){
+                
+                for(Court court : courtsContainer.getCourts()){
+                    
+                    court.setTitle(courts.get(Court.getRealCourtId(court.getInterfaceCourtId())-1).getCourtName());
+                    
+                }
+                
+            }
+            
+        }
+        
         
     }
         
@@ -190,13 +224,9 @@ public class PlanningController {
     public static void createMatch(){
         
         String round = (String) AddMatch.modelPhase.getSelectedItem();
-        
         int phase = PlanningController.getPhaseIdByName(round);
         
-        //int matchId, Date date, int kind, int phase, Court court, int slot, ArrayList<Match> previousMatchs, 
-        //        o        x        x           x       x               x               o           
-        //ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
-        //              x                       x                           x
+        int kind = AddMatch.matchType;
         
         int courtId = Court.getRealCourtId(AddMatch.interfaceCourtId);
         int slotId = AddMatch.slotId;
@@ -209,7 +239,7 @@ public class PlanningController {
         players.add(playerA);
         players.add(playerB);
         
-        if(AddMatch.matchType == Match.KIND_DOUBLE){
+        if(kind == Match.KIND_DOUBLE){
             players.add(playerA.getPartner());
             players.add(playerB.getPartner());
         }
@@ -245,7 +275,7 @@ public class PlanningController {
         
         List<String> errors = new ArrayList<>();
         
-        if(!MatchCollection.checkCountOfMatchOfUmpire(match)){
+        if(!MatchCollection.checkCountOfMatchOfUmpire(match, kind)){
             errors.add("L'arbitre de chaise a déjà arbitré 2 matchs durant ce tournoi.");
         }
         
@@ -277,7 +307,7 @@ public class PlanningController {
      */
     public static void editMatch(){
         
-        String kind = (String) AddMatch.modelPhase.getSelectedItem();
+        String kind = (String) EditMatch.modelPhase.getSelectedItem();
         String kindLowerCase = kind.toLowerCase();
         
         int phase = Match.PHASE_QUALIFICAITON;
@@ -290,17 +320,12 @@ public class PlanningController {
         else if(kindLowerCase.startsWith("finale"))
             phase = Match.PHASE_FINAL;
         
-        //int matchId, Date date, int kind, int phase, Court court, int slot, ArrayList<Match> previousMatchs, 
-        //        o        x        x           x       x               x               o           
-        //ArrayList<Player> players, ArrayList<Umpire> umpires, ArrayList<BallBoy> ballboys) {
-        //              x                       x                           x
+        int courtId = EditMatch.match.getCourt().getCourtId();
+        int slotId = EditMatch.match.getSlot();
+        Date date = EditMatch.match.getDate();
         
-        int courtId = Court.getRealCourtId(AddMatch.interfaceCourtId);
-        int slotId = AddMatch.slotId;
-        Date date = Settings.generateDate(AddMatch.dayNumber);
-        
-        Player playerA = (Player) AddMatch.modelPlayerA.getSelectedItem();
-        Player playerB = (Player) AddMatch.modelPlayerB.getSelectedItem();
+        Player playerA = (Player) EditMatch.modelPlayerA.getSelectedItem();
+        Player playerB = (Player) EditMatch.modelPlayerB.getSelectedItem();
         
         List<Player> players = new ArrayList<>();
         players.add(playerA);
@@ -308,13 +333,13 @@ public class PlanningController {
         
         List<Umpire> umpires = new ArrayList<>();
         
-        Umpire umpire = (Umpire) AddMatch.modelUmpire.getSelectedItem();
+        Umpire umpire = (Umpire) EditMatch.modelUmpire.getSelectedItem();
         umpires.add(umpire); // Item 0 is the chair umpire
         
-        List<Umpire> netUmpires = AddMatch.getNetUmpires();
+        List<Umpire> netUmpires = EditMatch.getNetUmpires();
         umpires.addAll(netUmpires);
         
-        List<BallBoy> ballboys = AddMatch.getBallBoys();
+        List<BallBoy> ballboys = EditMatch.getBallBoys();
         
     }
     

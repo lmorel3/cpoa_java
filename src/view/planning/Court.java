@@ -8,10 +8,12 @@ import app.ReservationController;
 import app.Settings;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.Match;
+import model.Player;
 import model.Reservation;
 
 /**
@@ -64,11 +66,11 @@ public class Court extends JPanel {
         add(image, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
 
         title.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        title.setText("Court central");
+        title.setText("");
         add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, -1));
 
         phase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        phase.setText("Qualification");
+        phase.setText("Libre");
         add(phase, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 200, -1));
         
         informationsContainer.addMouseListener(new MouseListener() {
@@ -240,6 +242,27 @@ public class Court extends JPanel {
             setPhase("Réservation");
             setInformations(((Reservation) match).getReservationName());
             setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+        }else if(match instanceof Match){
+            
+            ArrayList<Player> players = ((Match) match).getPlayers();
+            
+            if(((Match) match).getKind() == Match.KIND_DOUBLE){
+                setInformations(
+                        players.get(0).getLastname() + '-' + players.get(2).getLastname() + "<br>" +
+                        players.get(1).getLastname() + '-' + players.get(3).getLastname()
+                );
+            }else{
+                setInformations(players.get(0).getLastname() + "<br>" + players.get(1).getLastname());
+            }
+            
+            setPhase(PlanningController.getPhaseNameById(((Match)match).getPhase()));
+            
+            if(((Match) match).getResult().length() == 0){ // Match ended
+                setStatus(Settings.COURT_STATUS_CLOSED);
+            }else{
+                setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+            }
+            
         }
     }
     
@@ -294,6 +317,10 @@ public class Court extends JPanel {
     
     public Object getMatch(){
         return match;
+    }
+    
+    public int getInterfaceCourtId(){
+        return interfaceCourtId;
     }
         
     private final JLabel informations;

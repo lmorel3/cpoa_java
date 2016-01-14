@@ -49,6 +49,8 @@ public class AddMatch extends JFrame {
         frame.dispose(); // Destroy the frame
         frame = null;
         
+        PlanningController.refreshPlanning();
+        
     }
     
     public static AddMatch getFrame(int matchType, int dayNumber, int slotId, int courtId){

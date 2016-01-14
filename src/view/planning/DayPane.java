@@ -41,10 +41,6 @@ public class DayPane extends JTabbedPane {
         addTab("21h", (CourtsContainer) courtsContainer.get(4));
     }
     
-    public ArrayList<Court> getDailyCourts(){
-        return courtsContainer;
-    }
-    
     /**
      * Get the CourtsContainer for a specific hour
      * @param hourNumber 0 is "8h"
@@ -54,7 +50,11 @@ public class DayPane extends JTabbedPane {
         return (CourtsContainer) courtsContainer.get(hourNumber);
     }
     
-    private ArrayList courtsContainer;
+    public ArrayList<CourtsContainer> getCourtsContainer(){
+        return courtsContainer;
+    }
+    
+    private ArrayList<CourtsContainer> courtsContainer;
     
     private int dayNumber;
     

@@ -38,6 +38,7 @@ public class AppController {
             
             Connection.close();
             Planning.display();
+            PlanningController.initPlanning();
             PlanningController.refreshPlanning();
             
         }else{

@@ -8,6 +8,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 
@@ -27,6 +28,24 @@ public class CourtCollection {
         for(HashMap<String, Object> row : cursor) {
             
             result.hydrate(row);
+            
+        }
+        
+        return result;
+        
+    }
+    
+    public static List<Court> readAll() {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        List<Court> result = new ArrayList<>();
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From court", params);
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            result.add(new Court(row));
             
         }
         

@@ -19,6 +19,10 @@ public class Court {
     
     public Court() {}
     
+    public Court(HashMap<String, Object> datas){
+        this.hydrate(datas);
+    }
+    
     public Court(int courtId, String courtName) {
         
         this.courtId = courtId;

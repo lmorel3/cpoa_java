@@ -6,6 +6,7 @@
 package view.planning;
 
 import app.MenuActionListener;
+import app.PlanningController;
 import app.Settings;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -24,9 +25,7 @@ public final class Planning extends JFrame {
         initComponents();
         
         generateTopTabs();
-        
-        System.out.println("ContentPane : overPanel");
-        
+                
     }
     
     public static void display(){
@@ -67,12 +66,16 @@ public final class Planning extends JFrame {
         menuBar = new javax.swing.JMenuBar();
         menuGenerate = new javax.swing.JMenu();
         menuDisconnect = new javax.swing.JMenuItem();
+        menuRefresh = new javax.swing.JMenuItem();
         
         menuGenerate.setText("Générer les matchs");
         menuBar.add(menuGenerate);
         
         menuDisconnect.setText("Se déconnecter");
         menuBar.add(menuDisconnect);
+        
+        menuRefresh.setText("Rafraîchir le planning");
+        menuBar.add(menuRefresh);
         
         menuQualif = new JMenuItem("Qualifications");
         menuHuitieme = new JMenuItem("Huitièmes de finale");
@@ -89,6 +92,12 @@ public final class Planning extends JFrame {
         menuDisconnect.addActionListener((java.awt.event.ActionEvent evt) -> {
             
             validDisconnect();
+            
+        });
+        
+        menuRefresh.addActionListener((java.awt.event.ActionEvent evt) -> {
+            
+            PlanningController.refreshPlanning();
             
         });
         
@@ -157,6 +166,7 @@ public final class Planning extends JFrame {
     private JMenuItem menuQuart;
     private JMenuItem menuDemi;
     private JMenuItem menuFinal;
+    private JMenuItem menuRefresh;
 
     private static ArrayList daysTab;
     private static Planning frame;
