@@ -38,9 +38,8 @@ public class AddMatch extends JFrame {
     public static void display(int matchType, int dayNumber, int slotId, int courtId){
         
         frame = getFrame(matchType, dayNumber, slotId, courtId);
-
-        frame.setVisible(true);
         frame.refresh();
+        frame.setVisible(true);
         
     }
     

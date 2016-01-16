@@ -118,22 +118,27 @@ public class PlanningController {
         
         EditMatch.getFrame(match);
         
+        // List which contains the Person available for this match
         List<Person> personsPlayerA = new ArrayList<>();
         List<Person> personsPlayerB = new ArrayList<>();
         List<Person> personsBallBoy = new ArrayList<>();
         List<Person> personsUmpire = new ArrayList<>();
         List<Person> personsNetUmpire = new ArrayList<>();
+        List<Person> personsWinner = new ArrayList<>();
         
         List<Player> matchPlayers = match.getPlayers();
         List<Umpire> matchUmpires = match.getUmpires();
 
-        // Add only valid Umpires
+        //===================== Player =====================\\
+        
+        // Add only valid Player
         for(Person p : PlayerCollection.getFreeAt(match.getDate(), match.getSlot())){// Récupérer Player compatibles){
             personsPlayerA.add((Player)p);
         }
                 
         EditMatch.modelPlayerA.setPersons((ArrayList<Person>) personsPlayerA);
         
+        // We select the first player (works both for double and simple matchs)
         EditMatch.modelPlayerA.setSelectedItem(matchPlayers.get(0));
 
         
@@ -143,7 +148,10 @@ public class PlanningController {
         }
         EditMatch.modelPlayerB.setPersons((ArrayList<Person>) personsPlayerB);
         
+        // We select the first player (works both for double and simple matchs)
         EditMatch.modelPlayerB.setSelectedItem(matchPlayers.get(1));
+        
+        //===================== BallBoy =====================\\
         
         // Add only valid BallBoys
         for(Person p : BallBoyCollection.getFreeAt(match.getDate(), match.getSlot())){ //Récupérer BallBoy compatibles){
@@ -153,6 +161,9 @@ public class PlanningController {
         
         EditMatch.setSelectedBallBoys(match.getBallboys()); // Select match's current BallBoys 
         
+        //===================== Umpire =====================\\
+        
+        // We add the umpires to the lists
         for(Person p : UmpireCollection.getFreeAt(match.getDate(), match.getSlot())){ //Récupérer Umpire compatibles){
             if(((Umpire)p).getLevel().equals(Umpire.CHAIR_LEVEL)){
                 personsUmpire.add((Umpire)p);
@@ -160,13 +171,35 @@ public class PlanningController {
                 personsNetUmpire.add((Umpire)p);
             }
         }
+        
         EditMatch.modelUmpire.setPersons((ArrayList<Person>) personsUmpire);
-        EditMatch.modelUmpire.setSelectedItem(matchUmpires.get(0));
+        EditMatch.modelUmpire.setSelectedItem(matchUmpires.get(0)); // We select the chair umpire of this match
                
+        //===================== net Umpire =====================\\
+        
         EditMatch.modelNetUmpires.setPersons((ArrayList<Person>) personsNetUmpire);
+        // There's net umpires only if we have more than 1 umpire (the chair umpire)
+        if(matchUmpires.size() > 1){
+            EditMatch.setSelectedNetUmpires(matchUmpires.subList(1, matchUmpires.size()-1));
+        }        
+        //===================== Phase =====================\\
         
         String phaseName = PlanningController.getPhaseNameById(match.getPhase());
         EditMatch.modelPhase.setSelectedItem(phaseName);
+        
+        //===================== winner =====================\\
+        
+        // Add only valid winners
+        for(Person p : match.getPlayers()){// Récupérer Player compatibles){
+            personsWinner.add((Player)p);
+        }
+        
+        EditMatch.modelWinner.setPersons((ArrayList<Person>) personsWinner);
+        // Select the real winner
+        if(((Player)match.getWinner()).getPersonId() > 0){
+            EditMatch.modelWinner.setSelectedItem(match.getWinner());
+        }
+        //===================== result =====================\\
         
         EditMatch.inputResult.setText(match.getResult());
         
@@ -330,6 +363,8 @@ public class PlanningController {
         String kind = (String) EditMatch.modelPhase.getSelectedItem();
         String kindLowerCase = kind.toLowerCase();
         
+        Match match = EditMatch.match;
+        
         int phase = Match.PHASE_QUALIFICAITON;
         if(kindLowerCase.startsWith("huitième"))
             phase = Match.PHASE_8EME;
@@ -340,9 +375,9 @@ public class PlanningController {
         else if(kindLowerCase.startsWith("finale"))
             phase = Match.PHASE_FINAL;
         
-        int courtId = EditMatch.match.getCourt().getCourtId();
-        int slotId = EditMatch.match.getSlot();
-        Date date = EditMatch.match.getDate();
+        //int courtId = match.getCourt().getCourtId();
+        //int slotId = match.getSlot();
+        //Date date = match.getDate();
         
         Player playerA = (Player) EditMatch.modelPlayerA.getSelectedItem();
         Player playerB = (Player) EditMatch.modelPlayerB.getSelectedItem();
@@ -359,7 +394,47 @@ public class PlanningController {
         List<Umpire> netUmpires = EditMatch.getNetUmpires();
         umpires.addAll(netUmpires);
         
+        
         List<BallBoy> ballboys = EditMatch.getBallBoys();
+        
+        Player  winner = (Player) EditMatch.modelWinner.getSelectedItem();
+        String result = EditMatch.inputResult.getText();
+        
+        match.setPlayers((ArrayList<Player>) players);
+        match.setPhase(phase);
+        match.setResult(result);
+        match.setUmpires((ArrayList<Umpire>) umpires);
+        match.setWinner(winner);
+        
+        List<String> errors = new ArrayList<>();
+        
+        if(!MatchCollection.checkCountOfMatchOfUmpire(match, match.getKind())){
+            errors.add("L'arbitre de chaise a déjà arbitré 2 matchs durant ce tournoi.");
+        }
+        
+        if(!MatchCollection.checkPhasesOrder(match)){
+            errors.add("Le tour de " + phase + " est déjà terminé !");
+        }
+        
+        if(!MatchCollection.checkPlayersAndUmpireNationality(match)){
+            errors.add("L'arbitre ne doit pas avoir la même nationalité que celles des joueurs");
+        }
+        
+        if(!MatchCollection.checkPlayersDisponibility(match)){
+            errors.add("Les joueurs sélectionnés ne sont pas disponible pour jouer ce match");
+        }
+        
+        // Constraints checked and correct
+        if(errors.isEmpty()){
+            //MatchCollection.create(match);
+            System.out.println(match);
+            PlanningController.refreshPlanning();
+            EditMatch.close();
+            JOptionPane.showMessageDialog (null, "Match modifié avec succès !", "Edition", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            System.err.println(errors);
+            JOptionPane.showMessageDialog (null, errors.toString(), "Erreur : contraintes non respectées", JOptionPane.ERROR_MESSAGE);
+        }        
         
     }
     
