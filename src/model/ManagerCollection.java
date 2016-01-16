@@ -32,5 +32,24 @@ public class ManagerCollection {
         return result;
     }
     
+    public static Manager hasOne(String login, String password) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(login);
+        params.add(password);
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person where person_type='"+Person.TYPE_MANAGER+"' and login = ? and person_password = ?", params);
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            return new Manager(row);
+            
+        }
+        
+        return null;
+        
+    }
+    
     
 }

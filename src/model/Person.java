@@ -24,6 +24,7 @@ public abstract class Person {
     public static String TYPE_UMPIRE = "Umpire";
     public static String TYPE_PLAYER = "Player";
     public static String TYPE_MANAGER = "MANAGER";
+    public static String TYPE_HOTELIER = "Hotelier";
     
     public Person() {}
 

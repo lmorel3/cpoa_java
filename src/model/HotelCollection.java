@@ -37,6 +37,24 @@ public class HotelCollection {
         
     }
     
+    public static Hotelier hasOne(String login, String password) {
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(login);
+        params.add(password);
+        
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person where person_type='"+Person.TYPE_MANAGER+"' and login = ? and person_password = ?", params);
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            return new Hotelier(row);
+            
+        }
+        
+        return null;
+        
+    }
     
 
 }
