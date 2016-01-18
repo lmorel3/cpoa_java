@@ -73,6 +73,7 @@ public class PlanningController {
             for(CourtsContainer courtsContainer : currentDay.getCourtsContainer()){
                 for(Court court : courtsContainer.getCourts()){
                     court.initComponents(); // Reset Court with the default view
+                    court.setMatch(null);
                 }
             }
             
@@ -148,7 +149,7 @@ public class PlanningController {
         
         List<Player> matchPlayers = match.getPlayers();
         List<Umpire> matchUmpires = match.getUmpires();
-
+        
         //===================== Player =====================\\
         
         // Add only valid Player
@@ -452,7 +453,7 @@ public class PlanningController {
         
         // Constraints checked and correct
         if(errors.isEmpty()){
-            //MatchCollection.create(match);
+            MatchCollection.update(match);
             System.out.println(match);
             PlanningController.refreshPlanning();
             EditMatch.close();

@@ -250,31 +250,34 @@ public class Court extends JPanel {
     
     private void updateInformations(){
         
-        if(match instanceof Reservation){       
-            setPhase("Réservation");
-            setInformations(((Reservation) match).getReservationName());
-            setStatus(Settings.COURT_STATUS_UNAVAILABLE);
-        }else if(match instanceof Match){
-            
-            ArrayList<Player> players = ((Match) match).getPlayers();
-            
-            if(((Match) match).getKind() == Match.KIND_DOUBLE){
-                setInformations(
-                        players.get(0).getLastname() + '-' + players.get(2).getLastname() + "<br>" +
-                        players.get(1).getLastname() + '-' + players.get(3).getLastname()
-                );
-            }else{
-                setInformations(players.get(0).getLastname() + "<br>" + players.get(1).getLastname());
-            }
-            
-            setPhase(PlanningController.getPhaseNameById(((Match)match).getPhase()));
-            
-            if(((Match) match).getWinner().getPersonId() > 0){ // Match has a winner
-                setStatus(Settings.COURT_STATUS_CLOSED);
-            }else{
+        if(match != null){
+            if(match instanceof Reservation){       
+                setPhase("Réservation");
+                setInformations(((Reservation) match).getReservationName());
                 setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+            }else if(match instanceof Match){
+
+                ArrayList<Player> players = ((Match) match).getPlayers();
+                System.out.println(players);
+                if(((Match) match).getKind() == Match.KIND_DOUBLE && players.size() >= 4){
+                    setInformations(
+                            players.get(0).getLastname() + '-' + players.get(2).getLastname() + "<br>" +
+                            players.get(1).getLastname() + '-' + players.get(3).getLastname()
+                    );
+                }else if(players.size() >= 2){
+                    System.out.println(players);
+                    setInformations(players.get(0).getLastname() + "<br>" + players.get(1).getLastname());
+                }
+
+                setPhase(PlanningController.getPhaseNameById(((Match)match).getPhase()));
+
+                if(((Match) match).getWinner().getPersonId() > 0){ // Match has a winner
+                    setStatus(Settings.COURT_STATUS_CLOSED);
+                }else{
+                    setStatus(Settings.COURT_STATUS_UNAVAILABLE);
+                }
+
             }
-            
         }
     }
     

@@ -52,6 +52,8 @@ public class EditMatch extends JFrame {
     
     public static EditMatch getFrame(Match match){
         
+        matchType = match.getKind();
+                
         if(EditMatch.frame == null){
             frame = new EditMatch(match);
         }
@@ -61,7 +63,7 @@ public class EditMatch extends JFrame {
     } 
     
     private void refresh(){
-        
+                
         comboPlayerA.updateUI();
         comboPlayerB.updateUI();
         comboChairUmpire.updateUI();

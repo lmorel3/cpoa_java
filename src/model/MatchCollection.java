@@ -193,6 +193,75 @@ public class MatchCollection {
         
     }
     
+    public static void update(Match match){
+        
+        ArrayList<Object> params = new ArrayList<>();
+        
+        params.add(match.getCourt().getCourtId());
+        params.add(match.getSlot());
+        params.add(match.getDate());
+        params.add(match.getResult());
+        params.add(match.getKind());
+        params.add(match.getPhase());
+        if(match.getWinner() != null){
+            params.add(match.getWinner().getPersonId());
+        }else{
+            params.add(null);
+        }
+        
+        if(match.getPreviousMatchs().get(0).getMatchId() > 0 && match.getPreviousMatchs().get(1).getMatchId() > 0){
+        
+            params.add(match.getPreviousMatchs().get(0).getMatchId()); 
+            params.add(match.getPreviousMatchs().get(1).getMatchId());           
+
+            params.add(match.getMatchId());
+                
+            Connector.getConnection().query("update match set court_id=?, slot_id=?, date_match=?, results=?, kind=?, phase=?, winner=?, previous_match1=?, previous_match2=? WHERE match_id=?", params);
+
+        
+        }else{
+            
+            params.add(match.getMatchId());
+                
+            Connector.getConnection().query("update match set court_id=?, slot_id=?, date_match=?, results=?, kind=?, phase=?, winner=? WHERE match_id=?", params);
+
+        }
+        
+        
+        params.clear();
+        params.add(match.getMatchId());
+        Connector.getConnection().query("delete from player_match where match_id = ?", params);
+        Connector.getConnection().query("delete from umpire_match where match_id = ?", params);
+        Connector.getConnection().query("delete from ballboy_match where match_id = ?", params);
+
+        for(Player p : match.getPlayers()) {
+
+            params.clear();
+            params.add(match.getMatchId());
+            params.add(p.getPersonId());
+            Connector.getConnection().query("Insert into player_match values (?,?)", params);
+            
+        }
+        
+        for(Umpire u : match.getUmpires()) {
+            
+            params.clear();
+            params.add(match.getMatchId());
+            params.add(u.getPersonId());
+            Connector.getConnection().query("Insert into umpire_match values (?,?)", params);
+            
+        }
+        
+        for(BallBoy b : match.getBallboys()) {
+            
+            params.clear();
+            params.add(match.getMatchId());
+            params.add(b.getPersonId());
+            Connector.getConnection().query("Insert into ballboy_match values (?,?)", params);
+            
+        }
+    }
+    
     public static void finalise(Match match) {
         
         ArrayList<Object> params = new ArrayList<>();
@@ -414,10 +483,10 @@ public class MatchCollection {
         ArrayList<Object> params = new ArrayList<>();
         params.add(match.getMatchId());
 
-        Connector.getConnection().query("Delete * From ballboy_match where match_id = ?", params);
-        Connector.getConnection().query("Delete * From umpire_match where match_id = ?", params);
-        Connector.getConnection().query("Delete * From player_match where match_id = ?", params);
-        Connector.getConnection().query("Delete * From match where match_id = ?", params);
+        Connector.getConnection().query("Delete From ballboy_match where match_id = ?", params);
+        Connector.getConnection().query("Delete From umpire_match where match_id = ?", params);
+        Connector.getConnection().query("Delete From player_match where match_id = ?", params);
+        Connector.getConnection().query("Delete From match where match_id = ?", params);
          
          
      }
