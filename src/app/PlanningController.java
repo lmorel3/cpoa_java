@@ -323,10 +323,9 @@ public class PlanningController {
         umpires.add(umpire); // Item 0 is the chair umpire
         
         int[] selectedNetUmpires = AddMatch.listNetUmpires.getSelectedIndices();
-        List<Umpire> netUmpires = new ArrayList<>();
 
         for (int selectedNetUmpire : selectedNetUmpires) {
-            netUmpires.add((Umpire) AddMatch.modelNetUmpires.getElementAt(selectedNetUmpire));
+            umpires.add((Umpire) AddMatch.modelNetUmpires.getElementAt(selectedNetUmpire));
         }
         
         int[] selectedBallBoys = AddMatch.listBallBoys.getSelectedIndices();
@@ -335,7 +334,7 @@ public class PlanningController {
         for (int selectedBallBoy : selectedBallBoys) {
             ballboys.add((BallBoy) AddMatch.modelBallBoys.getElementAt(selectedBallBoy));
         }        
-                
+                        
         Match match = new Match();
         match.setBallboys((ArrayList<BallBoy>) ballboys);
         match.setCourt(CourtCollection.readOne(courtId));

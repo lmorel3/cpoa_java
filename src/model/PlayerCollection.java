@@ -37,6 +37,29 @@ public class PlayerCollection {
 
         return result;
         
+    }     
+    
+    /**
+     * Return the player where person_name = name
+     * @param lastname the name of the player
+     * @return player
+     */
+    public static Player readByName(String lastname) {
+        
+        Player result = new Player();
+        
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(lastname);
+        ArrayList<HashMap<String, Object>> cursor = Connector.getConnection().query("Select * From person where person_type = 'Player' and lastname = ?", params);
+        
+        for(HashMap<String, Object> row : cursor) {
+            
+            result.hydrate(row);
+            
+        }
+
+        return result;
+        
     } 
     
     /**

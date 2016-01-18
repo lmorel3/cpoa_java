@@ -10,6 +10,7 @@ import java.util.Calendar;
 import static java.util.Calendar.getInstance;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import model.PlayerCollection;
 import model.Reservation;
 import model.ReservationCollection;
 import model.swing.ReservationTableModel;
@@ -23,8 +24,7 @@ public class ReservationController {
     
     public static void makeReservation(ArrayList<DailyReservation> dailyReservations) {
        
-        int col;
-        int row;
+        int nbMaked = 0; // Number of sucessful creation
         int nbOfDay = 0;
         Calendar c = getInstance();
         Date date;
@@ -46,18 +46,26 @@ public class ReservationController {
                 court = reservationInformation[1];
                 name = (String)tModel.getValueAt(slot, court);
                 date = Settings.generateDate(nbOfDay);
+                
+                if(PlayerCollection.readByName(name).getPersonId() > 0){
 
-                reservation = new Reservation(0, court, slot, name, date, date);
-                ReservationCollection.create(reservation);
+                    reservation = new Reservation(0, court, slot, name, date, date);
+                    ReservationCollection.create(reservation);
 
-                tModel.setNoEditable(slot, court);
-
-                JOptionPane.showMessageDialog(dailyReservation, "Les réservations ont bien été effecutées. Elles ne sont désormais plus modifiables.");
+                    tModel.setNoEditable(slot, court);
+                    
+                    nbMaked += 1;                    
+                
+                }
 
             }
             
             nbOfDay += 1;
             
+        }
+        
+        if(nbMaked > 0){
+            JOptionPane.showMessageDialog(null, "Les réservations ont bien été effecutées. Elles ne sont désormais plus modifiables.");
         }
         
     }

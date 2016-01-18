@@ -39,7 +39,7 @@ public class Court extends JPanel {
                 
     }
     
-    public void initComponents(){
+    public final void initComponents(){
         
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -269,7 +269,7 @@ public class Court extends JPanel {
             
             setPhase(PlanningController.getPhaseNameById(((Match)match).getPhase()));
             
-            if(((Match) match).getResult().length() == 0){ // Match ended
+            if(((Match) match).getWinner().getPersonId() > 0){ // Match has a winner
                 setStatus(Settings.COURT_STATUS_CLOSED);
             }else{
                 setStatus(Settings.COURT_STATUS_UNAVAILABLE);
