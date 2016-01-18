@@ -38,7 +38,7 @@ public class MatchCollection {
     }
     
     /**
-     * Return the match at the emplacment Date, courtId and slotId. If no match exist it returns null
+     * Return the match at the emplacment Date, courtId and slotId. If no match exists it returns null
      * @param date The date of the searched match
      * @param courtId the court of the searched match
      * @param slotId the slot of the searched match
@@ -239,7 +239,6 @@ public class MatchCollection {
         
         for(Player p : players) {
             
-            
             day = match.getDate().getDate();
             year = match.getDate().getYear()+1900;
             month = match.getDate().getMonth()+1;
@@ -378,7 +377,7 @@ public class MatchCollection {
      */
     public static boolean courtAndSlotAreTaken(Match match) {
         
-        return MatchCollection.exist(match.getDate(), match.getCourt().getCourtId(), match.getSlot());
+        return MatchCollection.exists(match.getDate(), match.getCourt().getCourtId(), match.getSlot());
         
     }
      
@@ -389,7 +388,7 @@ public class MatchCollection {
      * @param slotId
      * @return 
      */
-     public static boolean exist(Date date, int courtId, int slotId) {
+     public static boolean exists(Date date, int courtId, int slotId) {
         
         ArrayList<Object> params = new ArrayList<>();
         
@@ -412,13 +411,13 @@ public class MatchCollection {
      
      public static void delete(Match match) {
          
-         ArrayList<Object> params = new ArrayList<>();
-         
-         Connector.getConnection().query("Delete * From match where match_id = ?", params);
-         Connector.getConnection().query("Delete * From ballboy_match where match_id = ?", params);
-         Connector.getConnection().query("Delete * From umpire_match where match_id = ?", params);
-         Connector.getConnection().query("Delete * From player_match where match_id = ?", params);
-         
+        ArrayList<Object> params = new ArrayList<>();
+        params.add(match.getMatchId());
+
+        Connector.getConnection().query("Delete * From ballboy_match where match_id = ?", params);
+        Connector.getConnection().query("Delete * From umpire_match where match_id = ?", params);
+        Connector.getConnection().query("Delete * From player_match where match_id = ?", params);
+        Connector.getConnection().query("Delete * From match where match_id = ?", params);
          
          
      }

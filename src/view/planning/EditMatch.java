@@ -128,7 +128,7 @@ public class EditMatch extends JFrame {
         comboWinner = new javax.swing.JComboBox<>();
         row9 = new javax.swing.JPanel();
 
-        setPreferredSize(new java.awt.Dimension(GLOBAL_WIDTH, 420));
+        setPreferredSize(new java.awt.Dimension(GLOBAL_WIDTH, 500));
         setResizable(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -250,7 +250,7 @@ public class EditMatch extends JFrame {
         labelNetUmpires.setPreferredSize(new java.awt.Dimension(150, 16));
         row7.add(labelNetUmpires);
 
-        jScrollPane2.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 55));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 95));
 
         listNetUmpires.setModel(EditMatch.modelNetUmpires);
         jScrollPane2.setViewportView(listNetUmpires);
@@ -268,7 +268,7 @@ public class EditMatch extends JFrame {
         labelBallBoys.setPreferredSize(new java.awt.Dimension(150, 16));
         row4.add(labelBallBoys);
 
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 55));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(LIST_WIDTH, 95));
 
         listBallBoys.setModel(EditMatch.modelBallBoys);
         jScrollPane1.setViewportView(listBallBoys);

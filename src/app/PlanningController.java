@@ -8,6 +8,7 @@ package app;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import model.BallBoy;
 import model.BallBoyCollection;
@@ -41,6 +42,16 @@ public class PlanningController {
      */
     public static void refreshPlanning(){
         
+        JOptionPane loadingPane = new JOptionPane("Chargement en cours...", JOptionPane.INFORMATION_MESSAGE);
+        JDialog loadingDialog = loadingPane.createDialog("Chargement");
+        
+        // Affichage de la boîte de dialogue en arrière plan
+        Thread t = new Thread(() -> {
+            loadingPane.setVisible(true);
+            loadingDialog.setVisible(true);
+        });
+        t.start();
+        
         ArrayList<DayPane> dayPanes = Planning.getDayPanes();
                 
         DayPane currentDay;
@@ -58,6 +69,12 @@ public class PlanningController {
             currentDay = dayPanes.get(dayNumber);
 
             reservationsOfTheDay = ReservationCollection.read(Settings.generateDate(dayNumber), Settings.generateDate(dayNumber+1));
+            
+            for(CourtsContainer courtsContainer : currentDay.getCourtsContainer()){
+                for(Court court : courtsContainer.getCourts()){
+                    court.initComponents(); // Reset Court with the default view
+                }
+            }
             
             for(Reservation currentReservation : reservationsOfTheDay) {
                 
@@ -83,6 +100,9 @@ public class PlanningController {
             }
             
         }
+        
+        loadingPane.setVisible(false);
+        loadingDialog.setVisible(false);
         
     }
     
@@ -230,14 +250,18 @@ public class PlanningController {
 
         // Add only valid Players
         for(Person p : PlayerCollection.getFreeAt(date, slotId)){ //Récupérer Player compatibles){
-            playersA.add((Player)p);
+            if((matchType == Match.KIND_DOUBLE && ((Player)p).getPartner().getPersonId() > 0) || matchType == Match.KIND_SIMPLE){
+                playersA.add((Player)p);
+            }
         }
         AddMatch.modelPlayerA.setPersons((ArrayList<Person>) playersA);
         
         List<Person> playersB = new ArrayList<>();
         // Add only valid Players
         for(Person p : PlayerCollection.getFreeAt(date, slotId)){ //Récupérer Player compatibles){
-            playersB.add((Player)p);
+            if((matchType == Match.KIND_DOUBLE && ((Player)p).getPartner().getPersonId() > 0) || matchType == Match.KIND_SIMPLE){
+                playersB.add((Player)p);
+            }
         }
         AddMatch.modelPlayerB.setPersons((ArrayList<Person>) playersB);
         
@@ -311,7 +335,7 @@ public class PlanningController {
         for (int selectedBallBoy : selectedBallBoys) {
             ballboys.add((BallBoy) AddMatch.modelBallBoys.getElementAt(selectedBallBoy));
         }        
-        
+                
         Match match = new Match();
         match.setBallboys((ArrayList<BallBoy>) ballboys);
         match.setCourt(CourtCollection.readOne(courtId));
@@ -323,6 +347,9 @@ public class PlanningController {
         match.setUmpires((ArrayList<Umpire>) umpires);
         
         List<String> errors = new ArrayList<>();
+        
+        if(ballboys.isEmpty()){ errors.add("Vous devez sélectionner X ramasseurs de balles"); } // If there's no ballboys selected
+        if(umpires.size() < 2){ errors.add("Un match ne peut pas se jouer sans arbitres !"); } // If there's no umpires
         
         if(!MatchCollection.checkCountOfMatchOfUmpire(match, kind)){
             errors.add("L'arbitre de chaise a déjà arbitré 2 matchs durant ce tournoi.");
@@ -436,6 +463,13 @@ public class PlanningController {
             JOptionPane.showMessageDialog (null, errors.toString(), "Erreur : contraintes non respectées", JOptionPane.ERROR_MESSAGE);
         }        
         
+    }
+    
+    public static void deleteMatch(Match match){
+        
+        MatchCollection.delete(match);
+        JOptionPane.showMessageDialog (null, "Match supprimé avec succès ! " + match.getMatchId(), "Suppression", JOptionPane.INFORMATION_MESSAGE);
+        PlanningController.refreshPlanning();
     }
     
     /**

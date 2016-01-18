@@ -10,12 +10,10 @@ import java.util.Calendar;
 import static java.util.Calendar.getInstance;
 import java.util.Date;
 import javax.swing.JOptionPane;
-import javax.swing.table.TableModel;
 import model.Reservation;
 import model.ReservationCollection;
 import model.swing.ReservationTableModel;
 import view.reservation.DailyReservation;
-import view.reservation.ManageReservation;
 
 /**
  *
@@ -66,7 +64,8 @@ public class ReservationController {
     
     public static void deleteReservation(Reservation reservation){
         
-         ReservationCollection.delete(reservation.getReservationId());
+        ReservationCollection.delete(reservation.getReservationId());
+        PlanningController.refreshPlanning();
         
     }
     

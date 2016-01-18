@@ -30,7 +30,7 @@ public class DoublePersonListRenderer extends JLabel implements ListCellRenderer
         //setIcon(imageIcon);
         
         if(value instanceof Person){
-            setText(value.getLastname() + '-' + ((Player)value).getPartner().getLastname());
+            setText(value.getLastname() + '-' + ((Player)value).getPartner().getLastname() + " [" + value.getCountry().toUpperCase().substring(0, 2) + ']');
         }else{
             setText("");
         }

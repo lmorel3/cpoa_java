@@ -35,12 +35,11 @@ public class Court extends JPanel {
         this.interfaceCourtId = interfaceCourtId;
         
         initComponents();
-        
-        setTitle("D"+dayNumber+" S"+slotId + "C"+interfaceCourtId);
-        
+        addListener();
+                
     }
     
-    private void initComponents(){
+    public void initComponents(){
         
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -73,6 +72,10 @@ public class Court extends JPanel {
         phase.setText("Libre");
         add(phase, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 200, -1));
         
+    }
+    
+    private void addListener(){
+        
         informationsContainer.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -104,8 +107,8 @@ public class Court extends JPanel {
             public void mouseExited(MouseEvent e) {
             }
         });
-        
     }
+   
     
     /**
      * Get the real courtId (in database) from the frame courtId (generated in CourtsContainer)
@@ -195,7 +198,9 @@ public class Court extends JPanel {
                 options,
                 options[0]);
         
-        if (question != 2){
+        System.out.println("question " + question);
+        
+        if (question != -1){
             
             int matchType = Match.KIND_DOUBLE;
             if(question == 0){ matchType = Match.KIND_SIMPLE; }
@@ -219,13 +224,19 @@ public class Court extends JPanel {
                 options,
                 options[0]);
         
-        if (question != 2){
+        System.out.println("ID question" + question);
+        
+        if (question == 0){
             
             if(question == 0){ EditMatch.matchType = Match.KIND_SIMPLE; }
             else{ EditMatch.matchType = Match.KIND_DOUBLE; }
             
             PlanningController.initMatchEdition((Match)match);
 
+        }else if(question == 1){
+            
+            PlanningController.deleteMatch((Match) match);
+            
         }
         
     }
@@ -238,6 +249,7 @@ public class Court extends JPanel {
     }
     
     private void updateInformations(){
+        
         if(match instanceof Reservation){       
             setPhase("Réservation");
             setInformations(((Reservation) match).getReservationName());

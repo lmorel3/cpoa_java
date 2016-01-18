@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import model.Person;
-import model.Player;
 
 /**
  *
@@ -30,7 +29,7 @@ public class PersonListRenderer extends JLabel implements ListCellRenderer<Perso
         //setIcon(imageIcon);
         
         if(value instanceof Person){
-            setText(value.getForename() + ' ' + value.getLastname() + " [" + value.getCountry().substring(0, 2) + ']');
+            setText(value.getForename() + ' ' + value.getLastname() + " [" + value.getCountry().toUpperCase().substring(0, 2) + ']');
         }else{
             setText("");
         }
