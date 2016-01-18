@@ -245,7 +245,7 @@ public class MatchCollection {
             
             correctedDate = new java.util.Date(year, month, day);
             
-            if (p.playAt(correctedDate, match.getSlot())) {
+            if (p.playAt(correctedDate, match.getSlot()) && !match.getPlayers().contains(p)) {
                 
                 return false;
                 
