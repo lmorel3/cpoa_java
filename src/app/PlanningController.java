@@ -5,11 +5,17 @@
  */
 package app;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import model.BallBoy;
 import model.BallBoyCollection;
 import model.CourtCollection;
@@ -43,11 +49,18 @@ public class PlanningController {
     public static void refreshPlanning(){
         
         JOptionPane loadingPane = new JOptionPane("Chargement en cours...", JOptionPane.INFORMATION_MESSAGE);
-        JDialog loadingDialog = loadingPane.createDialog("Chargement");
+        
+        JDialog loadingDialog = loadingPane.createDialog("Chargement..."); 
+
+        JProgressBar progress = new JProgressBar(0, 100);
+        progress.setIndeterminate(true); 
+
+        loadingDialog.add(BorderLayout.NORTH, progress);
+        loadingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); 
+        loadingDialog.setSize(300, 90);
         
         // Affichage de la boîte de dialogue en arrière plan
         Thread t = new Thread(() -> {
-            loadingPane.setVisible(true);
             loadingDialog.setVisible(true);
         });
         t.start();
@@ -63,7 +76,7 @@ public class PlanningController {
         
         int dayNumber;
         int interfaceCourtId;
-        
+                
         for(dayNumber = 0; dayNumber < Settings.NB_DAYS; dayNumber++) {
             
             currentDay = dayPanes.get(dayNumber);
@@ -101,9 +114,12 @@ public class PlanningController {
             }
             
         }
-        
+                
         loadingPane.setVisible(false);
         loadingDialog.setVisible(false);
+        
+        loadingDialog.dispose();
+        
         
     }
     

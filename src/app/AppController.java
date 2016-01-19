@@ -28,8 +28,12 @@ public class AppController {
         
         String login = Connection.getLogin();
         String password = Connection.getPassword();
+        
+        System.out.println("Login : " + login + " " + password);
        
-        manager = Manager.getAccountOf(login, password);
+        if(login.length() > 0 && password.length() > 0){
+            manager = Manager.getAccountOf(login, password);
+        }
         
         if(manager instanceof Manager){
             
